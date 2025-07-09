@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СОП "Libra"</title>
+    <style>
+        /* CSS из animation_png.css */
+        .animation_moviment_top{
+            position: fixed;
+            top: 0px;
+            left: 0.5%;
+            height: 10px;
+            width: 100%;
+            background: #FFCC01;
+            
+            animation: animation_moviment_top_fixed linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+        @keyframes animation_moviment_top_fixed {
+            0% {
+              transform: scaleX(0);
+            }
+            100% {
+              transform: scaleX(1);
+            }
+        }
+
+        .im1{
+            width: 100%;  position: absolute; left: -14.5%;
+            animation: im1_movie linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        @keyframes im1_movie {
+            0% {
+                transform: translateX(-20%)
+            }
+            15% {
+                transform: translateX(0%)
+            }
+        }
+
+        .im2{
+            width: 100%;  position: absolute; left: 14.5%;
+            animation: im2_movie linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        @keyframes im2_movie {
+            15% {
+                transform: translateX(120%)
+            }
+            33% {
+                transform: translateX(0%)
+            }
+        }
+
+        .im3{
+            width: 100%;  position: absolute; left: -14.5%;
+            animation: im3_movie linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        @keyframes im3_movie {
+            30% {
+                transform: translateX(-100%)
+            }
+            51% {
+                transform: translateX(0%)
+            }
+        }
+
+        .im4{
+            width: 100%;  position: absolute; left: 14.5%;
+            animation: im4_movie linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        @keyframes im4_movie {
+            48% {
+                transform: translateX(120%)
+            }
+            69% {
+                transform: translateX(0%)
+            }
+        }
+
+        .im5{
+            width: 100%;  position: absolute; left: -14.5%;
+            animation: im5_movie linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        @keyframes im5_movie {
+            66% {
+                transform: translateX(-100%)
+            }
+            87% {
+                transform: translateX(0%)
+            }
+        }
+
+        /* Заставка из animation_WinOp.css */
+        .black_screensaver_left{
+            width: 0%;  position: fixed; height: 20%;
+            background-color: #806700;
+            transform-origin: left;
+            animation-duration: 1s;
+            animation-name: black_screensaver_left_animation;
+        }
+
+        @keyframes black_screensaver_left_animation {
+            from {
+                width: 100%
+            }
+            to {
+                width: 0%
+            }
+        }
+
+        .black_screensaver_right{
+            width: 0%;  position: fixed; height: 20%;
+            background-color: #806700;
+            transform-origin: right;
+            animation-duration: 2s;
+            animation-name: black_screensaver_right_animation;
+        }
+
+        @keyframes black_screensaver_right_animation {
+            from {
+                width: 100%
+            }
+            to {
+                width: 0%
+            }
+        }
+
+        /* CSS из main.css */
+        .inf1{
+            width: 92%;
+            height:18%;
+            border: 2px #FFCC01 solid;
+            position: absolute;
+            left: 18%;
+            animation: inf_movie linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        @keyframes inf_movie {
+            0% {
+                transform: translateX(20%)
+            }
+            15% {
+                transform: translateX(0%)
+            }
+            100%{ 
+                transform: translateX(0%)
+            }
+        }
+
+        .inf2{
+            width: 92%;
+            height:18%;
+            border: 2px #FFCC01 solid;
+            position: absolute;
+            left: -18%;
+            animation: inf2_movie linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        @keyframes inf2_movie {
+            0%{
+                transform: translateX(-20%)
+            }
+            15% {
+                transform: translateX(-20%)
+            }
+            33% {
+                transform: translateX(0%)
+            }
+            100%{ 
+                transform: translateX(0%)
+            }
+        }
+
+        .inf3{
+            width: 92%;
+            height:18%;
+            border: 2px #FFCC01 solid;
+            position: absolute;
+            left: 18%;
+            animation: inf3_movie linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        @keyframes inf3_movie {
+            0%{
+                transform: translateX(20%)
+            }
+            30% {
+                transform: translateX(20%)
+            }
+            51% {
+                transform: translateX(0%)
+            }
+            100%{ 
+                transform: translateX(0%)
+            }
+        }
+
+        .inf4{
+            width: 92%;
+            height:18%;
+            border: 2px #FFCC01 solid;
+            position: absolute;
+            left: -18%;
+            animation: inf4_movie linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        @keyframes inf4_movie {
+            0%{
+                transform: translateX(-20%)
+            }
+            48% {
+                transform: translateX(-20%)
+            }
+            69% {
+                transform: translateX(0%)
+            }
+            100%{ 
+                transform: translateX(0%)}
+        }
+
+        .inf5{
+            width: 92%;
+            height:18%;
+            border: 2px #FFCC01 solid;
+            position: absolute;
+            left: 18%;
+            animation: inf5_movie linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        @keyframes inf5_movie {
+            0%{
+                transform: translateX(20%)
+            }
+            66% {
+                transform: translateX(20%)
+            }
+            87% {
+                transform: translateX(0%)
+            }
+            100%{ 
+                transform: translateX(0%)}
+        }
+
+        .Librapng{
+            animation: Librapngaanimation linear;
+            animation-timeline: scroll(root);
+            transform-origin: left;
+        }
+
+        @keyframes Librapngaanimation {
+            0%{
+                transform: translateY(0%)
+            }
+            12% {
+                transform: translateY(-10%)
+            }
+            87% {
+                transform: translateY(-10%)
+            }
+            100%{ 
+                transform: translateY(-10%)}
+        }
+
+        /* Дополнительные стили из main.css */
+        .But{
+            width: 15%;
+            height: 80px;
+            background-color: #FFCC01;
+            position: fixed;
+            top: 20px;
+            left: 12%;
+            border: 0px;
+            border-radius: 4px;
+            transition: 0.5s;
+            font-family: 'Jost';
+        }
+        .But:hover {
+            background-color: #766F67;
+            position: fixed;
+            color: #F3F3F3;
+            font-family: 'Jost';
+        }
+
+        h2{
+            color: #F3F3F3; 
+            font-size: 80px;
+            position: absolute;
+            font-family: 'Jost';
+        }
+
+        h1{
+            font-size: 45px;
+            position: absolute;
+            font-family: 'Jost';
+        }
+        h1:hover{
+            font-size: 48px;
+            transition: 0.5s
+        }
+
+        /* mobile */
+        .moviment_menu{
+            width: 100%; height: 100px; background-color: #000; opacity: 0.25; position: fixed; border-bottom: #806700 3px solid;
+        }
+
+        @media (max-width:320px){
+            h1{
+                font-size: 20px;
+                position: absolute;
+                font-family: 'Jost';
+            }
+
+            .moviment_menu{
+                height: 5%;
+            }
+        }
+    </style>
+    <script>
+        // JS из main.js
+        function but_tab1() {
+            document.getElementById('tab1').style.display= 'block'
+            document.getElementById('tab2').style.display= 'none'
+            document.getElementById('tab3').style.display= 'none'
+            window.scrollTo(0,0)
+            document.getElementById('bt1').style.color = '#FFCC01'
+            document.getElementById('bt2').style.color = '#FFEDA4'
+            document.getElementById('bt3').style.color = '#FFEDA4'
+        }
+        function but_tab2() {
+            document.getElementById('tab1').style.display= 'none'
+            document.getElementById('tab2').style.display= 'block'
+            document.getElementById('tab3').style.display= 'none'
+            window.scrollTo(0,0)
+            document.getElementById('bt1').style.color = '#FFEDA4'
+            document.getElementById('bt2').style.color = '#FFCC01'
+            document.getElementById('bt3').style.color = '#FFEDA4'
+        }
+        function but_tab3() {
+            document.getElementById('tab1').style.display= 'none'
+            document.getElementById('tab2').style.display= 'none'
+            document.getElementById('tab3').style.display= 'block'
+            window.scrollTo(0,0)
+            document.getElementById('bt1').style.color = '#FFEDA4'
+            document.getElementById('bt2').style.color = '#FFEDA4'
+            document.getElementById('bt3').style.color = '#FFCC01'
+        }
+    </script>
+</head>
+<body style="overflow-x:hidden; background: #000;">
+   
+    <!--общее -->
+    <div>
+        <div style="width: 100%; height: 4500px; background-color: #000000; opacity: 0; position: absolute;"></div>
+       
+        <!-- первый таб -->
+        <div style="width: 80%; height: 3500px; background-color: #000000; opacity: 1; position: absolute;top: 650px;left: 12%; " id="tab1">
+            <img src="png/Libra.png" style="width: 100%;  position: absolute; top: -650px;" class="Librapng">
+            <!-- Фотографии -->
+            <img src="png/im1.png" class="im1" style="top: 80px;">
+            <img src="png/im2.png" class="im2" style=" top: 742.5px;">
+            <img src="png/im3.png" class="im3" style="top: 1405px;">
+            <img src="png/im4.png" class="im4" style="top: 2067.5px;">
+            <img src="png/im5.png" class="im5"style="top: 2730px;">
+
+            <!-- прозрачные окна с текстом -->
+            <div class="inf1" style="top: -20px;"  > 
+                <div style="background: #000000; opacity: 0.4; width: 100%; height: 100%; position: absolute;"></div>
+                <h1 style="color: rgb(255, 255, 255); position: absolute; top: 10%; left: 15%" >Первый слайд</h1>
+            </div>
+            <div class="inf2" style="top: 642.5px;" >
+                <div style="background: #000000; opacity: 0.4; width: 100%; height: 100%; position: absolute;"></div>
+                <h1 style="color: rgb(255, 255, 255); position: absolute; top: 10%; left: 40%" >Второй слайд</h1>
+            </div>
+            <div class="inf3" style="top: 1305px;" >
+                <div style="background: #000000; opacity: 0.4; width: 100%; height: 100%; position: absolute;"></div>
+                <h1 style="color: rgb(255, 255, 255); position: absolute; top: 10%; left: 15%" >Третий слайд</h1>
+            </div>
+            <div class="inf4" style="top: 1967px;" >
+                <div style="background: #000000; opacity: 0.4; width: 100%; height: 100%; position: absolute;"></div>
+                <h1 style="color: rgb(255, 255, 255); position: absolute; top: 10%; left: 40%" >Четвертый слайд</h1>
+            </div>
+            <div class="inf5" style="top: 2630px;" >
+                <div style="background: #000000; opacity: 0.4; width: 100%; height: 100%; position: absolute;"></div>
+                <h1 style="color: rgb(255, 255, 255); position: absolute; top: 10%; left: 15%" >Пятый слайд</h1>
+            </div>
+        </div>
+        <!-- второй таб -->
+        <div style="width: 80%; height: 3500px; background-color: #000000; opacity: 1; position: absolute;top: 650px;left: 12%; display: none;" id="tab2" >
+            <img src="png/Libra.png" style="width: 100%;  position: absolute; top: -650px;" class="Librapng">
+            <h1 style="color: #FFCC01;" >История</h1>
+        </div>
+
+        <!-- третий таб -->
+        <div style="width: 80%; height: 3500px; background-color: #000000; opacity: 1; position: absolute;top: 650px;left: 12%; display: none" id="tab3">
+            <img src="png/Libra.png" style="width: 100%;  position: absolute; top: -650px;" class="Librapng">
+            <h1 style="color: #FFCC01;">Список бойцов:</h1>
+        </div>
+
+        <div class="moviment_menu"></div>
+            
+        <!-- движущееся меню -->
+        <header>
+            <h1 style="position: fixed; left: 10%; top: -10px;color: #FFCC01;" onclick="but_tab1()" id="bt1">О нас</h1>
+            <h1 style="left: 60%; position: fixed; top: -10px; color: #FFEDA4;" onclick="but_tab2()" id="bt2">История</h1>
+            <h1 style="left: 80%; position: fixed; top: -10px; color: #FFEDA4;" onclick="but_tab3()" id="bt3">Список бойцов</h1>
+            <div class="animation_moviment_top"></div>
+        </header>
+    </div>
+
+    <div style="width: 100%; height: 220px; background-color: #000000; opacity: 1; position: absolute;top: 4300px;left: 0%; border-top: #FFCC01 2px solid;">
+        <h2 style="color: #ffffff; font-size: 40px; left: 12%;"> Libra снова в путь....</h2>
+    </div>
+
+    <!-- анимация заставки -->
+    <div>
+        <div class="black_screensaver_left" style="top: 0%;"></div>
+        <div class="black_screensaver_right" style="top: 20%;"></div>
+        <div class="black_screensaver_left" style="top: 40%;"></div>
+        <div class="black_screensaver_right" style="top: 60%;"></div>
+        <div class="black_screensaver_left" style="top: 80%;"></div>
+    </div>
+</body>
+</html>
