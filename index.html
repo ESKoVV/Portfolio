@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Еськов Владимир - Портфолио программиста</title>
+    <!-- Добавляем Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #6C5CE7;
+            --secondary-color: #2D3436;
+            --accent-color: #00B894;
+            --background-color: #f8f9fa;
+            --text-color: #2D3436;
+            --light-text: #f8f9fa;
+            --card-bg: #FFFFFF;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --header-footer-color: #424242;
+            --contact-color: #00B894;
+            --menu-hover-color: #7f8c8d;
+            --vk-color: #4C75A3;
+            --tg-color: #0088CC;
+            --contact-heading-color: #BDBDBD; /* Новый цвет для заголовка "Свяжитесь со мной" */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        /* Анимации текста */
+        .text-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .text-animate.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Задержки для анимаций */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+        .delay-5 { transition-delay: 0.5s; }
+
+        /* Кнопка меню */
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(255,255,255,0.3);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .menu-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .menu-btn:hover {
+            background: var(--menu-hover-color);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Навигационное меню */
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background: var(--header-footer-color);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 80px 20px 20px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        /* Область для закрытия меню */
+        .menu-close-area {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 999;
+            display: none;
+        }
+
+        .nav-menu.active + .menu-close-area {
+            display: block;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-menu li:hover {
+            transform: translateX(5px);
+        }
+
+        .nav-menu a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-size: 1.1rem;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+            padding-left: 15px;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            left: 10px;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: calc(100% - 20px);
+        }
+
+        .submenu {
+            padding-left: 20px;
+            margin-top: 5px;
+            border-left: 2px solid var(--accent-color);
+        }
+
+        .submenu a {
+            font-size: 0.95rem;
+            padding: 8px 10px;
+            position: relative;
+        }
+
+        .submenu a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .submenu a:hover::before {
+            opacity: 1;
+        }
+
+        /* Стили для иконок соцсетей в меню */
+        .social-menu {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .social-menu-list a {
+            color: var(--light-text);
+            font-size: 3rem;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .social-menu-list a:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .social-menu-list .vk:hover {
+            color: var(--vk-color);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .social-menu-list .tg:hover {
+            color: var(--tg-color);
+            background: rgba(255,255,255,0.2);
+        }
+
+        header {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 1)),
+                url('img/fonheader.png') no-repeat center center;
+            background-size: cover;
+            color: var(--light-text);
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-img {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            transition: all 0.5s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-color);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        h3 {
+            font-size: 2rem;
+            margin: 2rem 0 2.5rem;
+            color: var(--secondary-color);
+            position: relative;
+            font-weight: 600;
+            text-align: center;
+            width: 100%;
+        }
+
+        h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .about, .education, .works {
+            padding: 4rem 0;
+            position: relative;
+        }
+
+        .education {
+            position: relative;
+            background: url('img/dstu.png') no-repeat center center;
+            background-size: cover;
+        }
+
+        .education::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 0;
+        }
+
+        .education-content {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .education-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            z-index: -1;
+        }
+
+        .works {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin: 3rem 0;
+        }
+
+        .works-list {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            padding: 0 10px;
+        }
+
+        .work-item {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            position: relative;
+            min-height: 300px;
+        }
+
+        .work-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .work-img-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            padding: 0 5px;
+        }
+
+        .work-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+            border-radius: 0 !important;
+        }
+
+        .work-item:hover .work-img {
+            transform: scale(1.05);
+        }
+
+        .work-info {
+            flex: 1;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .work-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .work-desc {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .work-link {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .work-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background: var(--header-footer-color);
+            color: var(--light-text);
+            text-align: center;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact-list {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-list a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border-radius: 50px;
+        }
+
+        .contact-list a:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .contact-list .vk {
+            background-color: var(--vk-color);
+        }
+
+        .contact-list .tg {
+            background-color: var(--tg-color);
+        }
+
+        .contact-list i {
+            font-size: 1.5rem;
+        }
+
+        .footer-text {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .contact-heading {
+            color: var(--contact-heading-color) !important;
+            margin-bottom: 1.5rem !important;
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            width: 100%;
+        }
+
+        @media (max-width: 992px) {
+            .work-item {
+                flex-direction: column;
+            }
+            
+            .work-img-container {
+                height: 250px;
+            }
+            
+            .education-content {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            h3 {
+                font-size: 1.6rem;
+            }
+            
+            .profile-img {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .works {
+                padding: 2rem;
+            }
+            
+            .work-info {
+                padding: 1.5rem;
+            }
+            
+            .work-title {
+                font-size: 1.5rem;
+            }
+            
+            .nav-menu {
+                width: 250px;
+                right: -250px;
+            }
+            
+            .education-content {
+                padding: 1rem;
+            }
+            
+            .menu-btn {
+                font-size: 1.5rem;
+                width: 50px;
+                height: 50px;
+            }
+            
+            .contact-list a {
+                padding: 10px 20px;
+                font-size: 1.1rem;
+            }
+            
+            .contact-list i {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Кнопка меню -->
+    <button class="menu-btn" id="menuBtn">
+        <span>☰</span>
+    </button>
+
+    <!-- Навигационное меню -->
+    <nav class="nav-menu" id="navMenu">
+        <ul>
+            <li><a href="#about">Обо мне</a></li>
+            <li><a href="#education">Образование</a></li>
+            <li>
+                <a href="#works">Мои проекты</a>
+                <ul class="submenu">
+                    <li><a href="#libra">Сайт "Либра"</a></li>
+                    <li><a href="#photographer">Сайт фотографа</a></li>
+                    <li><a href="#badges">Сайт для значков</a></li>
+                </ul>
+            </li>
+        </ul>
+        
+        <!-- Соцсети в меню (вертикально) -->
+        <div class="social-menu">
+            <ul class="social-menu-list">
+                <li>
+                    <a href="https://vk.com/enzoskedragon.vovka" target="_blank" class="vk" title="ВКонтакте">
+                        <i class="fab fa-vk"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://t.me/koksaralya" target="_blank" class="tg" title="Telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Область для закрытия меню -->
+    <div class="menu-close-area" id="menuCloseArea"></div>
+
+    <header>
+        <div class="container">
+            <div class="profile">
+                <img src="img/foto_1.png" alt="Еськов Владимир" class="profile-img text-animate">
+                <h1 class="text-animate">Еськов Владимир</h1>
+                <h2 class="text-animate delay-1">Студент-программист | ДГТУ</h2>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="about" id="about">
+            <h3 class="text-animate">Обо мне</h3>
+            <p class="text-animate delay-1">Привет! Я Владимир, начинающий программист, перешедший на третий курс Донского государственного технического университета. Увлекаюсь full-stack разработкой, создаю современные веб-приложения и изучаю новые технологии.</p>
+            <p class="text-animate delay-2">В моем портфолио представлены проекты, которые я разработал самостоятельно от идеи до реализации. Каждый проект - это шаг в моем профессиональном развитии и возможность применить полученные знания на практике.</p>
+        </section>
+
+        <section class="education" id="education">
+            <img src="img/dstu.png" alt="ДГТУ" class="education-img">
+            <div class="education-content">
+                <h3 class="text-animate">Образование</h3>
+                <p class="text-animate delay-1"><strong>Донской государственный технический университет (ДГТУ)</strong></p>
+                <p class="text-animate delay-2">Направление: Программная инженерия / Информатика и вычислительная техника</p>
+                <p class="text-animate delay-3">Год обучения: 3 курс</p>
+                <p class="text-animate delay-4">Ожидаемый год выпуска: 2025</p>
+            </div>
+        </section>
+
+        <section class="works" id="works">
+            <h3 class="text-animate">Мои проекты</h3>
+            <div class="works-list">
+                <!-- Проект 1 -->
+                <div class="work-item text-animate" id="libra">
+                    <div class="work-img-container">
+                        <img src="img/im1.png" alt="СОП Либра" class="work-img">
+                    </div>
+                    <div class="work-info">
+                        <h4 class="work-title">СОП "Либра"</h4>
+                        <p class="work-desc">Сайт для студенческого отряда проводников "Либра", который работал в Нижнем Новгороде и дважды в Адлере. Проект реализован с использованием HTML5, CSS3 и JavaScript.</p>
+                        <a href="Libra/Libra.html" class="work-link">Подробнее</a>
+                    </div>
+                </div>
+                
+                <!-- Проект 2 -->
+                <div class="work-item text-animate delay-1" id="photographer">
+                    <div class="work-img-container">
+                        <img src="img/im2.png" alt="Лучший фотограф Ростова" class="work-img">
+                    </div>
+                    <div class="work-info">
+                        <h4 class="work-title">Лучший фотограф Ростова</h4>
+                        <p class="work-desc">Сайт-портфолио для фотографа из Ростова-на-Дону. Адаптивный дизайн, галерея с фильтрацией работ. Проект реализован на HTML5, CSS3 и JavaScript.</p>
+                        <a href="Fotograf/Fotograf.html" class="work-link">Подробнее</a>
+                    </div>
+                </div>
+                
+                <!-- Проект 3 -->
+                <div class="work-item text-animate delay-2" id="badges">
+                    <div class="work-img-container">
+                        <img src="img/im3.png" alt="Бизнес по продаже значков" class="work-img">
+                    </div>
+                    <div class="work-info">
+                        <h4 class="work-title">Бизнес по продаже значков</h4>
+                        <p class="work-desc">Интернет-магазин по продаже авторских значков с индивидуальным дизайном. Полный цикл разработки. Использованы технологии HTML5, CSS3 и JavaScript.</p>
+                        <a href="Znachok/Znachok.html" class="work-link">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <h3 class="contact-heading text-animate">Свяжитесь со мной</h3>
+                <p class="footer-text text-animate delay-1">Если вы заинтересованы в сотрудничестве или хотите обсудить возможные проекты, пишите, жду!</p>
+                
+                <ul class="contact-list">
+                    <li class="text-animate delay-2">
+                        <a href="https://vk.com/enzoskedragon.vovka" target="_blank" class="vk">
+                            <i class="fab fa-vk"></i> ВКонтакте
+                        </a>
+                    </li>
+                    <li class="text-animate delay-3">
+                        <a href="https://t.me/koksaralya" target="_blank" class="tg">
+                            <i class="fab fa-telegram"></i> Telegram
+                        </a>
+                    </li>
+                </ul>
+                
+                <p class="copyright text-animate delay-5">© 2023 Еськов Владимир. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Canvas background animation
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const particleCount = Math.floor(window.innerWidth / 10);
+        
+        // Particle constructor
+        function Particle() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 3 + 1;
+            this.speedX = Math.random() * 1 - 0.5;
+            this.speedY = Math.random() * 1 - 0.5;
+            this.color = `hsl(${Math.random() * 60 + 200}, 70%, 60%)`;
+            
+            this.update = function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x > canvas.width || this.x < 0) {
+                    this.speedX = -this.speedX;
+                }
+                
+                if (this.y > canvas.height || this.y < 0) {
+                    this.speedY = -this.speedY;
+                }
+            };
+            
+            this.draw = function() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            };
+        }
+        
+        // Create particles
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.strokeStyle = `rgba(108, 92, 231, ${1 - distance / 100})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Управление меню
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        const menuCloseArea = document.getElementById('menuCloseArea');
+        let menuTimeout;
+
+        // Открытие/закрытие меню
+        menuBtn.addEventListener('click', function() {
+            navMenu.classList.add('active');
+            menuBtn.classList.add('hidden');
+            menuCloseArea.style.display = 'block';
+        });
+
+        // Закрытие меню при клике на область закрытия
+        menuCloseArea.addEventListener('click', closeMenu);
+
+        // Закрытие меню при выходе за его пределы
+        navMenu.addEventListener('mouseleave', function() {
+            menuTimeout = setTimeout(closeMenu, 300);
+        });
+
+        // Отмена закрытия если вернулись в меню
+        navMenu.addEventListener('mouseenter', function() {
+            clearTimeout(menuTimeout);
+        });
+
+        // Показ кнопки меню при выходе за пределы меню
+        document.addEventListener('mousemove', function(e) {
+            if (!navMenu.classList.contains('active')) return;
+            
+            const menuRect = navMenu.getBoundingClientRect();
+            const btnRect = menuBtn.getBoundingClientRect();
+            
+            // Если курсор вне меню и кнопки
+            if ((e.clientX < menuRect.left || e.clientX > menuRect.right || 
+                 e.clientY < menuRect.top || e.clientY > menuRect.bottom) &&
+                (e.clientX < btnRect.left || e.clientX > btnRect.right || 
+                 e.clientY < btnRect.top || e.clientY > btnRect.bottom)) {
+                menuBtn.classList.remove('hidden');
+            }
+        });
+
+        function closeMenu() {
+            navMenu.classList.remove('active');
+            menuCloseArea.style.display = 'none';
+            menuBtn.classList.remove('hidden');
+            clearTimeout(menuTimeout);
+        }
+
+        // Закрытие меню при клике на ссылку
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        // Анимация текста при прокрутке
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.text-animate');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('animate');
+                }
+            });
+        };
+
+        // Запускаем при загрузке и при прокрутке
+        window.addEventListener('load', animateOnScroll);
+        window.addEventListener('scroll', animateOnScroll);
+    </script>
+</body>
+</html>
