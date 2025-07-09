@@ -1,444 +1,588 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>СОП "Libra"</title>
     <style>
+        /* Общие стили */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow-x: hidden;
+            background: #000;
+            margin: 0;
+            padding: 0;
+            font-family: 'Jost', sans-serif;
+        }
+        
         /* CSS из animation_png.css */
         .animation_moviment_top{
             position: fixed;
             top: 0px;
             left: 0.5%;
-            height: 10px;
+            height: 5px;
             width: 100%;
             background: #FFCC01;
-            
             animation: animation_moviment_top_fixed linear;
             animation-timeline: scroll(root);
             transform-origin: left;
+            z-index: 1000;
         }
+        
         @keyframes animation_moviment_top_fixed {
-            0% {
-              transform: scaleX(0);
-            }
-            100% {
-              transform: scaleX(1);
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+
+        /* Стили для изображений с анимацией */
+        .slide-image {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            opacity: 0;
+            transition: all 0.8s ease-out;
+            z-index: 1;
+            transform: translateX(0);
+        }
+
+        .slide-image.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Анимация выезда */
+        .slide-left {
+            transform: translateX(-100vw);
+        }
+        
+        .slide-left.visible {
+            transform: translateX(0);
+        }
+        
+        .slide-right {
+            transform: translateX(100vw);
+        }
+        
+        .slide-right.visible {
+            transform: translateX(0);
+        }
+
+        /* Размеры изображений для разных устройств */
+        .im1, .im2, .im3, .im4, .im5 {
+            height: auto;
+        }
+
+        @media (min-width: 1200px) {
+            .slide-image {
+                width: 70%;
             }
         }
 
-        .im1{
-            width: 100%;  position: absolute; left: -14.5%;
-            animation: im1_movie linear;
-            animation-timeline: scroll(root);
-            transform-origin: left;
-        }
-
-        @keyframes im1_movie {
-            0% {
-                transform: translateX(-20%)
-            }
-            15% {
-                transform: translateX(0%)
+        @media (max-width: 992px) {
+            .slide-image {
+                width: 80%;
             }
         }
 
-        .im2{
-            width: 100%;  position: absolute; left: 14.5%;
-            animation: im2_movie linear;
-            animation-timeline: scroll(root);
-            transform-origin: left;
-        }
-
-        @keyframes im2_movie {
-            15% {
-                transform: translateX(120%)
-            }
-            33% {
-                transform: translateX(0%)
+        @media (max-width: 768px) {
+            .slide-image {
+                width: 90%;
             }
         }
 
-        .im3{
-            width: 100%;  position: absolute; left: -14.5%;
-            animation: im3_movie linear;
-            animation-timeline: scroll(root);
-            transform-origin: left;
-        }
-
-        @keyframes im3_movie {
-            30% {
-                transform: translateX(-100%)
-            }
-            51% {
-                transform: translateX(0%)
-            }
-        }
-
-        .im4{
-            width: 100%;  position: absolute; left: 14.5%;
-            animation: im4_movie linear;
-            animation-timeline: scroll(root);
-            transform-origin: left;
-        }
-
-        @keyframes im4_movie {
-            48% {
-                transform: translateX(120%)
-            }
-            69% {
-                transform: translateX(0%)
-            }
-        }
-
-        .im5{
-            width: 100%;  position: absolute; left: -14.5%;
-            animation: im5_movie linear;
-            animation-timeline: scroll(root);
-            transform-origin: left;
-        }
-
-        @keyframes im5_movie {
-            66% {
-                transform: translateX(-100%)
-            }
-            87% {
-                transform: translateX(0%)
+        @media (max-width: 576px) {
+            .slide-image {
+                width: 95%;
             }
         }
 
         /* Заставка из animation_WinOp.css */
-        .black_screensaver_left{
-            width: 0%;  position: fixed; height: 20%;
+        .black_screensaver_left, .black_screensaver_right {
+            width: 0%;  
+            position: fixed; 
+            height: 20%;
             background-color: #806700;
+            z-index: 2000;
+        }
+        
+        .black_screensaver_left {
             transform-origin: left;
-            animation-duration: 1s;
-            animation-name: black_screensaver_left_animation;
+            animation: black_screensaver_left_animation 1s forwards;
+        }
+        
+        .black_screensaver_right {
+            transform-origin: right;
+            animation: black_screensaver_right_animation 2s forwards;
         }
 
         @keyframes black_screensaver_left_animation {
-            from {
-                width: 100%
-            }
-            to {
-                width: 0%
-            }
+            from { width: 100% }
+            to { width: 0% }
         }
-
-        .black_screensaver_right{
-            width: 0%;  position: fixed; height: 20%;
-            background-color: #806700;
-            transform-origin: right;
-            animation-duration: 2s;
-            animation-name: black_screensaver_right_animation;
-        }
-
+        
         @keyframes black_screensaver_right_animation {
-            from {
-                width: 100%
-            }
-            to {
-                width: 0%
-            }
+            from { width: 100% }
+            to { width: 0% }
         }
 
-        /* CSS из main.css */
-        .inf1{
-            width: 92%;
-            height:18%;
-            border: 2px #FFCC01 solid;
-            position: absolute;
-            left: 18%;
-            animation: inf_movie linear;
-            animation-timeline: scroll(root);
-            transform-origin: left;
+        /* Основные стили контента */
+        .content-wrapper {
+            width: 100%;
+            position: relative;
+            padding-top: 80px;
         }
-
-        @keyframes inf_movie {
-            0% {
-                transform: translateX(20%)
-            }
-            15% {
-                transform: translateX(0%)
-            }
-            100%{ 
-                transform: translateX(0%)
-            }
+        
+        .tab-content {
+            width: 90%;
+            margin: 0 auto;
+            position: relative;
+            padding-top: 100px;
+            z-index: 2;
         }
-
-        .inf2{
-            width: 92%;
-            height:18%;
-            border: 2px #FFCC01 solid;
-            position: absolute;
-            left: -18%;
-            animation: inf2_movie linear;
-            animation-timeline: scroll(root);
-            transform-origin: left;
-        }
-
-        @keyframes inf2_movie {
-            0%{
-                transform: translateX(-20%)
-            }
-            15% {
-                transform: translateX(-20%)
-            }
-            33% {
-                transform: translateX(0%)
-            }
-            100%{ 
-                transform: translateX(0%)
-            }
-        }
-
-        .inf3{
-            width: 92%;
-            height:18%;
-            border: 2px #FFCC01 solid;
-            position: absolute;
-            left: 18%;
-            animation: inf3_movie linear;
-            animation-timeline: scroll(root);
-            transform-origin: left;
-        }
-
-        @keyframes inf3_movie {
-            0%{
-                transform: translateX(20%)
-            }
-            30% {
-                transform: translateX(20%)
-            }
-            51% {
-                transform: translateX(0%)
-            }
-            100%{ 
-                transform: translateX(0%)
-            }
-        }
-
-        .inf4{
-            width: 92%;
-            height:18%;
-            border: 2px #FFCC01 solid;
-            position: absolute;
-            left: -18%;
-            animation: inf4_movie linear;
-            animation-timeline: scroll(root);
-            transform-origin: left;
-        }
-
-        @keyframes inf4_movie {
-            0%{
-                transform: translateX(-20%)
-            }
-            48% {
-                transform: translateX(-20%)
-            }
-            69% {
-                transform: translateX(0%)
-            }
-            100%{ 
-                transform: translateX(0%)}
-        }
-
-        .inf5{
-            width: 92%;
-            height:18%;
-            border: 2px #FFCC01 solid;
-            position: absolute;
-            left: 18%;
-            animation: inf5_movie linear;
-            animation-timeline: scroll(root);
-            transform-origin: left;
-        }
-
-        @keyframes inf5_movie {
-            0%{
-                transform: translateX(20%)
-            }
-            66% {
-                transform: translateX(20%)
-            }
-            87% {
-                transform: translateX(0%)
-            }
-            100%{ 
-                transform: translateX(0%)}
-        }
-
-        .Librapng{
-            animation: Librapngaanimation linear;
-            animation-timeline: scroll(root);
-            transform-origin: left;
-        }
-
-        @keyframes Librapngaanimation {
-            0%{
-                transform: translateY(0%)
-            }
-            12% {
-                transform: translateY(-10%)
-            }
-            87% {
-                transform: translateY(-10%)
-            }
-            100%{ 
-                transform: translateY(-10%)}
-        }
-
-        /* Дополнительные стили из main.css */
-        .But{
-            width: 15%;
-            height: 80px;
-            background-color: #FFCC01;
+        
+        .Librapng {
             position: fixed;
-            top: 20px;
-            left: 12%;
-            border: 0px;
-            border-radius: 4px;
-            transition: 0.5s;
-            font-family: 'Jost';
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 600px;
+            width: 80%;
+            z-index: 1;
+            transition: top 0.4s ease-out;
+            opacity: 0.1; /* Прозрачность для фона */
         }
-        .But:hover {
-            background-color: #766F67;
-            position: fixed;
+
+        /* Стили информационных блоков */
+        .info-block {
+            width: 100%;
+            height: auto;
+            min-height: 150px;
+            border: 2px #FFCC01 solid;
+            position: relative;
+            margin: 40px auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            overflow: hidden;
+            color: #fff;
+            z-index: 2;
+            opacity: 0;
+            transition: all 0.8s ease-out;
+        }
+
+        .info-block.visible {
+            opacity: 1;
+        }
+
+        /* Анимация для текстовых блоков */
+        .text-left {
+            transform: translateX(100vw);
+        }
+        
+        .text-left.visible {
+            transform: translateX(0);
+        }
+        
+        .text-right {
+            transform: translateX(-100vw);
+        }
+        
+        .text-right.visible {
+            transform: translateX(0);
+        }
+
+        /* Новые стили для секций */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 50px 0;
+        }
+
+        /* Стили для списка бойцов */
+        .fighters-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .fighter-card {
+            border: 2px solid #FFCC01;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .fighter-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .fighter-photo {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 2px solid #FFCC01;
+        }
+        
+        .fighter-info {
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .fighter-name {
+            font-weight: bold;
+            color: #FFCC01;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .fighter-role {
             color: #F3F3F3;
-            font-family: 'Jost';
+            font-size: 16px;
         }
-
-        h2{
-            color: #F3F3F3; 
-            font-size: 80px;
+        
+        .section-title {
+            color: #FFCC01;
+            text-align: center;
+            font-size: 24px;
+            margin: 30px 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 2px;
+            background: #FFCC01;
+            margin: 10px auto;
+        }
+        
+        /* Стихи */
+        .poem {
+            color: #F3F3F3;
+            font-style: italic;
+            text-align: center;
+            line-height: 1.8;
+            padding: 30px;
+            margin: 30px auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            border: 2px solid #FFCC01;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 204, 1, 0.3);
+        }
+        
+        .poem:before {
+            content: "";
             position: absolute;
-            font-family: 'Jost';
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid #806700;
+            border-radius: 20px;
+            z-index: -1;
+        }
+        
+        .poem p {
+            margin: 15px 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .poem-author {
+            text-align: right;
+            font-style: normal;
+            margin-top: 20px;
+            color: #FFCC01;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
         }
 
-        h1{
-            font-size: 45px;
-            position: absolute;
-            font-family: 'Jost';
+        /* Типография */
+        h1, h2, h3, p {
+            color: #F3F3F3;
+            font-family: 'Jost', sans-serif;
+            margin: 0;
         }
-        h1:hover{
-            font-size: 48px;
-            transition: 0.5s
+        
+        h1 {
+            font-size: 24px;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            color: #FFCC01;
+            position: relative;
+            z-index: 2;
         }
-
-        /* mobile */
-        .moviment_menu{
-            width: 100%; height: 100px; background-color: #000; opacity: 0.25; position: fixed; border-bottom: #806700 3px solid;
+        
+        h1:hover {
+            font-size: 26px;
         }
-
-        @media (max-width:320px){
-            h1{
-                font-size: 20px;
-                position: absolute;
-                font-family: 'Jost';
+        
+        h2 {
+            font-size: 30px;
+        }
+        
+        p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        /* Навигация */
+        .moviment_menu {
+            width: 100%; 
+            height: 60px; 
+            background-color: #000; 
+            opacity: 0.25; 
+            position: fixed; 
+            top: 0;
+            left: 0;
+            border-bottom: #806700 3px solid;
+            z-index: 999;
+        }
+        
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            color: #FFEDA4;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item.active {
+            color: #FFCC01;
+            font-weight: bold;
+        }
+        
+        /* Футер */
+        .footer {
+            width: 100%;
+            height: auto;
+            background-color: #000;
+            padding: 30px 0;
+            border-top: #FFCC01 2px solid;
+            margin-top: 50px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .social-links a {
+            color: #FFCC01;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        
+        /* Мобильное меню (бургер) */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #FFCC01;
+            border: none;
+            border-radius: 4px;
+            z-index: 1001;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .mobile-menu-btn span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: #000;
+            margin: 3px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+        
+        .mobile-menu.active {
+            display: flex;
+        }
+        
+        /* Адаптация для разных экранов */
+        @media (max-width: 1200px) {
+            .Librapng {
+                max-width: 500px;
             }
-
-            .moviment_menu{
-                height: 5%;
+            
+            .fighters-container {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .Librapng {
+                max-width: 400px;
+            }
+            
+            .section {
+                min-height: auto;
+                margin: 40px 0;
+            }
+            
+            .info-block, .slide-image {
+                width: 90%;
+                margin: 20px auto;
+            }
+            
+            .fighters-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .poem {
+                padding: 20px;
+                max-width: 90%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .Librapng {
+                max-width: 300px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            .section {
+                margin: 30px 0;
+            }
+            
+            .info-block {
+                padding: 15px;
+                margin: 15px auto;
+            }
+            
+            .fighters-container {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+            
+            .fighter-photo {
+                height: 220px;
+            }
+            
+            .poem {
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .Librapng {
+                max-width: 200px;
+                top: 70px !important;
+            }
+            
+            .nav-container {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            h1 {
+                font-size: 18px;
+            }
+            
+            .section {
+                min-height: auto;
+                margin: 20px 0;
+                padding: 10px 0;
+            }
+            
+            .info-block, .slide-image {
+                width: 95%;
+                margin: 10px auto;
+            }
+            
+            .info-block {
+                padding: 12px;
+                margin-bottom: 5px;
+            }
+            
+            .slide-image {
+                margin-top: 5px;
+                margin-bottom: 15px;
+            }
+            
+            .tab-content {
+                padding-top: 60px;
+            }
+            
+            .fighters-container {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .fighter-photo {
+                height: 200px;
+            }
+            
+            .poem {
+                padding: 12px;
+                border-width: 1px;
             }
         }
     </style>
-    <script>
-        // JS из main.js
-        function but_tab1() {
-            document.getElementById('tab1').style.display= 'block'
-            document.getElementById('tab2').style.display= 'none'
-            document.getElementById('tab3').style.display= 'none'
-            window.scrollTo(0,0)
-            document.getElementById('bt1').style.color = '#FFCC01'
-            document.getElementById('bt2').style.color = '#FFEDA4'
-            document.getElementById('bt3').style.color = '#FFEDA4'
-        }
-        function but_tab2() {
-            document.getElementById('tab1').style.display= 'none'
-            document.getElementById('tab2').style.display= 'block'
-            document.getElementById('tab3').style.display= 'none'
-            window.scrollTo(0,0)
-            document.getElementById('bt1').style.color = '#FFEDA4'
-            document.getElementById('bt2').style.color = '#FFCC01'
-            document.getElementById('bt3').style.color = '#FFEDA4'
-        }
-        function but_tab3() {
-            document.getElementById('tab1').style.display= 'none'
-            document.getElementById('tab2').style.display= 'none'
-            document.getElementById('tab3').style.display= 'block'
-            window.scrollTo(0,0)
-            document.getElementById('bt1').style.color = '#FFEDA4'
-            document.getElementById('bt2').style.color = '#FFEDA4'
-            document.getElementById('bt3').style.color = '#FFCC01'
-        }
-    </script>
 </head>
-<body style="overflow-x:hidden; background: #000;">
-   
-    <!--общее -->
-    <div>
-        <div style="width: 100%; height: 4500px; background-color: #000000; opacity: 0; position: absolute;"></div>
-       
-        <!-- первый таб -->
-        <div style="width: 80%; height: 3500px; background-color: #000000; opacity: 1; position: absolute;top: 650px;left: 12%; " id="tab1">
-            <img src="png/Libra.png" style="width: 100%;  position: absolute; top: -650px;" class="Librapng">
-            <!-- Фотографии -->
-            <img src="png/im1.png" class="im1" style="top: 80px;">
-            <img src="png/im2.png" class="im2" style=" top: 742.5px;">
-            <img src="png/im3.png" class="im3" style="top: 1405px;">
-            <img src="png/im4.png" class="im4" style="top: 2067.5px;">
-            <img src="png/im5.png" class="im5"style="top: 2730px;">
-
-            <!-- прозрачные окна с текстом -->
-            <div class="inf1" style="top: -20px;"  > 
-                <div style="background: #000000; opacity: 0.4; width: 100%; height: 100%; position: absolute;"></div>
-                <h1 style="color: rgb(255, 255, 255); position: absolute; top: 10%; left: 15%" >Первый слайд</h1>
-            </div>
-            <div class="inf2" style="top: 642.5px;" >
-                <div style="background: #000000; opacity: 0.4; width: 100%; height: 100%; position: absolute;"></div>
-                <h1 style="color: rgb(255, 255, 255); position: absolute; top: 10%; left: 40%" >Второй слайд</h1>
-            </div>
-            <div class="inf3" style="top: 1305px;" >
-                <div style="background: #000000; opacity: 0.4; width: 100%; height: 100%; position: absolute;"></div>
-                <h1 style="color: rgb(255, 255, 255); position: absolute; top: 10%; left: 15%" >Третий слайд</h1>
-            </div>
-            <div class="inf4" style="top: 1967px;" >
-                <div style="background: #000000; opacity: 0.4; width: 100%; height: 100%; position: absolute;"></div>
-                <h1 style="color: rgb(255, 255, 255); position: absolute; top: 10%; left: 40%" >Четвертый слайд</h1>
-            </div>
-            <div class="inf5" style="top: 2630px;" >
-                <div style="background: #000000; opacity: 0.4; width: 100%; height: 100%; position: absolute;"></div>
-                <h1 style="color: rgb(255, 255, 255); position: absolute; top: 10%; left: 15%" >Пятый слайд</h1>
-            </div>
-        </div>
-        <!-- второй таб -->
-        <div style="width: 80%; height: 3500px; background-color: #000000; opacity: 1; position: absolute;top: 650px;left: 12%; display: none;" id="tab2" >
-            <img src="png/Libra.png" style="width: 100%;  position: absolute; top: -650px;" class="Librapng">
-            <h1 style="color: #FFCC01;" >История</h1>
-        </div>
-
-        <!-- третий таб -->
-        <div style="width: 80%; height: 3500px; background-color: #000000; opacity: 1; position: absolute;top: 650px;left: 12%; display: none" id="tab3">
-            <img src="png/Libra.png" style="width: 100%;  position: absolute; top: -650px;" class="Librapng">
-            <h1 style="color: #FFCC01;">Список бойцов:</h1>
-        </div>
-
-        <div class="moviment_menu"></div>
-            
-        <!-- движущееся меню -->
-        <header>
-            <h1 style="position: fixed; left: 10%; top: -10px;color: #FFCC01;" onclick="but_tab1()" id="bt1">О нас</h1>
-            <h1 style="left: 60%; position: fixed; top: -10px; color: #FFEDA4;" onclick="but_tab2()" id="bt2">История</h1>
-            <h1 style="left: 80%; position: fixed; top: -10px; color: #FFEDA4;" onclick="but_tab3()" id="bt3">Список бойцов</h1>
-            <div class="animation_moviment_top"></div>
-        </header>
-    </div>
-
-    <div style="width: 100%; height: 220px; background-color: #000000; opacity: 1; position: absolute;top: 4300px;left: 0%; border-top: #FFCC01 2px solid;">
-        <h2 style="color: #ffffff; font-size: 40px; left: 12%;"> Libra снова в путь....</h2>
-    </div>
-
-    <!-- анимация заставки -->
+<body>
+    <!-- Анимация заставки -->
     <div>
         <div class="black_screensaver_left" style="top: 0%;"></div>
         <div class="black_screensaver_right" style="top: 20%;"></div>
@@ -446,5 +590,392 @@
         <div class="black_screensaver_right" style="top: 60%;"></div>
         <div class="black_screensaver_left" style="top: 80%;"></div>
     </div>
+    
+    <!-- Навигация -->
+    <div class="moviment_menu"></div>
+    <div class="animation_moviment_top"></div>
+    
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    
+    <div class="nav-container" id="desktopNav">
+        <div class="nav-item active" onclick="but_tab1()" id="bt1">О нас</div>
+        <div class="nav-item" onclick="but_tab2()" id="bt2">История</div>
+        <div class="nav-item" onclick="but_tab3()" id="bt3">Список бойцов</div>
+    </div>
+    
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="nav-item active" onclick="but_tab1(); toggleMobileMenu()" id="bt1-mobile">О нас</div>
+        <div class="nav-item" onclick="but_tab2(); toggleMobileMenu()" id="bt2-mobile">История</div>
+        <div class="nav-item" onclick="but_tab3(); toggleMobileMenu()" id="bt3-mobile">Список бойцов</div>
+    </div>
+    
+    <!-- Основной контент -->
+    <div class="content-wrapper">
+        <!-- Первый таб -->
+        <div class="tab-content" id="tab1">
+            <img src="png/Libra.png" class="Librapng">
+            
+            <!-- Секции с контентом -->
+            <div class="section">
+                <div class="info-block text-right">
+                    <h1>⚖Libra - студенческий отряд проводников</h1>
+                    <p>Студенческий отряд проводников, образованный в Донском Государственном Техническом Университете.</p>
+                    <p>✨13 октября 2023 — дата создания отряда</p>
+                </div>
+                <img src="png/im1.png" class="slide-image im1 slide-left">
+            </div>
+            
+            <div class="section">
+                <div class="info-block text-left">
+                    <h1>Наша миссия</h1>
+                    <p>✨Наша главная цель — реализовать трудовые амбиции и помочь приобрести новые профессиональные навыки, также мы будем содействовать социальной адаптации и личностному развитию студента.</p>
+                </div>
+                <img src="png/im2.png" class="slide-image im2 slide-right">
+            </div>
+            
+            <div class="section">
+                <div class="info-block text-right">
+                    <h1>Наши ценности</h1>
+                    <p>✨Эмблема — отражает идеалы равновесия, справедливости, порядка и баланса, которые являются основными ценностями нашего отряда.</p>
+                    <p>«Libra» — это дружный коллектив молодых и активных людей. Мы готовы раскрыть свой потенциал и обрести большую семью, которая объединена общей целью — любовью к своему делу.</p>
+                    <p>Скорее присоединяйся к нам!</p>
+                </div>
+                <img src="png/im3.png" class="slide-image im3 slide-left">
+            </div>
+            
+            <div class="section">
+                <div class="info-block text-left">
+                    <h1>Трудовой проект 2024</h1>
+                    <p>Наш отряд успешно работал на трудовом проекте в Нижнем Новгороде в 2024 году. Это был незабываемый опыт, где мы смогли применить свои навыки на практике и познакомиться с новыми людьми.</p>
+                </div>
+                <img src="png/im4.png" class="slide-image im4 slide-right">
+            </div>
+            
+            <div class="section">
+                <div class="info-block text-right">
+                    <h1>Летний проект 2025</h1>
+                    <p>Летом 2025 года наш отряд отправился в Адлер, где мы работали на крупном транспортном узле. Это было время не только продуктивной работы, но и прекрасного отдыха на черноморском побережье.</p>
+                </div>
+                <img src="png/im5.png" class="slide-image im5 slide-left">
+            </div>
+        </div>
+        
+        <!-- Второй таб - История -->
+        <div class="tab-content" id="tab2" style="display: none;">
+            <img src="png/Libra.png" class="Librapng">
+            <h1 style="color: #FFCC01; text-align: center; margin-top: 100px;">История отряда</h1>
+            
+            <div class="poem">
+                <p>Две подружки, загоревшись мечтой,</p>
+                <p>Новый отряд собирают с душой.</p>
+                <p>Силы кипят, как бурлящий поток,</p>
+                <p>Рождается новый отряд проводников</p>
+                
+                <p>Числом из немного, но дух их силен</p>
+                <p>Едут покорять новый они горизонт</p>
+                <p>Не вместе увы, их судьба разделила</p>
+                <p>Поведаю вам как же все это было</p>
+                
+                <p>Кто первым приехал попал прямо в шторм</p>
+                <p>Не каждый сдержал тот событий поток</p>
+                <p>И были кто сдался под этим напором</p>
+                <p>Остались лишь крепкие телом, душою</p>
+                
+                <p>Потом подтянулись и остальные </p>
+                <p>И пусть их пути и были иные</p>
+                <p>Другие проверки от жизни их ждали</p>
+                <p>Их дружба связала прочнее чем сталью</p>
+                
+                <p>Наконец-то все вместе они делят путь</p>
+                <p>А лето успело уже промелькнуть</p>
+                <p>С тоскою на сердце время прощаться</p>
+                <p>Листва пожелтела - пора возвращаться </p>
+                
+                <p>И в городе том о них все уже знают</p>
+                <p>От дела они никогда не сбегают</p>
+                <p>С нетерпением ждут их снова и снова,</p>
+                <p>Этих звездочек новых на небосклоне</p>
+                
+                <div class="poem-author">@Анастасия Герасименко</div>
+            </div>
+        </div>
+        
+        <!-- Третий таб - Список бойцов -->
+        <div class="tab-content" id="tab3" style="display: none;">
+            <img src="png/Libra.png" class="Librapng">
+            <h1 style="color: #FFCC01; text-align: center; margin-top: 100px;">Список бойцов</h1>
+            
+            <div class="section-title">Комсостав</div>
+            <div class="fighters-container">
+                <!-- Комсостав -->
+                <div class="fighter-card">
+                    <img src="foto/f1.png" alt="Халилова Наиля" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Халилова Наиля</div>
+                        <div class="fighter-role">Командир</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f2.png" alt="Лозина Арина" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Лозина Арина</div>
+                        <div class="fighter-role">Комиссар</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f3.png" alt="Виноградов Александр" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Виноградов Александр</div>
+                        <div class="fighter-role">Мастер</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">Экс-комсостав</div>
+            <div class="fighters-container">
+                <!-- Экс-комсостав -->
+                <div class="fighter-card">
+                    <img src="foto/f4.png" alt="Шинкаренко Лилия" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Шинкаренко Лилия</div>
+                        <div class="fighter-role">Экс-Командир</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f5.png" alt="Шевченко София" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Шевченко София</div>
+                        <div class="fighter-role">Экс-Комиссар</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">Рядовой состав</div>
+            <div class="fighters-container">
+                <!-- Рядовой состав -->
+                <div class="fighter-card">
+                    <img src="foto/f6.png" alt="Александр Герасименко" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Александр Герасименко</div>
+                        <div class="fighter-role">Боец</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f7.png" alt="Диана Коваленко" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Диана Коваленко</div>
+                        <div class="fighter-role">Боец</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f8.png" alt="Анастасия Герасименко" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Анастасия Герасименко</div>
+                        <div class="fighter-role">Боец</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f9.png" alt="Шматко Михаил" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Шматко Михаил</div>
+                        <div class="fighter-role">Боец</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f10.png" alt="Еськов Владимир" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Еськов Владимир</div>
+                        <div class="fighter-role">Боец</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f11.png" alt="Колесникова Юлия" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Колесникова Юлия</div>
+                        <div class="fighter-role">Боец</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f12.png" alt="Голоденко Вера" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Голоденко Вера</div>
+                        <div class="fighter-role">Боец</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f13.png" alt="Адамова Ангелина" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Адамова Ангелина</div>
+                        <div class="fighter-role">Боец</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f14.png" alt="Васин Кирилл" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Васин Кирилл</div>
+                        <div class="fighter-role">Боец</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f15.png" alt="Мясникова Ульяна" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Мясникова Ульяна</div>
+                        <div class="fighter-role">Боец</div>
+                    </div>
+                </div>
+                
+                <div class="fighter-card">
+                    <img src="foto/f16.png" alt="Филинов Никита" class="fighter-photo">
+                    <div class="fighter-info">
+                        <div class="fighter-name">Филинов Никита</div>
+                        <div class="fighter-role">Боец</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Футер -->
+    <div class="footer">
+        <h2>Libra снова в путь....</h2>
+        <div class="social-links">
+            <a href="https://vk.com/sop_libra?from=groups" target="_blank">ВКонтакте</a>
+            <a href="https://t.me/libraaaaaaaaaaaaaaa123" target="_blank">Telegram</a>
+        </div>
+    </div>
+    
+    <script>
+        // Функции переключения табов
+        function but_tab1() {
+            document.getElementById('tab1').style.display = 'block';
+            document.getElementById('tab2').style.display = 'none';
+            document.getElementById('tab3').style.display = 'none';
+            window.scrollTo(0,0);
+            
+            // Обновление активного состояния
+            document.getElementById('bt1').classList.add('active');
+            document.getElementById('bt2').classList.remove('active');
+            document.getElementById('bt3').classList.remove('active');
+            document.getElementById('bt1-mobile').classList.add('active');
+            document.getElementById('bt2-mobile').classList.remove('active');
+            document.getElementById('bt3-mobile').classList.remove('active');
+            
+            initAnimations();
+        }
+        
+        function but_tab2() {
+            document.getElementById('tab1').style.display = 'none';
+            document.getElementById('tab2').style.display = 'block';
+            document.getElementById('tab3').style.display = 'none';
+            window.scrollTo(0,0);
+            
+            document.getElementById('bt1').classList.remove('active');
+            document.getElementById('bt2').classList.add('active');
+            document.getElementById('bt3').classList.remove('active');
+            document.getElementById('bt1-mobile').classList.remove('active');
+            document.getElementById('bt2-mobile').classList.add('active');
+            document.getElementById('bt3-mobile').classList.remove('active');
+        }
+        
+        function but_tab3() {
+            document.getElementById('tab1').style.display = 'none';
+            document.getElementById('tab2').style.display = 'none';
+            document.getElementById('tab3').style.display = 'block';
+            window.scrollTo(0,0);
+            
+            document.getElementById('bt1').classList.remove('active');
+            document.getElementById('bt2').classList.remove('active');
+            document.getElementById('bt3').classList.add('active');
+            document.getElementById('bt1-mobile').classList.remove('active');
+            document.getElementById('bt2-mobile').classList.remove('active');
+            document.getElementById('bt3-mobile').classList.add('active');
+        }
+        
+        // Функция для мобильного меню
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+        
+        // Анимация логотипа при скролле
+        function handleScroll() {
+            const libra = document.querySelector('.Librapng');
+            if (!libra) return;
+            
+            const scrollPosition = window.scrollY;
+            const newTop = Math.max(20, 100 - scrollPosition * 0.2);
+            libra.style.top = `${newTop}px`;
+        }
+        
+        // Функция для проверки видимости элементов
+        function initAnimations() {
+            const sections = document.querySelectorAll('.section');
+            
+            function checkVisibility() {
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const isVisible = rect.top <= window.innerHeight * 0.75 && rect.bottom >= 0;
+                    
+                    if (isVisible) {
+                        const infoBlock = section.querySelector('.info-block');
+                        const slideImage = section.querySelector('.slide-image');
+                        
+                        if (infoBlock) infoBlock.classList.add('visible');
+                        if (slideImage) slideImage.classList.add('visible');
+                    }
+                });
+            }
+            
+            // Проверяем при загрузке и скролле
+            checkVisibility();
+            window.addEventListener('scroll', checkVisibility);
+        }
+        
+        // Инициализация мобильного меню
+        document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+        
+        // Обработка скролла
+        window.addEventListener('scroll', handleScroll);
+        
+        // Адаптация меню
+        function handleResize() {
+            const desktopNav = document.getElementById('desktopNav');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            
+            if (window.innerWidth <= 576) {
+                desktopNav.style.display = 'none';
+                mobileMenuBtn.style.display = 'flex';
+            } else {
+                desktopNav.style.display = 'flex';
+                mobileMenuBtn.style.display = 'none';
+                document.getElementById('mobileMenu').classList.remove('active');
+            }
+        }
+        
+        // Инициализация при загрузке
+        window.addEventListener('load', function() {
+            handleResize();
+            but_tab1();
+            initAnimations();
+        });
+        
+        window.addEventListener('resize', handleResize);
+    </script>
 </body>
 </html>
