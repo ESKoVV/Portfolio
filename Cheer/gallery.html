@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фотогалерея - Grand Wolf</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        :root {
+            --primary: #0D548C;
+            --secondary: #082c49;
+            --accent: #000000;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary) 0%, #0a3a62 100%);
+            padding: 15px 0; /* Высота как на основной странице */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-bottom: 3px solid white;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .logo-text {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .logo-text span {
+            color: var(--accent);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: var(--shadow);
+            font-size: 1.1rem;
+            border: 2px solid white;
+        }
+        
+        .back-btn:hover {
+            background: #333;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gallery-section {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .gallery-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .gallery-title h1 {
+            font-size: 2.8rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 20px;
+        }
+        
+        .gallery-title h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .gallery-item {
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 3px solid var(--primary);
+            position: relative;
+            z-index: 2;
+            aspect-ratio: 1/1;
+            cursor: pointer;
+            background: black;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            border-color: white;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .more-photos {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .more-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--primary);
+            color: white;
+            border: 2px solid var(--accent);
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            text-align: center;
+            box-shadow: var(--shadow);
+            font-size: 1.2rem;
+        }
+        
+        .more-btn:hover {
+            background: #0a3a62;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(13, 84, 140, 0.5);
+            border-color: white;
+        }
+        
+        /* Модальное окно для галереи */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+            border: 3px solid var(--primary);
+            box-sizing: border-box;
+            background: black;
+        }
+        
+        .modal-content:hover {
+            border-color: white;
+        }
+        
+        .modal-img {
+            max-width: 100%;
+            max-height: 80vh;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            z-index: 10;
+            padding: 20px;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .prev-btn {
+            left: 0;
+        }
+        
+        .next-btn {
+            right: 0;
+        }
+        
+        footer {
+            background: linear-gradient(to right, var(--primary) 0%, #082c49 100%);
+            color: white;
+            padding: 80px 0 40px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .footer-logo .logo {
+            align-items: flex-start;
+        }
+        
+        .footer-logo .logo-text {
+            font-size: 2.2rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        .footer-links h3 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 1.6rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 18px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 8px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 992px) {
+            .gallery-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .gallery-title h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-container {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 20px;
+            }
+            
+            .gallery-title h1 {
+                font-size: 2.2rem;
+            }
+            
+            /* Скрыть Навигацию и Услуги в футере на мобильных */
+            .footer-links:nth-child(2),
+            .footer-links:nth-child(3) {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .gallery-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-img">
+                    <img src="img/logo1.png" alt="Grand Wolf Logo">
+                </div>
+                <div class="logo-text">Grand <span>Wolf</span></div>
+            </div>
+            
+            <a href="Cheer.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> На главную
+            </a>
+        </div>
+    </header>
+    
+    <!-- Галерея -->
+    <section class="gallery-section">
+        <div class="container">
+            <div class="gallery-title">
+                <h1>Фотогалерея команды</h1>
+                <p>Наши лучшие моменты, выступления и тренировки</p>
+            </div>
+            
+            <div class="gallery-container">
+                <!-- 30 фотографий галереи -->
+                <div class="gallery-item">
+                    <img src="img/galery/foto1.png" alt="Фото команды 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto2.png" alt="Фото команды 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto3.png" alt="Фото команды 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto4.png" alt="Фото команды 4">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto5.png" alt="Фото команды 5">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto6.png" alt="Фото команды 6">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto7.png" alt="Фото команды 7">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto8.png" alt="Фото команды 8">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto9.png" alt="Фото команды 9">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto10.png" alt="Фото команды 10">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto11.png" alt="Фото команды 11">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto12.png" alt="Фото команды 12">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto13.png" alt="Фото команды 13">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto14.png" alt="Фото команды 14">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto15.png" alt="Фото команды 15">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto16.png" alt="Фото команды 16">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto17.png" alt="Фото команды 17">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto18.png" alt="Фото команды 18">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto19.png" alt="Фото команды 19">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto20.png" alt="Фото команды 20">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto21.png" alt="Фото команды 21">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto22.png" alt="Фото команды 22">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto23.png" alt="Фото команды 23">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto24.png" alt="Фото команды 24">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto25.png" alt="Фото команды 25">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto26.png" alt="Фото команды 26">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto27.png" alt="Фото команды 27">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto28.png" alt="Фото команды 28">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto29.png" alt="Фото команды 29">
+                </div>
+                <div class="gallery-item">
+                    <img src="img/galery/foto30.png" alt="Фото команды 30">
+                </div>
+            </div>
+            
+            <div class="more-photos">
+                <a href="https://vk.com/albums-71877725" class="more-btn" target="_blank">Больше фотографий</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Модальное окно -->
+    <div class="gallery-modal">
+        <span class="close-modal">&times;</span>
+        <span class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></span>
+        <span class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></span>
+        <div class="modal-content">
+            <img class="modal-img" id="modalImg" src="" alt="Увеличенное фото">
+        </div>
+    </div>
+    
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <div class="logo">
+                        <div class="logo-text">Grand <span>Wolf</span></div>
+                    </div>
+                    <p>Чир спорт | Акробатика | Ростов на Дону | ДГТУ</p>
+                    <div class="social-links">
+                        <a href="https://vk.com/cheerleading_club_grand?from=groups" target="_blank"><i class="fab fa-vk"></i></a>
+                        <a href="https://www.instagram.com/grandwolf_cheer/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@grand.dstu_cheer_rnd?_t=ZS-8unMUKUXPec&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Навигация</h3>
+                    <ul>
+                        <li><a href="Cheer.html#about">О клубе</a></li>
+                        <li><a href="Cheer.html#coaches">Тренера</a></li>
+                        <li><a href="Cheer.html#services">Услуги</a></li>
+                        <li><a href="Cheer.html#contacts">Контакты</a></li>
+                        <li><a href="gallery.html">Фотогалерея</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Услуги</h3>
+                    <ul>
+                        <li><a href="Cheer.html#services">Чирлидинг, акробатика</a></li>
+                        <li><a href="Cheer.html#services">Дети с ОВЗ</a></li>
+                        <li><a href="Cheer.html#services">Развивающая гимнастика</a></li>
+                        <li><a href="Cheer.html#services">Команда родителей</a></li>
+                        <li><a href="Cheer.html#services">Взрослая команда</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +7 (950) 864-74-54</li>
+                        <li><i class="fas fa-map-marker-alt"></i> ул. Юфимцева, 16, Ростов-на-Дону</li>
+                        <li>
+                            <a href="https://vk.com/cheerleading_club_grand?from=groups" target="_blank">
+                                <i class="fab fa-vk"></i> vk.com/cheerleading_club_grand
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2024 Клуб чирлидинга "Grand Wolf". Все права защищены.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Модальное окно для галереи
+        const galleryModal = document.querySelector('.gallery-modal');
+        const modalImg = document.getElementById('modalImg');
+        const closeModal = document.querySelector('.close-modal');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        let currentIndex = 0;
+        let images = [];
+        
+        // Собираем все изображения в массив
+        galleryItems.forEach(item => {
+            images.push(item.querySelector('img').src);
+        });
+        
+        // Открытие модального окна
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentIndex = index;
+                modalImg.src = images[currentIndex];
+                galleryModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Закрытие модального окна
+        closeModal.addEventListener('click', () => {
+            galleryModal.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+        
+        galleryModal.addEventListener('click', (e) => {
+            if (e.target === galleryModal) {
+                galleryModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Навигация по фотографиям
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            modalImg.src = images[currentIndex];
+        });
+        
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % images.length;
+            modalImg.src = images[currentIndex];
+        });
+        
+        // Навигация с клавиатуры
+        document.addEventListener('keydown', (e) => {
+            if (galleryModal.style.display === 'flex') {
+                if (e.key === 'Escape') {
+                    galleryModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                } else if (e.key === 'ArrowLeft') {
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    modalImg.src = images[currentIndex];
+                } else if (e.key === 'ArrowRight') {
+                    currentIndex = (currentIndex + 1) % images.length;
+                    modalImg.src = images[currentIndex];
+                }
+            }
+        });
+        
+        // Анимация при скролле (появляются по мере прокрутки)
+        const animateGallery = () => {
+            galleryItems.forEach((item, index) => {
+                const itemTop = item.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (itemTop < windowHeight - 100) {
+                    setTimeout(() => {
+                        item.classList.add('visible');
+                    }, index * 50);
+                }
+            });
+        };
+        
+        // Инициализация анимации
+        window.addEventListener('scroll', animateGallery);
+        window.addEventListener('load', animateGallery);
+        
+        // Запуск анимации при загрузке
+        setTimeout(animateGallery, 500);
+    </script>
+</body>
+</html>
