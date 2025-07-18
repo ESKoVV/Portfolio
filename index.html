@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Еськов Владимир - Портфолио программиста</title>
-    <!-- Добавляем Font Awesome для иконок -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         :root {
             --primary-color: #6C5CE7;
@@ -22,7 +20,7 @@
             --menu-hover-color: #7f8c8d;
             --vk-color: #4C75A3;
             --tg-color: #0088CC;
-            --contact-heading-color: #BDBDBD; /* Новый цвет для заголовка "Свяжитесь со мной" */
+            --contact-heading-color: #BDBDBD;
         }
 
         * {
@@ -51,7 +49,6 @@
             opacity: 0.15;
         }
 
-        /* Анимации текста */
         .text-animate {
             opacity: 0;
             transform: translateY(30px);
@@ -63,14 +60,12 @@
             transform: translateY(0);
         }
 
-        /* Задержки для анимаций */
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.2s; }
         .delay-3 { transition-delay: 0.3s; }
         .delay-4 { transition-delay: 0.4s; }
         .delay-5 { transition-delay: 0.5s; }
 
-        /* Кнопка меню */
         .menu-btn {
             position: fixed;
             top: 20px;
@@ -106,7 +101,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        /* Навигационное меню */
         .nav-menu {
             position: fixed;
             top: 0;
@@ -124,7 +118,6 @@
             right: 0;
         }
 
-        /* Область для закрытия меню */
         .menu-close-area {
             position: fixed;
             top: 0;
@@ -215,7 +208,6 @@
             opacity: 1;
         }
 
-        /* Стили для иконок соцсетей в меню */
         .social-menu {
             margin-top: 40px;
             padding-top: 30px;
@@ -543,6 +535,7 @@
             width: 100%;
         }
 
+        /* Адаптация для мобильных устройств */
         @media (max-width: 992px) {
             .work-item {
                 flex-direction: column;
@@ -576,7 +569,7 @@
             }
             
             .works {
-                padding: 2rem;
+                padding: 2rem 0;
             }
             
             .work-info {
@@ -610,14 +603,10 @@
             .contact-list i {
                 font-size: 1.3rem;
             }
-        }
-        @media (max-width: 768px) {
-            .works {
-                padding: 2rem 0; /* Уменьшаем вертикальные отступы */
-            }
             
+            /* Горизонтальная прокрутка проектов */
             .works .container {
-                padding: 0; /* Убираем горизонтальные отступы контейнера */
+                padding: 0;
                 max-width: 100%;
             }
             
@@ -627,7 +616,7 @@
                 flex-wrap: nowrap;
                 overflow-x: auto;
                 gap: 20px;
-                padding: 0 20px 20px; /* Отступы для скроллбара */
+                padding: 0 20px 20px;
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
             }
@@ -647,67 +636,101 @@
             }
             
             .work-item {
-                flex: 0 0 85%; /* Ширина карточки 85% экрана */
-                min-width: 85%; /* Минимальная ширина */
-                min-height: 450px; /* Увеличиваем минимальную высоту */
+                flex: 0 0 85%;
+                min-width: 85%;
+                min-height: 450px;
                 scroll-snap-align: start;
                 margin-bottom: 0;
             }
             
             .work-img-container {
-                height: 200px; /* Фиксируем высоту изображения */
+                height: 200px;
             }
             
             .work-info {
-                padding: 1.5rem;
-                flex-grow: 1; /* Растягиваем блок информации */
                 display: flex;
                 flex-direction: column;
+                height: 100%;
+            }
+            
+            .work-desc {
+                flex-grow: 1;
+                overflow: hidden;
             }
             
             .work-link {
-                margin-top: auto; /* Прижимаем кнопку к низу */
+                margin-top: auto;
             }
             
-            /* Увеличиваем отступ для заголовка секции */
             .works h3 {
                 padding: 0 20px;
             }
         }
-
-        /* Оптимизация для очень маленьких экранов */
+        
+        /* Стили для очень узких экранов */
         @media (max-width: 480px) {
             .work-item {
-                min-width: 92%; /* Еще шире на маленьких экранах */
+                min-width: 92%;
             }
             
             .work-img-container {
                 height: 180px;
             }
+            
+            .work-title {
+                font-size: 1.4rem;
+                text-align: center;
+            }
+            
+            .work-link {
+                width: 100%;
+                text-align: center;
+                align-self: center;
+            }
         }
-
-        /* Улучшаем отображение текста во всех карточках */
-        .work-info {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .work-desc {
-            flex-grow: 1;
-            overflow: hidden;
+        
+        /* Скрываем описание на экранах уже 395px */
+        @media (max-width: 395px) {
+            .work-desc {
+                display: none !important;
+            }
+            
+            .work-item {
+                min-height: 350px;
+            }
+            
+            .work-info {
+                padding: 1rem;
+            }
+            
+            .work-title {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .work-link {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .work-img-container {
+                height: 220px !important;
+            }
+            
+            .work-info {
+                align-items: center;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
     <canvas id="bgCanvas"></canvas>
 
-    <!-- Кнопка меню -->
     <button class="menu-btn" id="menuBtn">
         <span>☰</span>
     </button>
 
-    <!-- Навигационное меню -->
     <nav class="nav-menu" id="navMenu">
         <ul>
             <li><a href="#about">Обо мне</a></li>
@@ -722,7 +745,6 @@
             </li>
         </ul>
         
-        <!-- Соцсети в меню (вертикально) -->
         <div class="social-menu">
             <ul class="social-menu-list">
                 <li>
@@ -739,7 +761,6 @@
         </div>
     </nav>
 
-    <!-- Область для закрытия меню -->
     <div class="menu-close-area" id="menuCloseArea"></div>
 
     <header>
