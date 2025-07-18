@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Wolf - Чирлидинг и акробатика в Ростове-на-Дону</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        :root {
+            --primary: #0D548C;
+            --secondary: #082c49;
+            --accent: #000000;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        h1, h2, h3, h4 {
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            font-size: 2.8rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-align: center;
+            box-shadow: var(--shadow);
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .btn:hover {
+            background: #0a3a62;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(13, 84, 140, 0.5);
+        }
+        
+        .btn-secondary {
+            background: var(--accent);
+            color: white;
+            box-shadow: var(--shadow);
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: #333;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Шапка сайта */
+        header {
+            background: linear-gradient(to right, var(--primary) 0%, #0a3a62 100%);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-bottom: 3px solid white;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .logo-text {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .logo-text span {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+            height: 100%;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 12px 20px;
+            border-radius: 30px;
+        }
+        
+        nav a:not(.gallery-btn):hover {
+            color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        nav a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:not(.gallery-btn):hover:after {
+            width: 100%;
+        }
+        
+        .gallery-btn {
+            background: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+            font-size: 1.2rem;
+        }
+        
+        .gallery-btn:hover {
+            background: #333;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gallery-btn:after {
+            display: none;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        /* Герой секция */
+        .hero {
+            background: url('img/galery/foto14.png') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            color: white;
+            text-align: center;
+            opacity: 1;
+            transform: none;
+        }
+        
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 84, 140, 0.85);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero h1 {
+            font-size: 3.8rem;
+            color: white;
+            margin-bottom: 25px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1.2s ease-out;
+        }
+        
+        .hero p {
+            font-size: 1.6rem;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1.4s ease-out;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+            animation: fadeIn 1.6s ease-out;
+        }
+        
+        .hero-buttons .btn {
+            border: 3px solid white;
+            padding: 18px 45px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        /* Новый слайд */
+        .grow-section {
+            background: url('img/galery/foto18.png') no-repeat center center/cover;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .grow-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .grow-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 84, 140, 0.85);
+        }
+        
+        .grow-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 20px;
+            width: 100%;
+        }
+        
+        .grow-section h2 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* О клубе */
+        .about {
+            background: white;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .achievements {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 50px 0;
+            gap: 25px;
+        }
+        
+        .achievement-item {
+            text-align: center;
+            flex: 1;
+            min-width: 220px;
+            padding: 30px 20px;
+            background: var(--light);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 3px solid var(--primary);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .achievement-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .achievement-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .achievement-item i {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .achievement-item p {
+            color: var(--dark);
+        }
+        
+        /* Тренеры */
+        .coaches {
+            background: linear-gradient(to bottom, #f0f4ff 0%, #e6e9ff 100%);
+        }
+        
+        .coaches-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .coach-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 3px solid var(--primary);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .coach-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .coach-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+        
+        .coach-img {
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .coach-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        
+        .coach-card:hover .coach-img img {
+            transform: scale(1.1);
+        }
+        
+        .coach-info {
+            padding: 30px;
+        }
+        
+        .coach-info h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .coach-position {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: block;
+            font-size: 1.2rem;
+        }
+        
+        /* Услуги */
+        .services {
+            background: white;
+        }
+        
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin-top: 60px;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 3px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+        
+        .service-img {
+            height: 220px;
+            overflow: hidden;
+        }
+        
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+        
+        .service-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .service-price {
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.6rem;
+            margin: 15px 0;
+        }
+        
+        .service-buttons {
+            display: flex;
+            gap: 8px; /* Уменьшено расстояние между кнопками */
+            margin-top: auto;
+            justify-content: center;
+            padding-top: 20px;
+        }
+        
+        .call-btn {
+            margin-left: 2px; /* Отступ слева 2px */
+        }
+        
+        .btn-secondary.service-btn {
+            margin-right: 2px; /* Отступ справа 2px */
+        }
+        
+        /* Контакты */
+        .contacts {
+            background: linear-gradient(to bottom, #e6e9ff 0%, #f0f4ff 100%);
+            padding: 60px 0;
+        }
+        
+        .contacts-container {
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 40px;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .contact-column {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        
+        .contact-item i {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+        
+        .contact-text h3 {
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .vk-contact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .contact-text a {
+            color: inherit;
+            text-decoration: none;
+            font-weight: normal; /* Сделать текст обычным */
+        }
+        
+        .contact-text a:hover {
+            color: var(--primary);
+        }
+        
+        /* Модальное окно для телефона */
+        .phone-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .phone-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+        
+        .phone-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+        }
+        
+        .phone-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .phone-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: var(--secondary);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .close-phone-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: var(--primary);
+            font-size: 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        /* Модальное окно для услуг */
+        .service-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .service-modal-content {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .service-modal-img-container {
+            height: 350px;
+            overflow: hidden;
+        }
+        
+        .service-modal-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .service-modal-info {
+            padding: 30px;
+        }
+        
+        .service-description {
+            margin: 25px 0;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .service-modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .close-service-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: var(--primary);
+            font-size: 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 10;
+        }
+        
+        @media (min-width: 768px) {
+            .service-modal-content {
+                flex-direction: row;
+            }
+            
+            .service-modal-img-container {
+                width: 45%;
+                height: auto;
+            }
+            
+            .service-modal-info {
+                width: 55%;
+                padding: 40px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .service-modal-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        /* Футер */
+        footer {
+            background: linear-gradient(to right, var(--primary) 0%, #082c49 100%);
+            color: white;
+            padding: 80px 0 40px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .footer-logo .logo {
+            align-items: flex-start;
+        }
+        
+        .footer-logo .logo-text {
+            font-size: 2.2rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        .footer-links h3 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 1.6rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 18px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 8px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            h2 {
+                font-size: 2.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 3.2rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .coach-img {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 300px;
+                height: 100vh;
+                background: var(--primary);
+                padding: 100px 30px 30px;
+                transition: right 0.5s ease;
+                z-index: 999;
+                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+            }
+            
+            nav.active {
+                right: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 25px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.3rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .achievements {
+                flex-direction: column;
+            }
+            
+            section {
+                padding: 80px 0;
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+            }
+            
+            /* Скрыть Навигацию и Услуги в футере на мобильных */
+            .footer-links:nth-child(2),
+            .footer-links:nth-child(3) {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            h2 {
+                font-size: 2rem;
+                padding-bottom: 15px;
+            }
+            
+            h2:after {
+                width: 80px;
+                height: 4px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .hero-buttons .btn {
+                padding: 15px 35px;
+                font-size: 1.1rem;
+            }
+            
+            .phone-modal-content {
+                padding: 30px 20px;
+            }
+            
+            .phone-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-img">
+                    <img src="img/logo1.png" alt="Grand Wolf Logo">
+                </div>
+                <div class="logo-text">Grand <span>Wolf</span></div>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul>
+                    <li><a href="#about">О клубе</a></li>
+                    <li><a href="#coaches">Тренера</a></li>
+                    <li><a href="#services">Услуги</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                    <li><a href="gallery.html" class="gallery-btn">Фотогалерея</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Герой секция -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Клуб спортивного чирлидинга "Grand Wolf"</h1>
+            <p>Чир спорт | Акробатика | Ростов на Дону | ДГТУ</p>
+            
+            <div class="hero-buttons">
+                <a href="https://vk.com/im?media=&sel=-71877725" class="btn" target="_blank">Записаться</a>
+                <a href="gallery.html" class="btn btn-secondary">Фотогалерея</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- О клубе -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>О нашем клубе</h2>
+            <div class="about-content">
+                <p>📣Представляем вашему вниманию 📣</p>
+                <p>🔹 Клуб по спортивному чирлидингу, чир спорту и акробатике "Гранд"!</p>
+                <p>🔹Мы базируемся на Базе Донского Государственного Технического Университета и являемся одним из первых профессиональных клубов в городе 🔝</p>
+                <p>🔹Клуб с долгой и яркой историей! 🥇🏆</p>
+                <p>🔹Команда Основана в 2009 году. За все время подготовили более 100 Кандидатов в Мастера спорта и 8 Мастеров спорта по чир спорту.</p>
+                <p>🔹Многократные победители и призёры соревнований различного уровня, как Всероссийских так и международных🥇🏆</p>
+                <p>🔹Лучшие тренеры, прекрасный просторный зал, всё необходимое оборудование для полноценного развития наших спортсменов!</p>
+                
+                <h3>Набор в группы на новый 2025-2026 сезон ❗️</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Новый слайд -->
+    <section class="grow-section">
+        <div class="grow-content">
+            <h2>Развивайся вместе с нами</h2>
+            <p>Присоединяйся к нашей команде и достигай новых высот!</p>
+
+            <div class="achievements">
+                <div class="achievement-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>14 лет</h3>
+                    <p>Успешной работы</p>
+                </div>
+                <div class="achievement-item">
+                    <i class="fas fa-star"></i>
+                    <h3>8 МС</h3>
+                    <p>Мастеров спорта</p>
+                </div>
+                <div class="achievement-item">
+                    <i class="fas fa-users"></i>
+                    <h3>100+ КМС</h3>
+                    <p>Кандидатов в мастера</p>
+                </div>
+                <div class="achievement-item">
+                    <i class="fas fa-award"></i>
+                    <h3>200+</h3>
+                    <p>Наград на соревнованиях</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Тренеры -->
+    <section id="coaches" class="coaches">
+        <div class="container">
+            <h2>Тренера</h2>
+            
+            <div class="coaches-container">
+                <div class="coach-card">
+                    <div class="coach-img">
+                        <img src="img/galery/foto15.png" alt="Григорий Худанов">
+                    </div>
+                    <div class="coach-info">
+                        <h3>Григорий Худанов</h3>
+                        <span class="coach-position">Руководитель клуба, тренер дисциплины ЧИР</span>
+                        <p>Опытный тренер с многолетним стажем работы. Основатель клуба "Grand Wolf". Подготовил более 50 призеров всероссийских соревнований. Специалист по работе с профессиональными спортсменами.</p>
+                    </div>
+                </div>
+                
+                <div class="coach-card">
+                    <div class="coach-img">
+                        <img src="img/foto2.png" alt="Вероника Большакова">
+                    </div>
+                    <div class="coach-info">
+                        <h3>Вероника Большакова</h3>
+                        <span class="coach-position">Тренер по чирлидингу, акробатике 6-15 лет</span>
+                        <p>Мастер спорта по спортивной акробатике. Специализируется на работе с детьми и подростками. Любит находить индивидуальный подход к каждому ученику.</p>
+                        <div class="coach-contact">
+                            <i class="fas fa-phone"></i> +8 (989) 615-81-55
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="coach-card">
+                    <div class="coach-img">
+                        <img src="img/foto3.png" alt="Алина Туманова">
+                    </div>
+                    <div class="coach-info">
+                        <h3>Алина Туманова</h3>
+                        <span class="coach-position">Тренер младшей группы 3-6 лет</span>
+                        <p>Специалист по работе с самыми маленькими спортсменами. Образование в области дошкольной педагогики. Умеет создать комфортную и веселую атмосферу для детей.</p>
+                        <div class="coach-contact">
+                            <i class="fas fa-phone"></i> +8 (928) 764-99-01
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Услуги -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2>Наши услуги</h2>
+            
+            <div class="services-container">
+                <!-- Услуга 1 -->
+                <div class="service-card" 
+                     data-title="Чирлидинг, акробатика. Набор детей в группы всех возрастов!"
+                     data-price="4 200 ₽"
+                     data-description="Набор детей в секцию по чирлидингу и акробатике.<br><br>Группы: 5-7, 8-11, 12-15<br>Тренировки проходят 3 раза в неделю по 2,5 часа.<br><br>С нами Ваши дети научатся акробатике, работать в команде, дружить и поддерживать друг друга, будут более дисциплинированнее и внимательнее, станут сильнее и выносливее. Научаться крутым трюкам, которые есть только в нашем виде спорта.<br><br>Звоните, пишите, записывайтесь скорее!<br>Первое занятие бесплатное! Гарантируем результат!"
+                     data-image="img/usluga/foto1.png"
+                     data-link="https://vk.com/market/product/chirliding-akrobatika-nabor-detey-v-gruppy-vsekh-vozrastov33-71877725-10344912">
+                    <div class="service-img">
+                        <img src="img/usluga/foto1.png" alt="Чирлидинг, акробатика">
+                    </div>
+                    <div class="service-content">
+                        <h3>Чирлидинг, акробатика</h3>
+                        <p>Набор детей в группы всех возрастов!</p>
+                        <div class="service-price">4 200 ₽</div>
+                        <div class="service-buttons">
+                            <button class="btn call-btn">Позвонить</button>
+                            <a href="https://vk.com/market/product/chirliding-akrobatika-nabor-detey-v-gruppy-vsekh-vozrastov33-71877725-10344912" class="btn btn-secondary service-btn" target="_blank">Записаться</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Услуга 2 -->
+                <div class="service-card" 
+                     data-title="Дети с ограниченными возможностями"
+                     data-price="Бесплатно"
+                     data-description="Дети с ограниченными возможностями"
+                     data-image="img/usluga/foto2.png"
+                     data-link="https://vk.com/market/product/deti-s-ogranichennymi-vozmozhnostyami-71877725-8393120">
+                    <div class="service-img">
+                        <img src="img/usluga/foto2.png" alt="Дети с ограниченными возможностями">
+                    </div>
+                    <div class="service-content">
+                        <h3>Дети с ограниченными возможностями</h3>
+                        <div class="service-price">Бесплатно</div>
+                        <div class="service-buttons">
+                            <button class="btn call-btn">Позвонить</button>
+                            <a href="https://vk.com/market/product/deti-s-ogranichennymi-vozmozhnostyami-71877725-8393120" class="btn btn-secondary service-btn" target="_blank">Записаться</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Услуга 3 -->
+                <div class="service-card" 
+                     data-title="Развивающая гимнастика 3-6 лет"
+                     data-price="4 200 ₽"
+                     data-description="Развивающая гимнастика 3-6 лет"
+                     data-image="img/usluga/foto3.png"
+                     data-link="https://vk.com/market/product/razvivayuschaya-gimnastika-3-6-let-71877725-8392295">
+                    <div class="service-img">
+                        <img src="img/usluga/foto3.png" alt="Развивающая гимнастика 3-6 лет">
+                    </div>
+                    <div class="service-content">
+                        <h3>Развивающая гимнастика 3-6 лет</h3>
+                        <div class="service-price">4 200 ₽</div>
+                        <div class="service-buttons">
+                            <button class="btn call-btn">Позвонить</button>
+                            <a href="https://vk.com/market/product/razvivayuschaya-gimnastika-3-6-let-71877725-8392295" class="btn btn-secondary service-btn" target="_blank">Записаться</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Услуга 4 -->
+                <div class="service-card" 
+                     data-title="Чирлидинг, акробатика"
+                     data-price="4 200 ₽"
+                     data-description="Чирлидинг, акробатика"
+                     data-image="img/usluga/foto4.png"
+                     data-link="https://vk.com/market/product/chirliding-akrobatika-71877725-8392631">
+                    <div class="service-img">
+                        <img src="img/usluga/foto4.png" alt="Чирлидинг, акробатика">
+                    </div>
+                    <div class="service-content">
+                        <h3>Чирлидинг, акробатика</h3>
+                        <div class="service-price">4 200 ₽</div>
+                        <div class="service-buttons">
+                            <button class="btn call-btn">Позвонить</button>
+                            <a href="https://vk.com/market/product/chirliding-akrobatika-71877725-8392631" class="btn btn-secondary service-btn" target="_blank">Записаться</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Услуга 5 -->
+                <div class="service-card" 
+                     data-title="Чирлидинг, акробатика от 15 лет"
+                     data-price="4 200 ₽"
+                     data-description="Чирлидинг, акробатика от 15 лет"
+                     data-image="img/usluga/foto5.png"
+                     data-link="https://vk.com/market/product/chirliding-akrobatika-ot-15-let-71877725-8392855">
+                    <div class="service-img">
+                        <img src="img/usluga/foto5.png" alt="Чирлидинг, акробатика от 15 лет">
+                    </div>
+                    <div class="service-content">
+                        <h3>Чирлидинг, акробатика от 15 лет</h3>
+                        <div class="service-price">4 200 ₽</div>
+                        <div class="service-buttons">
+                            <button class="btn call-btn">Позвонить</button>
+                            <a href="https://vk.com/market/product/chirliding-akrobatika-ot-15-let-71877725-8392855" class="btn btn-secondary service-btn" target="_blank">Записаться</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Услуга 6 -->
+                <div class="service-card" 
+                     data-title="Чирлидинг, акробатика 12-15 лет"
+                     data-price="4 200 ₽"
+                     data-description="Чирлидинг, акробатика 12-15 лет"
+                     data-image="img/usluga/foto6.png"
+                     data-link="https://vk.com/market/product/chirliding-akrobatika-12-15-let-71877725-8392795">
+                    <div class="service-img">
+                        <img src="img/usluga/foto6.png" alt="Чирлидинг, акробатика 12-15 лет">
+                    </div>
+                    <div class="service-content">
+                        <h3>Чирлидинг, акробатика 12-15 лет</h3>
+                        <div class="service-price">4 200 ₽</div>
+                        <div class="service-buttons">
+                            <button class="btn call-btn">Позвонить</button>
+                            <a href="https://vk.com/market/product/chirliding-akrobatika-12-15-let-71877725-8392795" class="btn btn-secondary service-btn" target="_blank">Записаться</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Услуга 7 -->
+                <div class="service-card" 
+                     data-title="Команда родителей от 25 лет"
+                     data-price="450 ₽"
+                     data-description="Команда родителей от 25 лет"
+                     data-image="img/usluga/foto7.png"
+                     data-link="https://vk.com/market/product/komanda-roditeley-ot-25-let-71877725-8393042">
+                    <div class="service-img">
+                        <img src="img/usluga/foto7.png" alt="Команда родителей от 25 лет">
+                    </div>
+                    <div class="service-content">
+                        <h3>Команда родителей от 25 лет</h3>
+                        <div class="service-price">450 ₽</div>
+                        <div class="service-buttons">
+                            <button class="btn call-btn">Позвонить</button>
+                            <a href="https://vk.com/market/product/komanda-roditeley-ot-25-let-71877725-8393042" class="btn btn-secondary service-btn" target="_blank">Записаться</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Контакты -->
+    <section id="contacts" class="contacts">
+        <div class="container">
+            <h2>Контакты</h2>
+            
+            <div class="contacts-container">
+                <div class="contact-info">
+                    <div class="contact-column">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="contact-text">
+                                <h3>Основной зал</h3>
+                                <p>г. Ростов-на-Дону, ул. Юфимцева 16, Легкоатлетический манеж ДГТУ</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="contact-text">
+                                <h3>Филиал</h3>
+                                <p>хутор Ленина, улица Онучкина 22В, "Модульный спортивный комплекс" МБУК ЛСП "Ленинский СДК"</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-column">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div class="contact-text">
+                                <h3>Телефон</h3>
+                                <p>+7 (950) 864-74-54</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fab fa-vk"></i>
+                            <div class="contact-text">
+                                <h3><a href="https://vk.com/cheerleading_club_grand" target="_blank">Группа ВКонтакте</a></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <div class="logo">
+                        <div class="logo-text">Grand <span>Wolf</span></div>
+                    </div>
+                    <p>Чир спорт | Акробатика | Ростов на Дону | ДГТУ</p>
+                    <div class="social-links">
+                        <a href="https://vk.com/cheerleading_club_grand?from=groups" target="_blank"><i class="fab fa-vk"></i></a>
+                        <a href="https://www.instagram.com/grandwolf_cheer/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@grand.dstu_cheer_rnd?_t=ZS-8unMUKUXPec&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Навигация</h3>
+                    <ul>
+                        <li><a href="#about">О клубе</a></li>
+                        <li><a href="#coaches">Тренера</a></li>
+                        <li><a href="#services">Услуги</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
+                        <li><a href="gallery.html">Фотогалерея</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Услуги</h3>
+                    <ul>
+                        <li><a href="#services">Чирлидинг, акробатика</a></li>
+                        <li><a href="#services">Дети с ОВЗ</a></li>
+                        <li><a href="#services">Развивающая гимнастика</a></li>
+                        <li><a href="#services">Команда родителей</a></li>
+                        <li><a href="#services">Взрослая команда</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +7 (950) 864-74-54</li>
+                        <li><i class="fas fa-map-marker-alt"></i> ул. Юфимцева, 16, Ростов-на-Дону</li>
+                        <li class="vk-contact">
+                            <a href="https://vk.com/cheerleading_club_grand?from=groups" target="_blank">
+                                <i class="fab fa-vk"></i> vk.com/cheerleading_club_grand
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2024 Клуб чирлидинга "Grand Wolf". Все права защищены.
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Модальное окно для телефона -->
+    <div id="phoneModal" class="phone-modal">
+        <div class="phone-modal-content">
+            <button class="close-phone-modal">&times;</button>
+            <div class="phone-logo">
+                <img src="img/logo1.png" alt="Grand Wolf Logo">
+            </div>
+            <div class="phone-number">+7 (950) 864-74-54</div>
+            <div class="modal-buttons">
+                <a href="https://vk.com/market/product/chirliding-akrobatika-nabor-detey-v-gruppy-vsekh-vozrastov33-71877725-10344912" class="btn" target="_blank">Записаться</a>
+                <button class="btn btn-secondary close-phone-modal-btn">Закрыть</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно для услуг -->
+    <div id="serviceModal" class="service-modal">
+        <div class="service-modal-content">
+            <button class="close-service-modal">&times;</button>
+            <div class="service-modal-img-container">
+                <img id="serviceModalImg" src="" alt="Service Image">
+            </div>
+            <div class="service-modal-info">
+                <h3 id="serviceModalTitle"></h3>
+                <div id="serviceModalPrice" class="service-price"></div>
+                <div id="serviceModalDescription" class="service-description"></div>
+                <div class="service-modal-buttons">
+                    <button class="btn call-btn service-modal-call">Позвонить</button>
+                    <a id="serviceModalLink" class="btn btn-secondary" href="https://vk.com/im?media=&sel=-71877725" target="_blank">Записаться</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Мобильное меню
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        // Закрытие меню при клике вне его
+        document.addEventListener('click', (e) => {
+            if (!nav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                nav.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Плавная прокрутка (исправленная версия)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                // Проверяем, что это якорная ссылка
+                if (targetId.startsWith('#')) {
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Закрываем меню на мобильных устройствах
+                        if (nav.classList.contains('active')) {
+                            nav.classList.remove('active');
+                            document.body.style.overflow = '';
+                        }
+                    }
+                }
+            });
+        });
+        
+        // Анимация при скролле
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('section, .achievement-item, .coach-card, .service-card');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+        
+        // Инициализация анимации
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+        
+        // Запуск анимации при загрузке
+        setTimeout(animateOnScroll, 500);
+        
+        // Обработка кнопки "Позвонить" - открытие модального окна
+        document.querySelectorAll('.call-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.getElementById('phoneModal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Закрытие модального окна телефона
+        const phoneModal = document.getElementById('phoneModal');
+        const closePhoneModal = document.querySelector('.close-phone-modal');
+        const closePhoneModalBtn = document.querySelector('.close-phone-modal-btn');
+        
+        closePhoneModal.addEventListener('click', () => {
+            phoneModal.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+        
+        closePhoneModalBtn.addEventListener('click', () => {
+            phoneModal.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+        
+        phoneModal.addEventListener('click', (e) => {
+            if (e.target === phoneModal) {
+                phoneModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Закрытие по клавише ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                phoneModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Обработка кликов на карточках услуг
+        const serviceCards = document.querySelectorAll('.service-card');
+        const serviceModal = document.getElementById('serviceModal');
+        const serviceModalImg = document.getElementById('serviceModalImg');
+        const serviceModalTitle = document.getElementById('serviceModalTitle');
+        const serviceModalPrice = document.getElementById('serviceModalPrice');
+        const serviceModalDescription = document.getElementById('serviceModalDescription');
+        const serviceModalLink = document.getElementById('serviceModalLink');
+        const closeServiceModal = document.querySelector('.close-service-modal');
+        
+        serviceCards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Не открываем модалку если кликнули на кнопку
+                if (e.target.closest('.call-btn') || e.target.closest('.service-btn')) {
+                    return;
+                }
+                
+                // Получаем данные из атрибутов
+                const title = this.getAttribute('data-title');
+                const price = this.getAttribute('data-price');
+                const description = this.getAttribute('data-description');
+                const image = this.getAttribute('data-image');
+                const link = this.getAttribute('data-link');
+                
+                // Заполняем модальное окно
+                serviceModalImg.src = image;
+                serviceModalTitle.textContent = title;
+                serviceModalPrice.textContent = price;
+                serviceModalDescription.innerHTML = description;
+                serviceModalLink.href = link;
+                
+                // Показываем модальное окно
+                serviceModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Закрытие модального окна услуг
+        closeServiceModal.addEventListener('click', () => {
+            serviceModal.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+        
+        serviceModal.addEventListener('click', (e) => {
+            if (e.target === serviceModal) {
+                serviceModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && serviceModal.style.display === 'flex') {
+                serviceModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Обработка кнопки "Позвонить" в модальном окне услуги
+        document.querySelector('.service-modal-call').addEventListener('click', function() {
+            serviceModal.style.display = 'none';
+            document.getElementById('phoneModal').style.display = 'flex';
+        });
+        
+        // Обработка кнопки "Записаться" внутри карточки услуги (в основном списке)
+        document.querySelectorAll('.service-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation(); // Останавливаем всплытие, чтобы не открывалось модальное окно
+                // Стандартное поведение ссылки (переход по URL) сохранится
+            });
+        });
+    </script>
+</body>
+</html>
