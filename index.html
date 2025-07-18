@@ -611,6 +611,92 @@
                 font-size: 1.3rem;
             }
         }
+        @media (max-width: 768px) {
+            .works {
+                padding: 2rem 0; /* Уменьшаем вертикальные отступы */
+            }
+            
+            .works .container {
+                padding: 0; /* Убираем горизонтальные отступы контейнера */
+                max-width: 100%;
+            }
+            
+            .works-list {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                gap: 20px;
+                padding: 0 20px 20px; /* Отступы для скроллбара */
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Стили для скроллбара */
+            .works-list::-webkit-scrollbar {
+                height: 6px;
+            }
+            
+            .works-list::-webkit-scrollbar-track {
+                background: rgba(0,0,0,0.05);
+            }
+            
+            .works-list::-webkit-scrollbar-thumb {
+                background-color: var(--accent-color);
+                border-radius: 3px;
+            }
+            
+            .work-item {
+                flex: 0 0 85%; /* Ширина карточки 85% экрана */
+                min-width: 85%; /* Минимальная ширина */
+                min-height: 450px; /* Увеличиваем минимальную высоту */
+                scroll-snap-align: start;
+                margin-bottom: 0;
+            }
+            
+            .work-img-container {
+                height: 200px; /* Фиксируем высоту изображения */
+            }
+            
+            .work-info {
+                padding: 1.5rem;
+                flex-grow: 1; /* Растягиваем блок информации */
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .work-link {
+                margin-top: auto; /* Прижимаем кнопку к низу */
+            }
+            
+            /* Увеличиваем отступ для заголовка секции */
+            .works h3 {
+                padding: 0 20px;
+            }
+        }
+        
+        /* Оптимизация для очень маленьких экранов */
+        @media (max-width: 480px) {
+            .work-item {
+                min-width: 92%; /* Еще шире на маленьких экранах */
+            }
+            
+            .work-img-container {
+                height: 180px;
+            }
+        }
+        
+        /* Улучшаем отображение текста во всех карточках */
+        .work-info {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .work-desc {
+            flex-grow: 1;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
