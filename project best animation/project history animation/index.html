@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивный круг</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="fonts.css">
+</head>
+<body>
+    <div class="desktop-container">
+        <div class="horizontal-line"></div>
+        <div class="vertical-line"></div>
+        <div class="title">Исторические<br>даты</div>
+        <div class="date-line"></div>
+    </div>
+    <div class="center-text-container">
+        <div class="center-text" id="centerText">
+            <span class="left">1980</span>
+            <span>  </span>
+            <span class="right">1986</span>
+        </div>
+    </div>
+
+    <!-- Страница 1 -->
+    <div class="page active" id="page1">
+        <div class="controls">
+            <div class="page-counter">01/06</div>
+            <div class="buttons">
+                <div class="nav-button prev-button disabled"></div>
+                <div class="nav-button next-button" onclick="navigate(1)"></div>
+            </div>
+        </div>
+        <div class="cards-scroll-container">
+            <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+            <div class="cards-container" id="cardsContainer1">
+                <div class="cards-wrapper" id="cards1">
+                    <div class="card">
+                        <div class="card-title">1980</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">1982</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">1984</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">1986</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-button right" onclick="scrollCards(1)"></div>
+        </div>
+
+        <div class="main-mobile">
+            <div class="mobile-title">Исторические<br> даты</div>
+            <div class="mobile-center-text-container">
+                <div class="mobile-center-text">
+                    <span class="left">1980</span>
+                    <span>  </span>
+                    <span class="right">1986</span>
+                </div>
+            </div>
+            <div class="mobile-category">Технологии</div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-card-wrapper">
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1980</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1982</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1984</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1986</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+            </div>
+            <div class="mobile-controls">
+                <div class="mobile-page-counter">01/06</div>
+                <div class="mobile-nav-buttons">
+                    <div class="mobile-nav-button mobile-prev-button disabled" onclick="mobileNavigate(-1)"></div>
+                    <div class="mobile-nav-button mobile-next-button" onclick="mobileNavigate(1)"></div>
+                </div>
+            </div>
+            <div class="mobile-pagination">
+                <div class="mobile-pagination-dot active" onclick="mobileGoToPage(0)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(1)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(2)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(3)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(4)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(5)"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница 2 -->
+    <div class="page" id="page2">
+        <div class="controls">
+            <div class="page-counter">02/06</div>
+            <div class="buttons">
+                <div class="nav-button prev-button" onclick="navigate(-1)"></div>
+                <div class="nav-button next-button" onclick="navigate(1)"></div>
+            </div>
+        </div>
+        <div class="cards-scroll-container">
+            <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+            <div class="cards-container" id="cardsContainer2">
+                <div class="cards-wrapper" id="cards2">
+                    <div class="card">
+                        <div class="card-title">1987</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">1988</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">1987</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">1990</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">1991</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-button right" onclick="scrollCards(1)"></div>
+        </div>
+
+        <div class="main-mobile">
+            <div class="mobile-title">Исторические даты</div>
+            <div class="mobile-center-text-container">
+                <div class="mobile-center-text">
+                    <span class="left">1987</span>
+                    <span>  </span>
+                    <span class="right">1991</span>
+                </div>
+            </div>
+            <div class="mobile-category">Кино</div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-card-wrapper">
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1987</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1988</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1987</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1990</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1991</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+            </div>
+            <div class="mobile-controls">
+                <div class="mobile-page-counter">02/06</div>
+                <div class="mobile-nav-buttons">
+                    <div class="mobile-nav-button mobile-prev-button" onclick="mobileNavigate(-1)"></div>
+                    <div class="mobile-nav-button mobile-next-button" onclick="mobileNavigate(1)"></div>
+                </div>
+            </div>
+            <div class="mobile-pagination">
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(0)"></div>
+                <div class="mobile-pagination-dot active" onclick="mobileGoToPage(1)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(2)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(3)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(4)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(5)"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница 3 -->
+    <div class="page" id="page3">
+        <div class="controls">
+            <div class="page-counter">03/06</div>
+            <div class="buttons">
+                <div class="nav-button prev-button" onclick="navigate(-1)"></div>
+                <div class="nav-button next-button" onclick="navigate(1)"></div>
+            </div>
+        </div>
+        <div class="cards-scroll-container">
+            <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+            <div class="cards-container" id="cardsContainer3">
+                <div class="cards-wrapper" id="cards3">
+                    <div class="card">
+                        <div class="card-title">1992</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">1994</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">1995</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">1997</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-button right" onclick="scrollCards(1)"></div>
+        </div>
+
+        <div class="main-mobile">
+            <div class="mobile-title">Исторические даты</div>
+            <div class="mobile-center-text-container">
+                <div class="mobile-center-text">
+                    <span class="left">1992</span>
+                    <span>  </span>
+                    <span class="right">1997</span>
+                </div>
+            </div>
+            <div class="mobile-category">Литература</div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-card-wrapper">
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1992</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1994</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1995</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1997</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+            </div>
+            <div class="mobile-controls">
+                <div class="mobile-page-counter">03/06</div>
+                <div class="mobile-nav-buttons">
+                    <div class="mobile-nav-button mobile-prev-button" onclick="mobileNavigate(-1)"></div>
+                    <div class="mobile-nav-button mobile-next-button" onclick="mobileNavigate(1)"></div>
+                </div>
+            </div>
+            <div class="mobile-pagination">
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(0)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(1)"></div>
+                <div class="mobile-pagination-dot active" onclick="mobileGoToPage(2)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(3)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(4)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(5)"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница 4 -->
+    <div class="page" id="page4">
+        <div class="controls">
+            <div class="page-counter">04/06</div>
+            <div class="buttons">
+                <div class="nav-button prev-button" onclick="navigate(-1)"></div>
+                <div class="nav-button next-button" onclick="navigate(1)"></div>
+            </div>
+        </div>
+        <div class="cards-scroll-container">
+            <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+            <div class="cards-container" id="cardsContainer4">
+                <div class="cards-wrapper" id="cards4">
+                    <div class="card">
+                        <div class="card-title">1999</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2000</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2002</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2003</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2004</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-button right" onclick="scrollCards(1)"></div>
+        </div>
+
+        <div class="main-mobile">
+            <div class="mobile-title">Исторические даты</div>
+            <div class="mobile-center-text-container">
+                <div class="mobile-center-text">
+                    <span class="left">1999</span>
+                    <span>  </span>
+                    <span class="right">2004</span>
+                </div>
+            </div>
+            <div class="mobile-category">Театр</div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-card-wrapper">
+                <div class="mobile-card">
+                    <div class="mobile-card-title">1999</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2000</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2002</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2003</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2004</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+            </div>
+            <div class="mobile-controls">
+                <div class="mobile-page-counter">04/06</div>
+                <div class="mobile-nav-buttons">
+                    <div class="mobile-nav-button mobile-prev-button" onclick="mobileNavigate(-1)"></div>
+                    <div class="mobile-nav-button mobile-next-button" onclick="mobileNavigate(1)"></div>
+                </div>
+            </div>
+            <div class="mobile-pagination">
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(0)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(1)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(2)"></div>
+                <div class="mobile-pagination-dot active" onclick="mobileGoToPage(3)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(4)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(5)"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница 5 -->
+    <div class="page" id="page5">
+        <div class="controls">
+            <div class="page-counter">05/06</div>
+            <div class="buttons">
+                <div class="nav-button prev-button" onclick="navigate(-1)"></div>
+                <div class="nav-button next-button" onclick="navigate(1)"></div>
+            </div>
+        </div>
+        <div class="cards-scroll-container">
+            <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+            <div class="cards-container" id="cardsContainer5">
+                <div class="cards-wrapper" id="cards5">
+                    <div class="card">
+                        <div class="card-title">2006</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2008</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2010</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2012</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2014</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-button right" onclick="scrollCards(1)"></div>
+        </div>
+
+        <div class="main-mobile">
+            <div class="mobile-title">Исторические даты</div>
+            <div class="mobile-center-text-container">
+                <div class="mobile-center-text">
+                    <span class="left">2006</span>
+                    <span>  </span>
+                    <span class="right">2014</span>
+                </div>
+            </div>
+            <div class="mobile-category">Спорт</div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-card-wrapper">
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2006</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2008</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2010</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2012</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2014</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+            </div>
+            <div class="mobile-controls">
+                <div class="mobile-page-counter">05/06</div>
+                <div class="mobile-nav-buttons">
+                    <div class="mobile-nav-button mobile-prev-button" onclick="mobileNavigate(-1)"></div>
+                    <div class="mobile-nav-button mobile-next-button" onclick="mobileNavigate(1)"></div>
+                </div>
+            </div>
+            <div class="mobile-pagination">
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(0)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(1)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(2)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(3)"></div>
+                <div class="mobile-pagination-dot active" onclick="mobileGoToPage(4)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(5)"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница 6 -->
+    <div class="page" id="page6">
+        <div class="controls">
+            <div class="page-counter">06/06</div>
+            <div class="buttons">
+                <div class="nav-button prev-button" onclick="navigate(-1)"></div>
+                <div class="nav-button next-button disabled"></div>
+            </div>
+        </div>
+        <div class="cards-scroll-container">
+            <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+            <div class="cards-container" id="cardsContainer6">
+                <div class="cards-wrapper" id="cards6">
+                    <div class="card">
+                        <div class="card-title">2015</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2016</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2017</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2018</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2019</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2020</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2021</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2022</div>
+                        <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-button right" onclick="scrollCards(1)"></div>
+        </div>
+
+        <div class="main-mobile">
+            <div class="mobile-title">Исторические даты</div>
+            <div class="mobile-center-text-container">
+                <div class="mobile-center-text">
+                    <span class="left">2015</span>
+                    <span>  </span>
+                    <span class="right">2022</span>
+                </div>
+            </div>
+            <div class="mobile-category">Наука</div>
+            <div class="mobile-divider"></div>
+            <div class="mobile-card-wrapper">
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2015</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2016</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2017</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2018</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2019</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2020</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2021</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+                <div class="mobile-card">
+                    <div class="mobile-card-title">2022</div>
+                    <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
+            </div>
+            <div class="mobile-controls">
+                <div class="mobile-page-counter">06/06</div>
+                <div class="mobile-nav-buttons">
+                    <div class="mobile-nav-button mobile-prev-button" onclick="mobileNavigate(-1)"></div>
+                    <div class="mobile-nav-button mobile-next-button disabled" onclick="mobileNavigate(1)"></div>
+                </div>
+            </div>
+            <div class="mobile-pagination">
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(0)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(1)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(2)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(3)"></div>
+                <div class="mobile-pagination-dot" onclick="mobileGoToPage(4)"></div>
+                <div class="mobile-pagination-dot active" onclick="mobileGoToPage(5)"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="circle-wrapper">
+        <div class="circle" id="circle"></div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

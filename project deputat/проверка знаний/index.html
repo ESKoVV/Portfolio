@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="ru">
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сергей Иванов - Официальный сайт</title>
+    <style>
+        /* Общие стили и шрифты */
+        @font-face {
+            font-family: 'Muller';
+            src: url('fonts/MullerRegular.woff2') format('woff2'),
+                 url('fonts/MullerRegular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'Muller';
+            src: url('fonts/MullerMedium.woff2') format('woff2'),
+                 url('fonts/MullerMedium.woff') format('woff');
+            font-weight: 500;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'Muller';
+            src: url('fonts/MullerBold.woff2') format('woff2'),
+                 url('fonts/MullerBold.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-Regular.woff2') format('woff2'),
+                 url('fonts/Inter-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-SemiBold.woff2') format('woff2'),
+                 url('fonts/Inter-SemiBold.woff') format('woff');
+            font-weight: 600;
+            font-style: normal;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Muller', sans-serif;
+        }
+        
+        body {
+            background-color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* Шапка - статичная */
+        header {
+            width: 100%;
+            height: 120px;
+            position: absolute; /* Изменено с fixed на static */
+            background-color: transparent;
+            z-index: 1000;
+        }
+        
+        .icon-1 {
+            position: absolute;
+            left: 160px;
+            top: 51px;
+            width: 54px;
+            height: 57px;
+        }
+        
+        .icon-2 {
+            position: absolute;
+            left: 244px;
+            top: 51px;
+            width: 44px;
+            height: 57px;
+        }
+        
+        .nav-menu {
+            position: absolute;
+            left: 318px;
+            top: 70px;
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: #729AFF;
+        }
+        
+        .contact-info {
+            position: absolute;
+            left: 1240px;
+            top: 60px;
+            color: white;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .status-icon {
+            width: 9px;
+            height: 9px;
+        }
+        
+        .status-text {
+            font-size: 12px;
+        }
+        
+        .phone-block {
+            font-size: 24px;
+            font-weight: 700;
+            transition: color 0.3s;
+            margin-top: 5px; /* Убрали отступ 20px и заменили на 5px */
+        }
+        
+        .phone-block:hover {
+            color: #729AFF;
+        }
+        
+        .appeal-btn {
+            position: absolute;
+            left: 1518px;
+            top: 50px;
+            width: 242px;
+            height: 60px;
+            background-color: #0048FF;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.25s;
+        }
+        
+        .appeal-btn:hover {
+            background-color: #195AFF;
+            transition-delay: 0s;
+        }
+        
+        /* Первый слайд */
+        .slide-1 {
+            width: 100%;
+            height: 1280px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+            background-color: #0F1214;
+        }
+        
+        /* Фоновые изображения */
+        .bg-left {
+            position: absolute;
+            left: 0;
+            top: -118px;
+            width: 393px;
+            height: 1491px;
+            z-index: 1;
+            object-fit: cover;
+        }
+        
+        .bg-center {
+            position: absolute;
+            left: 393px;
+            top: -25px;
+            width: 1344px;
+            height: 1305px;
+            z-index: 1;
+            object-fit: cover;
+        }
+        
+        .bg-right {
+            position: absolute;
+            left: 1737px;
+            top: -25px;
+            width: 233px;
+            height: 1305px;
+            z-index: 1;
+            object-fit: cover;
+        }
+        
+        /* Основной заголовок */
+        .main-title {
+            position: absolute;
+            left: 160px;
+            top: 466px;
+            z-index: 3;
+        }
+        
+        .name {
+            font-family: 'Muller';
+            font-weight: 700;
+            font-size: 160px;
+            line-height: 1;
+            background: linear-gradient(180deg, #FFFFFF 0%, #24292B 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .subtitle {
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 21px;
+            color: #FFFFFF;
+            margin-top: 20px;
+        }
+        
+        /* Декоративные элементы */
+        .arrow-left {
+            position: absolute;
+            left: 756px;
+            top: 953px;
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 256px;
+            color: rgba(255, 255, 255, 0.2);
+            z-index: 3;
+        }
+        
+        .arrow-right {
+            position: absolute;
+            left: 1639px;
+            top: 1016px;
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 256px;
+            color: rgba(255, 255, 255, 0.2);
+            transform: rotate(-180deg);
+            z-index: 3;
+        }
+        
+        .quote-1 {
+            position: absolute;
+            left: 890px;
+            top: 1063px;
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 40px;
+            color: #FFFFFF;
+            z-index: 3;
+        }
+        
+        .quote-2 {
+            position: absolute;
+            left: 920px;
+            top: 1116px;
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 40px;
+            color: #FFFFFF;
+            z-index: 3;
+        }
+
+        /* Второй слайд */
+        .slide-2 {
+            width: 100%;
+            height: 2424px;
+            background-color: #FFFFFF;
+            position: relative;
+        }
+        
+        /* Блок Биографии */
+        .bio {
+            position: absolute;
+            left: 160px;
+            top: 127px; /* Опущено на 100px вниз (было 27px) */
+            width: calc(100% - 320px);
+        }
+        
+        .bio-title {
+            font-weight: 400;
+            font-size: 40px;
+            color: #000000;
+            margin-bottom: 54px;
+        }
+        
+        .bio-text {
+            font-weight: 400;
+            font-size: 20px;
+            color: #000000;
+            line-height: 1.5;
+        }
+        
+        .read-more {
+            font-weight: 700;
+            color: #0048FF;
+            cursor: pointer;
+        }
+        
+        /* Блок Новостей */
+        .news {
+            position: absolute;
+            left: 160px;
+            top: 600px; /* Сдвинуто вниз из-за сдвига блока биографии */
+            width: 1600px;
+        }
+        
+        .news-title {
+            font-weight: 400;
+            font-size: 40px;
+            color: #000000;
+            margin-bottom: 63px;
+        }
+        
+        .news-cards-container {
+            position: relative;
+            width: 100%;
+            height: 453px;
+            overflow: hidden;
+        }
+        
+        .news-cards {
+            display: flex;
+            gap: 30px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .news-card {
+            width: 376px;
+            height: 453px;
+            background: #FFFFFF;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+        
+        .news-card-image-container {
+            margin: 10px 12px 0;
+            width: 352px;
+            height: 264px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .news-card-image {
+            margin: 10px;
+            width: 332px;
+            height: 240px;
+            object-fit: cover;
+        }
+        
+        .news-date {
+            margin: 12px 0 0 22px; /* Сдвиг вправо на 10px */
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: #0048FF;
+        }
+        
+        .news-card-title {
+            margin: 15px 0 0 22px; /* Сдвиг вправо на 10px */
+            font-weight: 400;
+            font-size: 20px;
+            color: #000000;
+        }
+        
+        .news-card-button {
+            margin: 15px 21px 0;
+            width: 334px;
+            height: 60px;
+            background: #0048FF;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 21px;
+            cursor: pointer;
+        }
+        
+        .news-card-button-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: #FFFFFF;
+        }
+        
+        .news-card-button-icon {
+            width: 36px;
+            height: 36px;
+        }
+        
+        .news-scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 52px;
+            height: 52px;
+            border-radius: 100px;
+            background: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            border: none;
+            outline: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: opacity 0.3s;
+        }
+        
+        .news-scroll-button.disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+        
+        .news-scroll-button.left {
+            left: 12px;
+        }
+        
+        .news-scroll-button.right {
+            right: 12px;
+        }
+        
+        .news-scroll-button-icon {
+            width: 22px;
+            height: 22px;
+        }
+        
+        .news-scroll-button.right .news-scroll-button-icon {
+            transform: rotate(180deg);
+        }
+        
+        /* Блок Галереи */
+        .gallery {
+            position: absolute;
+            left: 148px;
+            top: 1300px;
+            width: 1628px;
+            height: 1909px; /* Высота всей галереи с тремя рядами */
+            background: #FFFFFF;
+        }
+        
+        
+        .gallery-title {
+            margin: 32px 0 0 16px;
+            font-weight: 400;
+            font-size: 40px;
+            color: #000000;
+        }
+        
+        .gallery-row {
+            display: flex;
+            margin: 117.45px 16px 0;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Первый ряд галереи */
+        .gallery-row-1 .gallery-item {
+            width: 510.67px;
+            height: 310.55px;
+            margin-right: 32px;
+        }
+        
+        .gallery-row-1 .gallery-item:last-child {
+            border-radius: 20px;
+            margin-right: 0;
+        }
+        
+        /* Второй ряд галереи */
+        .gallery-row-2 {
+            margin-top: 32px;
+            justify-content: center;
+        }
+        
+        .gallery-row-2 .gallery-item {
+            height: 454px;
+        }
+        
+        .gallery-row-2 .gallery-item:first-child {
+            width: 378px;
+            margin-right: 62px;
+        }
+        
+        .gallery-row-2 .gallery-item:nth-child(2) {
+            width: 718px;
+            border-radius: 20px;
+            margin-right: 62px;
+        }
+        
+        .gallery-row-2 .gallery-item:last-child {
+            width: 378px;
+        }
+        
+        /* Третий ряд галереи */
+        .gallery-row-3 {
+            margin-top: 32px;
+        }
+        
+        .gallery-row-3 .gallery-item {
+            width: 510.67px;
+            height: 310.55px;
+            margin-right: 32px;
+            border-radius: 20px;
+        }
+        
+        .gallery-row-3 .gallery-item:last-child {
+            margin-right: 0;
+        }
+
+        .footer {
+            width: 1920px;
+            height: 597px;
+            background: linear-gradient(90deg, #124BDD 0%, #002A96 100%);
+            position: relative;
+            margin-top: 290px;
+        }
+
+        /* Блок Контакты */
+        .contacts-block {
+            position: absolute;
+            left: 160px;
+            top: 144px;
+            color: white;
+        }
+
+        .contacts-title {
+            font-family: 'Muller';
+            font-weight: 700;
+            font-size: 40px;
+            margin-bottom: 50px;
+        }
+
+        .contacts-content {
+            width: 378px;
+            height: 226px;
+        }
+
+        .contacts-section {
+            width: 378px;
+            height: 112px;
+            margin-bottom: 5px; /* Уменьшили отступ */
+        }
+
+        .reception-section {
+            width: 378px;
+            height: 84px;
+            margin-top: 30px; /* Добавили отступ 30px между email-text и reception-section */
+        }
+
+        .social-block {
+            width: 284px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .social-icon {
+            width: 8px;
+            height: 8px;
+            margin-right: 10px;
+        }
+
+        .social-text {
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .phone-block {
+            font-family: 'Muller';
+            font-weight: 700;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            margin-top: 5px; /* Уменьшили отступ сверху */
+        }
+
+        .tg-icon {
+            width: 32px;
+            height: 32px;
+            margin-left: 15px;
+        }
+
+        .vk-icon {
+            width: 32px;
+            height: 32px;
+            margin-left: 8px;
+        }
+
+        .email-block {
+            width: 164px;
+            height: 46px;
+        }
+
+        .email-title {
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .email-text {
+            font-family: 'Muller';
+            font-weight: 700;
+            font-size: 22px;
+        }
+
+        .reception-title {
+            font-family: 'Muller';
+            font-weight: 500;
+            font-size: 18px;
+            margin-bottom: 1px;
+        }
+
+        .reception-line {
+            width: 378px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .reception-text {
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* Блок Оставьте обращение */
+        .feedback-block {
+            position: absolute;
+            left: 975px;
+            top: 50px;
+            color: white;
+            width: 785px;
+        }
+
+        .feedback-title {
+            font-family: 'Muller';
+            font-weight: 700;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .feedback-subtitle {
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 20px;
+            margin-bottom: 50px;
+        }
+
+        .input-label {
+            font-family: 'Muller';
+            font-weight: 700;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .required {
+            color: #F1B385;
+        }
+
+        .input-field {
+            position: relative;
+            margin-bottom: 30px;
+            height: 60px;
+        }
+
+        .input-line {
+            position: absolute;
+            bottom: 0;
+            width: 785px;
+            height: 1px;
+            background: #356EFF;
+        }
+
+        .input-real {
+            position: absolute;
+            bottom: 5px;
+            width: 785px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 18px;
+            display: none;
+        }
+
+        .placeholder {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            pointer-events: none;
+        }
+
+        .checkbox-block {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            margin-bottom: 40px;
+            cursor: pointer;
+
+        }
+
+        .custom-checkbox {
+            width: 22px;
+            height: 22px;
+            background: #F1F1F1;
+            border-radius: 4px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .custom-checkbox.checked::after {
+            content: "✓";
+            color: #0048FF;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .checkbox-text {
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .privacy-link {
+            
+            color: #FF9696;
+            text-decoration: none;
+            
+           
+        }
+
+        .submit-btn {
+            position: absolute;
+            right: 0;
+            bottom: 35px;
+            width: 241px;
+            height: 60px;
+            background: #FFFFFF;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 21px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .submit-text {
+            font-family: 'Muller';
+            font-weight: 500;
+            font-size: 16px;
+            color: #000000;
+        }
+
+        .submit-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .required-note {
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 14px;
+            color: #FFFFFF;
+            margin-top: 10px;
+        }
+
+        .required-star {
+            color: #F26312;
+        }
+
+        /* Нижняя полоса */
+        .footer-bottom {
+            width: 100%;
+            height: 150px;
+            background: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .developer-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .developer-logo {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .developer-text {
+            font-family: 'Muller';
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .developer-name {
+            color: #F6C111;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1600px) {
+            .icon-1 {
+                left: 20px;
+            }
+            
+            .icon-2 {
+                left: 104px;
+            }
+            
+            .nav-menu {
+                left: 178px;
+            }
+            
+            .contact-info {
+                right: 262px;
+                left: auto;
+            }
+            
+            .appeal-btn {
+                right: 20px;
+                left: auto;
+            }
+
+            /* Адаптация слайда */
+            .bg-center {
+                left: calc(393px - 160px);
+            }
+            
+            .bg-right {
+                left: calc(1737px - 160px);
+            }
+            
+            .main-title {
+                left: calc(160px - 160px);
+            }
+            
+            .arrow-left {
+                left: calc(756px - 160px);
+            }
+            
+            .arrow-right {
+                left: calc(1639px - 160px);
+            }
+            
+            .quote-1 {
+                left: calc(890px - 160px);
+            }
+            
+            .quote-2 {
+                left: calc(920px - 160px);
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+                top: 20px;
+            }
+            
+            .contact-info {
+                top: 100px;
+                right: 20px;
+            }
+            
+            .appeal-btn {
+                top: 170px;
+                right: 20px;
+            }
+        }
+        
+        /* Скрываем мобильную версию на десктопе */
+        .mobile-header,
+        .mobile-menu,
+        .slide-1-mobile,
+        .slide-2-mobile,
+        .mobile-footer {
+            display: none;
+        }
+
+        /* Мобильная версия (≤400px) */
+        @media (max-width: 400px) {
+            /* Скрываем десктопные элементы */
+            header, .slide-1, .slide-2, .footer, .footer-bottom {
+                display: none;
+            }
+
+            /* Показываем мобильные элементы */
+            .mobile-header,
+            .mobile-menu,
+            .slide-1-mobile,
+            .slide-2-mobile,
+            .mobile-footer {
+                display: block;
+            }
+
+            /* Мобильный хедер */
+            .mobile-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 72px;
+                background-color: #191D1E;
+                display: flex;
+                align-items: center;
+                padding: 0 16px;
+                z-index: 1000;
+            }
+
+            .mobile-header-item {
+                width: 40px;
+                height: 40px;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                cursor: pointer;
+            }
+
+            #mobile-menu-btn {
+                background-image: url('img/mobile_header/el1.png');
+                margin-right: 20px;
+            }
+
+            #mobile-menu-btn.active {
+                background-image: url('img/mobile_header/el6.png');
+            }
+
+            .mobile-header-item:nth-child(2) {
+                background-image: url('img/mobile_header/el2.png');
+                width: 38px;
+                margin-right: 20px;
+            }
+
+            .mobile-header-item:nth-child(3) {
+                background-image: url('img/mobile_header/el3.png');
+                width: 31px;
+                margin-right: 111px;
+            }
+
+            .mobile-header-item:nth-child(4) {
+                background-image: url('img/mobile_header/el4.png');
+                width: 32px;
+                height: 32px;
+                margin-top: 4px;
+                margin-right: 10px;
+            }
+
+            .mobile-header-item:nth-child(5) {
+                background-image: url('img/mobile_header/el5.png');
+                width: 32px;
+                height: 32px;
+                margin-top: 4px;
+            }
+
+            /* Мобильное меню */
+            .mobile-menu {
+                position: fixed;
+                top: 72px;
+                left: 0;
+                width: 100%;
+                height: 41px;
+                background-color: #141818;
+                display: none;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 16px;
+                z-index: 999;
+            }
+
+            .mobile-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-item {
+                color: white;
+                font-family: 'Muller', sans-serif;
+                font-weight: 400;
+                font-size: 14px;
+                text-decoration: none;
+            }
+
+            /* Первый слайд */
+            .slide-1-mobile {
+                position: relative;
+                width: 100%;
+                height: 380px;
+                margin-top: 72px;
+                overflow: hidden;
+            }
+
+            .slide-1-mobile::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -6px;
+                width: 381px;
+                height: 380px;
+                background: url('img/fon1.png') no-repeat;
+                background-size: contain;
+                z-index: -1;
+            }
+
+            .mobile-main-title {
+                position: absolute;
+                width: 100%;
+                text-align: center;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .mobile-name {
+                font-size: 48px;
+                line-height: 1;
+                background: linear-gradient(180deg, #FFFFFF 0%, #24292B 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                margin-bottom: 16px;
+            }
+
+            .mobile-subtitle {
+                font-size: 20px;
+                color: #FFFFFF;
+                line-height: 1.3;
+            }
+
+            .mobile-arrow-left {
+                position: absolute;
+                left: 17px;
+                top: 351px;
+                font-size: 40px;
+                color: rgba(255, 255, 255, 0.2);
+            }
+
+            .mobile-arrow-right {
+                position: absolute;
+                right: 17px;
+                top: 372px;
+                font-size: 40px;
+                color: rgba(255, 255, 255, 0.2);
+                transform: rotate(-180deg);
+            }
+
+            .mobile-quote-1 {
+                position: absolute;
+                left: 40px;
+                top: 356px;
+                font-size: 14px;
+                color: #FFFFFF;
+            }
+
+            .mobile-quote-2 {
+                position: absolute;
+                left: 70px;
+                top: 372px;
+                font-size: 14px;
+                color: #FFFFFF;
+            }
+
+            /* Второй слайд */
+            .slide-2-mobile {
+                width: 100%;
+                padding: 20px;
+                position: relative;
+                background-color: #fff;
+            }
+
+            .mobile-bio-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .mobile-bio-text,
+            .mobile-read-more {
+                font-size: 16px;
+                line-height: 1.5;
+            }
+
+            /* Новости */
+            .mobile-news {
+                width: 100%;
+                margin-top: 40px;
+            }
+
+            .mobile-news-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .mobile-news-cards-container {
+                width: 100%;
+                overflow-x: scroll;
+                -webkit-overflow-scrolling: touch;
+                scroll-snap-type: x mandatory;
+                scroll-behavior: smooth;
+                padding-bottom: 15px;
+            }
+
+            .mobile-news-cards {
+                display: flex;
+                gap: 15px;
+                width: max-content;
+            }
+
+            .mobile-news-card {
+                width: 335px;
+                scroll-snap-align: start;
+                flex: 0 0 auto;
+                height: 453px;
+                background: #FFFFFF;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Скрываем кнопки скролла новостей */
+            .news-scroll-button {
+                display: none !important;
+            }
+
+            /* Галерея */
+            .mobile-gallery {
+                width: 375px;
+                height: 337px;
+                background: #FFFFFF;
+                margin-left: 0;
+                position: relative;
+            }
+
+            .mobile-gallery-title {
+                font-family: 'Muller';
+                font-weight: 400;
+                font-size: 24px;
+                color: #000000;
+                margin: 32px 0 0 16px;
+            }
+
+            /* Первый ряд галереи */
+            .mobile-gallery-row-1 {
+                display: flex;
+                margin: 20px 0 0 16px;
+            }
+
+            .mobile-gallery-item {
+                width: 93px;
+                height: 71px;
+                /* margin-right: 32px; */
+                margin-left: 20px;
+                position: relative;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+
+            .mobile-gallery-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .mobile-gallery-item-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            /* Второй ряд галереи */
+            .mobile-gallery-row-2 {
+                display: flex;
+                margin: 20px 0 0 16px;
+            }
+
+            .mobile-gallery-row-2 .mobile-gallery-item:first-child,
+            .mobile-gallery-row-2 .mobile-gallery-item:last-child {
+                width: 77px;
+                height: 71px;
+            }
+
+            .mobile-gallery-row-2 .mobile-gallery-item:nth-child(2) {
+                width: 125px;
+                height: 71px;
+                margin: 0 32px;
+            }
+
+            /* Третий ряд галереи */
+            .mobile-gallery-row-3 {
+                display: flex;
+                margin: 20px 0 0 16px;
+            }
+
+            .mobile-gallery-row-3 .mobile-gallery-item {
+                width: 93px;
+                height: 71px;
+                margin-right: 32px;
+            }
+
+            /* Футер */
+            .mobile-footer {
+                width: 100%;
+                height: 527px;
+                background: linear-gradient(90deg, #124BDD 0%, #002A96 100%);
+                padding: 30px 16px;
+                position: relative;
+                color: white;
+            }
+
+            .mobile-footer-top-icons {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 30px;
+            }
+
+            .mobile-footer-icon {
+                width: 30px;
+                height: 40px;
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+
+            .mobile-footer-icon.menu {
+                background-image: url('img/mobile_header/el1.png');
+            }
+
+            .mobile-footer-icon.top-btn {
+                background-image: url('img/mobile_header/btn.png');
+                cursor: pointer;
+            }
+
+            .mobile-contacts-block {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+
+            .mobile-contacts-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .mobile-phone-block {
+                font-size: 18px;
+                margin: 15px 0;
+                font-weight: 700;
+            }
+
+            .mobile-email-text {
+                font-size: 18px;
+                font-weight: 700;
+            }
+
+            .mobile-footer-btn {
+                width: 242px;
+                height: 60px;
+                margin: 30px auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid #82A5FF;
+                background: transparent;
+                color: white;
+                font-family: 'ABC Favorit CYR', sans-serif;
+                font-size: 16px;
+            }
+
+            .mobile-footer-social {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                margin: 30px 0;
+            }
+
+            .mobile-footer-social-icon {
+                width: 32px;
+                height: 32px;
+            }
+
+            .mobile-footer-privacy {
+                font-family: 'Roboto', sans-serif;
+                font-size: 14px;
+                color: white;
+                text-align: center;
+                margin-top: 30px;
+            }
+
+            .mobile-developer-info {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 30px;
+            }
+
+            .mobile-developer-logo {
+                width: 24px;
+                height: 24px;
+                margin-right: 10px;
+            }
+
+            .mobile-developer-text {
+                font-size: 16px;
+                color: #000000;
+            }
+
+            .mobile-developer-name {
+                color: #F6C111;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header id="header">
+        <img src="img/armi_zlat.png" alt="Иконка 1" class="icon-1">
+        <img src="img/edin_ros.png" alt="Иконка 2" class="icon-2">
+        
+        <div class="nav-menu">
+            <a href="#bio" class="nav-link">Биография</a>
+            <a href="#news" class="nav-link">Новости</a>
+            <a href="#gallery" class="nav-link">Галерея</a>
+            <a href="#contacts" class="nav-link">Контакты</a>
+        </div>
+        
+        <div class="contact-info">
+            <div class="status">
+                <img src="img/green.png" alt="Статус" class="status-icon">
+                <span class="status-text">ждём вашего звонка</span>
+            </div>
+            <div class="phone-block">+7919350-32-82
+                
+            </div>
+        </div>
+        
+        <button class="appeal-btn">Оставить обращение</button>
+    </header>
+
+    <!-- Первый слайд -->
+    <div class="slide-1">
+        <!-- Фоновые изображения -->
+        <img src="img/fon1left.png" class="bg-left" alt="Фон лево">
+        <img src="img/fon1.png" class="bg-center" alt="Фон центр">
+        <img src="img/fon1right.png" class="bg-right" alt="Фон право">
+        
+        <!-- Основной заголовок -->
+        <div class="main-title">
+            <h1 class="name">Сергей<br>Иванов</h1>
+            <p class="subtitle">кандидат в депутаты ивановской городской думы</p>
+        </div>
+        
+        <!-- Декоративные элементы -->
+        <div class="arrow-left">«</div>
+        <div class="arrow-right">«</div>
+        <div class="quote-1">Я иду не в политику, а в дело.</div>
+        <div class="quote-2">Просто теперь это дело — весь округ!</div>
+    </div>
+
+    <!-- Второй слайд -->
+    <div class="slide-2" id="bio">
+        <!-- Блок Биографии -->
+        <div class="bio">
+            <h2 class="bio-title">Промышленник будущего: биография, основанная на деле</h2>
+            <p class="bio-text">
+                «Верность родному городу, труд и ответственность — это то, что передали мне мои родители и дед. Эти же ценности я вложу в будущее Златоуста» Сергей Колчин родился 3 июля 1981 года в Златоусте. Здесь прошли его детство и юность. Учился в школе №9, где получил первые жизненные уроки, затем — в Златоустовском металлургическом колледже (1996–2000), где выбрал для себя путь в индустрию. После колледжа — служба в Вооружённых силах России (2000–2002). Вернувшись домой, устроился электриком на Златоустовский металлургический завод. Не побоялся начать с простого, прошёл путь от рабочего до руководителя. <span class="read-more">Читать подробнее</span>
+            </p>
+        </div>
+        
+        <!-- Блок Новостей -->
+        <div class="news" id="news">
+            <h2 class="news-title">Новости</h2>
+            <div class="news-cards-container">
+                <button class="news-scroll-button left disabled">
+                    <img src="img/chevron-left.png" class="news-scroll-button-icon" alt="Назад">
+                </button>
+                
+                <div class="news-cards">
+                    <!-- Карточка 1 -->
+                    <div class="news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка 2 -->
+                    <div class="news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка 3 -->
+                    <div class="news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка 4 -->
+                    <div class="news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка 5 -->
+                    <div class="news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка 6 -->
+                    <div class="news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка 7 -->
+                    <div class="news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка 8 -->
+                    <div class="news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка 9 -->
+                    <div class="news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка 10 -->
+                    <div class="news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="news-scroll-button right">
+                    <img src="img/chevron-left.png" class="news-scroll-button-icon" alt="Вперед">
+                </button>
+            </div>
+        </div>
+        
+        <!-- Блок Галереи -->
+        <div class="gallery" id="gallery">
+            <h2 class="gallery-title">Галерея</h2>
+            
+            <!-- Первый ряд -->
+            <div class="gallery-row gallery-row-1">
+                <div class="gallery-item">
+                    <img src="img/gallery/f1.png" alt="Фото 1">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/gallery/f2.png" alt="Фото 2">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/gallery/f3.png" alt="Фото 3">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+            </div>
+            
+            <!-- Второй ряд -->
+            <div class="gallery-row gallery-row-2">
+                <div class="gallery-item">
+                    <img src="img/gallery/f4.png" alt="Фото 4">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/gallery/f5.png" alt="Фото 5">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/gallery/f6.png" alt="Фото 6">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+            </div>
+            
+            <!-- Третий ряд -->
+            <div class="gallery-row gallery-row-3">
+                <div class="gallery-item">
+                    <img src="img/gallery/f7.png" alt="Фото 7">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/gallery/f8.png" alt="Фото 8">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/gallery/f9.png" alt="Фото 9">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <!-- Блок Контакты -->
+        <div class="contacts-block" id="contacts">
+            <h3 class="contacts-title">Контакты</h3>
+            <div class="contacts-content">
+                <div class="contacts-section">
+                    <div class="social-block">
+                        <img src="img/green.png" class="social-icon" alt="">
+                        <span class="social-text">Ежедневно с 9.00 до 20.00</span>
+                    </div>
+                    <div class="phone-block">
+                        +7919350-32-82
+                        <img src="img/TG.png" class="tg-icon" alt="Telegram">
+                        <img src="img/VK.png" class="vk-icon" alt="VK">
+                    </div>
+                </div>
+                <div class="email-block">
+                    <div class="email-title">Электронная почта</div>
+                    <div class="email-text">info@kolchin.ru</div>
+                </div>
+                <div class="reception-section">
+                    <div class="reception-title">Наше представительство</div>
+                    <div class="reception-line"></div>
+                    <div class="reception-text">
+                        Челябинская область<br>
+                        г. Златоуст, ул. им. М.С. Урицкого, 72а
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок Оставьте обращение -->
+        <div class="feedback-block">
+            <h3 class="feedback-title">Оставьте обращение</h3>
+            <p class="feedback-subtitle">Оставьте обращение, мы оперативно свяжемся с вами</p>
+            
+            <form>
+                <label class="input-label">ФИО</label>
+                <div class="input-field">
+                    <input type="text" class="input-real">
+                    <div class="input-line"></div>
+                    <span class="placeholder">Иванов Иван Иванович</span>
+                </div>
+                
+                <label class="input-label">Телефон <span class="required">*</span></label>
+                <div class="input-field">
+                    <input type="text" class="input-real">
+                    <div class="input-line"></div>
+                    <span class="placeholder">+7 912 123 45 67</span>
+                </div>
+                
+                <label class="input-label">Сообщение</label>
+                <div class="input-field">
+                    <input type="text" class="input-real">
+                    <div class="input-line"></div>
+                    <span class="placeholder">Нашему дому нужна скамейка</span>
+                </div>
+                
+                <p class="required-note"><span class="required-star">*</span> — поля со звёздочкой обязательны для заполнения.</p>
+                
+                <div class="checkbox-block">
+                    <div class="custom-checkbox"></div>
+                    <span class="checkbox-text">Я согласен с </span>
+                    <a href="#" class="privacy-link">политикой персональных данных</a>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <span class="submit-text">Отправить заявку</span>
+                    <img src="img/strela.png" class="submit-icon" alt="">
+                </button>
+            </form>
+        </div>
+    </footer>
+
+    <!-- Нижняя полоса -->
+    <div class="footer-bottom">
+        <div class="developer-info">
+            <img src="img/CRONOS LOGO.png" class="developer-logo" alt="Cronos">
+            <span class="developer-text">Разработка сайта - <span class="developer-name">CRONOS</span></span>
+        </div>
+    </div>
+
+    <script>
+        
+        // Скрипт для скролла новостей
+        const newsCards = document.querySelector('.news-cards');
+        const scrollLeftBtn = document.querySelector('.news-scroll-button.left');
+        const scrollRightBtn = document.querySelector('.news-scroll-button.right');
+        const cardWidth = 376 + 30; // ширина карточки + отступ
+        let position = 0;
+        const maxPosition = -(cardWidth * 6); // 10 карточек - 4 видимых
+        
+        function updateButtons() {
+            scrollLeftBtn.classList.toggle('disabled', position === 0);
+            scrollRightBtn.classList.toggle('disabled', position <= maxPosition);
+        }
+        
+        scrollLeftBtn.addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                position += cardWidth * 2;
+                if (position > 0) position = 0;
+                newsCards.style.transform = `translateX(${position}px)`;
+                updateButtons();
+            }
+        });
+        
+        scrollRightBtn.addEventListener('click', function() {
+            if (!this.classList.contains('disabled')) {
+                position -= cardWidth * 2;
+                if (position < maxPosition) position = maxPosition;
+                newsCards.style.transform = `translateX(${position}px)`;
+                updateButtons();
+            }
+        });
+        
+        updateButtons();
+
+        // Скрипт для полей ввода
+        const inputFields = document.querySelectorAll('.input-field');
+        inputFields.forEach(field => {
+            const input = field.querySelector('.input-real');
+            const placeholder = field.querySelector('.placeholder');
+            
+            field.addEventListener('click', function() {
+                input.style.display = 'block';
+                placeholder.style.display = 'none';
+                input.focus();
+            });
+            
+            input.addEventListener('blur', function() {
+                if (this.value === '') {
+                    this.style.display = 'none';
+                    placeholder.style.display = 'block';
+                }
+            });
+        });
+
+        // Скрипт для чекбокса
+        const checkbox = document.querySelector('.custom-checkbox');
+        checkbox.addEventListener('click', function() {
+            this.classList.toggle('checked');
+        });
+    </script>
+
+
+    <!-- Мобильная версия (≤400px) -->
+    <div class="mobile-header">
+        <div id="mobile-menu-btn" class="mobile-header-item"></div>
+        <div class="mobile-header-item"></div>
+        <div class="mobile-header-item"></div> 
+        <div class="mobile-header-item"></div>
+        <div class="mobile-header-item"></div>
+    </div>
+
+    <div class="mobile-menu">
+        <a href="#mobile-bio" class="mobile-menu-item">Биография</a>
+        <a href="#mobile-news" class="mobile-menu-item">Новости</a>
+        <a href="#mobile-gallery" class="mobile-menu-item">Галерея</a>
+        <a href="#mobile-contacts" class="mobile-menu-item">Контакты</a>
+    </div>
+
+    <!-- Первый слайд -->
+    <div class="slide-1-mobile">
+        <div class="mobile-main-title">
+            <h1 class="mobile-name">Сергей Иванов</h1>
+            <p class="mobile-subtitle">кандидат в депутаты<br>ивановской городской думы</p>
+        </div>
+        <div class="mobile-arrow-left">«</div>
+        <div class="mobile-arrow-right">«</div>
+        <div class="mobile-quote-1">Я иду не в политику, а в дело.</div>
+        <div class="mobile-quote-2">Просто теперь это дело — весь округ!</div>
+    </div>
+
+    <!-- Второй слайд -->
+    <div class="slide-2-mobile">
+        <!-- Блок Биографии -->
+        <div class="mobile-bio" id="mobile-bio">
+            <h2 class="mobile-bio-title">Промышленник будущего: биография, основанная на деле</h2>
+            <p class="mobile-bio-text">
+                «Верность родному городу, труд и ответственность — это то, что передали мне мои родители и дед. Эти же ценности я вложу в будущее Златоуста» Сергей Колчин родился 3 июля 1981 года в Златоусте. Здесь прошли его детство и юность. Учился в школе №9, где получил первые жизненные уроки, затем — в Златоустовском металлургическом колледже (1996–2000), где выбрал для себя путь в индустрию. После колледжа — служба в Вооружённых силах России (2000–2002). Вернувшись домой, устроился электриком на Златоустовский металлургический завод. Не побоялся начать с простого, прошёл путь от рабочего до руководителя. <span class="mobile-read-more">Читать подробнее</span>
+            </p>
+        </div>
+        
+        <!-- Блок Новостей -->
+        <div class="mobile-news" id="mobile-news">
+            <h2 class="mobile-news-title">Новости</h2>
+            <div class="mobile-news-cards-container">
+                <div class="mobile-news-cards">
+                    <!-- Карточка 1 -->
+                    <div class="mobile-news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка 2 -->
+                    <div class="mobile-news-card">
+                        <div class="news-card-image-container">
+                            <img src="img/news.png" class="news-card-image" alt="Новость">
+                        </div>
+                        <div class="news-date">09 мая 2025</div>
+                        <div class="news-card-title">Поставили лавочку во дворе на улице Урицкого, д. 33</div>
+                        <div class="news-card-button">
+                            <span class="news-card-button-text">Подробнее</span>
+                            <img src="img/strela.png" class="news-card-button-icon" alt=">">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Блок Галереи -->
+        <div class="mobile-gallery" id="mobile-gallery">
+            <h2 class="mobile-gallery-title">Галерея</h2>
+            
+            <!-- Первый ряд -->
+            <div class="mobile-gallery-row mobile-gallery-row-1">
+                <div class="mobile-gallery-item">
+                    <img src="img/mobile_gallery/f1.png" alt="Фото 1">
+                </div>
+                <div class="mobile-gallery-item">
+                    <img src="img/mobile_gallery/f2.png" alt="Фото 2">
+                </div>
+                <div class="mobile-gallery-item">
+                    <img src="img/mobile_gallery/f3.png" alt="Фото 3">
+                </div>
+            </div>
+            <div class="mobile-gallery-row mobile-gallery-row-1">
+                <div class="mobile-gallery-item">
+                    <img src="img/mobile_gallery/f4.png" alt="Фото 4">
+                </div>
+                <div class="mobile-gallery-item">
+                    <img src="img/mobile_gallery/f5.png" alt="Фото 5">
+                </div>
+                <div class="mobile-gallery-item">
+                    <img src="img/mobile_gallery/f6.png" alt="Фото 6">
+                </div>
+            </div>
+            <div class="mobile-gallery-row mobile-gallery-row-1">
+                <div class="mobile-gallery-item">
+                    <img src="img/mobile_gallery/f7.png" alt="Фото 7">
+                </div>
+                <div class="mobile-gallery-item">
+                    <img src="img/mobile_gallery/f8.png" alt="Фото 8">
+                </div>
+                <div class="mobile-gallery-item">
+                    <img src="img/mobile_gallery/f9.png" alt="Фото 8">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <div class="mobile-footer" id="mobile-contacts">
+        <div class="mobile-footer-top-icons">
+            <div class="mobile-footer-icon menu"></div>
+            <div class="mobile-footer-icon top-btn"></div>
+        </div>
+        
+        <div class="mobile-contacts-block">
+            
+            <div class="mobile-contacts-content">
+                <img src="img/green.png" class="social-icon" alt="">
+                <span class="social-text">Ежедневно с 9.00 до 20.00</span>
+                <div class="mobile-phone-block">+7919350-32-82</div>
+                <div class="mobile-email-block">
+                    <div class="email-title">Электронная почта</div>
+                    <div class="mobile-email-text">info@kolchin.ru</div>
+                </div>
+                <div class="reception-section">
+            <div class="reception-title">Наше представительство</div>
+            <div class="reception-line"></div>
+            <div class="reception-text">
+                Челябинская область<br>
+                г. Златоуст, ул. им. М.С. Урицкого, 72а
+            </div>
+            </div>
+        </div>
+
+
+        <button class="mobile-footer-btn">Написать письмо</button>
+        
+        <div class="mobile-footer-social">
+            <img src="img/TG.png" class="mobile-footer-social-icon" alt="Telegram">
+            <img src="img/VK.png" class="mobile-footer-social-icon" alt="VKontakte">
+        </div>
+        
+        <div class="mobile-footer-privacy">Политика обработки персональных данных</div>
+    </div>
+
+
+    <div class="mobile-developer-info">
+        <img src="img/CRONOS LOGO.png" class="mobile-developer-logo" alt="Cronos">
+        <span class="mobile-developer-text">Разработка сайта - <span class="mobile-developer-name">CRONOS</span></span>
+    </div>
+    <script>
+        // Мобильное меню
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Кнопка "Наверх"
+        document.querySelector('.top-btn').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Закрытие меню при клике на пункт
+        document.querySelectorAll('.mobile-menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

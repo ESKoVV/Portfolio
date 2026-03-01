@@ -1,0 +1,233 @@
+// Мобильная версия
+.main-mobile {
+  display: none;
+  position: relative;
+  margin: 59px 20px 0;
+  height: 500px;
+  width: calc(100% - 40px);
+
+  .mobile-title {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: darkblue;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 69px;
+    left: 0;
+  }
+
+  .mobile-center-text-container {
+    position: absolute;
+    top: 163px; // 56px от title (20px font-size + 56px отступ)
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+
+    .mobile-center-text {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 56px;
+      font-weight: bold;
+      white-space: nowrap;
+
+      .left {
+        color: #5D5FEF;
+      }
+
+      .right {
+        color: #EF5DA8;
+      }
+    }
+  }
+
+  .mobile-category {
+    position: absolute;
+    top: 250px; // 76 + 56 + 30
+    left: 0;
+    width: 100%;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: darkblue;
+    transition: opacity 1s ease;
+
+    &.hidden {
+      opacity: 0.2;
+      visibility: hidden;
+    }
+  }
+
+  .mobile-divider {
+    position: absolute;
+    top: 293px; // 162 + 20 + 20
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    height: 1px;
+    background-color: #C7CDD9;
+    transition: opacity 1s ease;
+
+    &.hidden {
+      opacity: 0.2;
+      visibility: hidden;
+    }
+  }
+
+  .mobile-card-wrapper {
+    position: absolute;
+    top: 313px; // 202 + 20
+    left: 0;
+    width: 100%;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding-bottom: 10px;
+    scrollbar-width: none; // Firefox
+    -ms-overflow-style: none; // IE and Edge
+    transition: opacity 1s ease;
+
+    &.hidden {
+      opacity: 0.2;
+      visibility: hidden;
+    }
+
+    &::-webkit-scrollbar {
+      display: none; // Chrome, Safari, Opera
+    }
+
+    .mobile-card {
+      display: inline-block;
+      width: 166px;
+      white-space: normal;
+      vertical-align: top;
+      margin-right: 16px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      .mobile-card-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        color: #3877EE;
+        margin-bottom: 5px;
+      }
+
+      .mobile-card-subtitle {
+        font-family: 'PT Sans', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        color: darkblue;
+      }
+    }
+  }
+
+  .mobile-controls {
+    position: absolute;
+    top: 505px; // 222 + 78
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .mobile-page-counter {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: darkblue;
+      margin-right: 20px;
+    }
+
+    .mobile-nav-buttons {
+      display: flex;
+      gap: 8px;
+      margin-left: 0px;
+      margin-top: 11px;
+
+      .mobile-nav-button {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        &.mobile-prev-button {
+          background-image: url('img/arrow_active.svg');
+
+          &.disabled {
+            background-image: url('img/arrow_disactive.svg');
+            cursor: default;
+            pointer-events: none;
+          }
+        }
+
+        &.mobile-next-button {
+          background-image: url('img/arrow_active.svg');
+          transform: rotate(180deg);
+
+          &.disabled {
+            background-image: url('img/arrow_disactive.svg');
+            transform: rotate(180deg);
+            cursor: default;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+  }
+
+  .mobile-pagination {
+    position: absolute;
+    top: 517px; // 222 + 103
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+
+    .mobile-pagination-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: darkblue;
+      opacity: 0.4;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Медиа-запросы
+@media (max-width: 768px) {
+  .title,
+  .date-line,
+  .circle-wrapper,
+  .center-text-container,
+  .controls,
+  .cards-scroll-container,
+  .desktop-container {
+    display: none;
+  }
+
+  .main-mobile {
+    display: block;
+  }
+
+  .page {
+    padding: 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .main-mobile {
+    display: none !important;
+  }
+}

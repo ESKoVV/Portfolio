@@ -1,0 +1,137 @@
+using System.Collections;
+using UnityEngine;
+using TMPro;
+
+public class SpawnPrefabExample : MonoBehaviour
+{
+    public GameObject[] prefabs; // Массив префабов вместо одного
+    public GameObject playerObject;
+    public TMP_Text crashText;
+
+    [SerializeField] private float interval = 1f;
+    [SerializeField] private float objectLifetime = 10f;
+
+    private float currentInterval;
+    private bool IsKeyPressed = false;
+    private bool collisionRegistered = false;
+
+    private void Start()
+    {
+        currentInterval = interval;
+        crashText.gameObject.SetActive(false);
+        StartCoroutine(RepeatAction());
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.S))
+        {
+            if (!IsKeyPressed) currentInterval = 2f;
+            IsKeyPressed = true;
+        }
+        else if (Input.GetKey(KeyCode.W))
+        {
+            if (!IsKeyPressed) currentInterval = 0.5f;
+            IsKeyPressed = true;
+        }
+        else
+        {
+            IsKeyPressed = false;
+        }
+    }
+
+    private IEnumerator RepeatAction()
+    {
+        while (true)
+        {
+            float randomFloat = Random.Range(-3f, 0f);
+
+            // Выбираем случайный префаб из массива
+            if (prefabs != null && prefabs.Length > 0)
+            {
+                int randomIndex = Random.Range(0, prefabs.Length);
+                GameObject randomPrefab = prefabs[randomIndex];
+
+                if (randomPrefab != null)
+                {
+                    GameObject spawnedObject = Instantiate(randomPrefab, new Vector3(randomFloat, 4f, 120f), Quaternion.identity);
+                    spawnedObject.transform.parent = transform;
+
+                    // Добавляем Rigidbody для надежного обнаружения столкновений
+                    Rigidbody rb = spawnedObject.AddComponent<Rigidbody>();
+                    rb.isKinematic = true; // Отключаем физику, но оставляем обнаружение столкновений
+
+                    // Добавляем коллайдер, если его нет
+                    if (!spawnedObject.GetComponent<Collider>())
+                    {
+                        spawnedObject.AddComponent<BoxCollider>();
+                    }
+
+                    var collisionHandler = spawnedObject.AddComponent<CollisionHandler>();
+                    collisionHandler.Initialize(playerObject, crashText, this);
+
+                    StartCoroutine(DestroyAfterTime(spawnedObject, objectLifetime));
+                }
+            }
+            yield return new WaitForSeconds(currentInterval);
+        }
+    }
+
+    public void ShowCrashMessage()
+    {
+        if (!collisionRegistered)
+        {
+            collisionRegistered = true;
+            crashText.text = "Авария";
+            crashText.gameObject.SetActive(true);
+            StartCoroutine(HideCrashMessage(2f));
+            Time.timeScale = 0f;
+        }
+    }
+
+    private IEnumerator HideCrashMessage(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        crashText.gameObject.SetActive(false);
+        collisionRegistered = false;
+    }
+
+    private IEnumerator DestroyAfterTime(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (obj != null)
+        {
+            Destroy(obj);
+        }
+    }
+}
+
+public class CollisionHandler : MonoBehaviour
+{
+    private GameObject player;
+    private TMP_Text crashText;
+    private SpawnPrefabExample spawner;
+
+    public void Initialize(GameObject playerObj, TMP_Text text, SpawnPrefabExample spawnerRef)
+    {
+        player = playerObj;
+        crashText = text;
+        spawner = spawnerRef;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == player)
+        {
+            spawner.ShowCrashMessage();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == player)
+        {
+            spawner.ShowCrashMessage();
+        }
+    }
+}
