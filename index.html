@@ -422,8 +422,83 @@
             border-radius: 0 !important;
         }
 
-        .work-item:hover .work-img {
+        .work-item:hover .work-img,
+        .work-item:hover .work-video {
             transform: scale(1.05);
+        }
+
+        .work-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.8s ease;
+            border-radius: 0 !important;
+        }
+
+        .projects-category {
+            font-size: 1.6rem;
+            margin: 0.5rem 0 -1.5rem;
+            color: var(--primary-color);
+            text-align: left;
+        }
+
+        .work-status {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            padding: 0.25rem 0.7rem;
+            border-radius: 999px;
+            color: #fff;
+        }
+
+        .work-status.done { background: #00b894; }
+        .work-status.in-progress { background: #fdcb6e; color: #2d3436; }
+        .work-status.abandoned { background: #d63031; }
+
+        .work-note {
+            font-size: 0.95rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .video-modal-content {
+            width: min(1000px, 95vw);
+            position: relative;
+        }
+
+        #videoModalPlayer {
+            width: 100%;
+            max-height: 90vh;
+            background: #000;
+            border-radius: 10px;
+        }
+
+        .video-modal-close {
+            position: absolute;
+            top: -44px;
+            right: 0;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
         }
 
         .work-info {
@@ -738,9 +813,10 @@
             <li>
                 <a href="#works">Мои проекты</a>
                 <ul class="submenu">
-                    <li><a href="#libra">Сайт "Либра"</a></li>
-                    <li><a href="#photographer">Сайт фотографа</a></li>
-                    <li><a href="#badges">Сайт для значков</a></li>
+                    <li><a href="#web-projects">Сайты</a></li>
+                    <li><a href="#design-projects">Сфера дизайн</a></li>
+                    <li><a href="#python-projects">Python</a></li>
+                    <li><a href="#csharp-projects">C#</a></li>
                 </ul>
             </li>
         </ul>
@@ -794,44 +870,197 @@
         <section class="works" id="works">
             <h3 class="text-animate">Мои проекты</h3>
             <div class="works-list">
-                <!-- Проект 1 -->
+                <h4 class="projects-category text-animate" id="web-projects">Сайты</h4>
+
+                <div class="work-item text-animate" id="biom">
+                    <div class="work-img-container">
+                        <video class="work-video" src="VIDEO/html/BIOM.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="work-info">
+                        <span class="work-status in-progress">Проект в процессе</span>
+                        <h4 class="work-title">BIOM</h4>
+                        <p class="work-desc">Хочешь сходить на какое-нибудь крутецкое мероприятие, но не знаешь что есть в твоём городе? Заходи в BIOM, указывай интересы и вперёд! Листай ленту предложений, общайся с друзьями, записывайся на мероприятие с друзьями и кайфуй.</p>
+                        <a href="http://85.239.36.136:81" class="work-link" target="_blank" rel="noopener">Мессенджер</a>
+                    </div>
+                </div>
+
+                <div class="work-item text-animate delay-1" id="biom-admin">
+                    <div class="work-img-container">
+                        <video class="work-video" src="VIDEO/html/BIOM_admin.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="work-info">
+                        <span class="work-status done">Проект завершён</span>
+                        <h4 class="work-title">BIOM admin</h4>
+                        <p class="work-desc">Админка для BIOM. У админов есть права на редактирование и удаление всех постов, а также одобрение постов. Кроссбраузерный и адаптивный интерфейс.</p>
+                        <span class="work-note">Админка</span>
+                    </div>
+                </div>
+
+                <div class="work-item text-animate delay-2" id="kazak">
+                    <div class="work-img-container">
+                        <video class="work-video" src="VIDEO/html/Kazak.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="work-info">
+                        <span class="work-status in-progress">Проект в процессе</span>
+                        <h4 class="work-title">KAZAK</h4>
+                        <p class="work-desc">Многопользовательская игра-бродилка на начальной стадии разработки: 16-й век, времена правления Ивана Грозного. Стань удачливым казаком, атаманом и исследуй бескрайние степи Ногаев или тренируйся в лесу.</p>
+                        <a href="https://github.com/ESKoVV/KazaK" class="work-link" target="_blank" rel="noopener">Отдельный репозиторий</a>
+                    </div>
+                </div>
+
+                <div class="work-item text-animate" id="author-ru">
+                    <div class="work-img-container">
+                        <img src="img/im1.png" alt="author.ru" class="work-img">
+                    </div>
+                    <div class="work-info">
+                        <span class="work-status in-progress">Проект в процессе</span>
+                        <h4 class="work-title">author.ru</h4>
+                        <p class="work-desc">Книжный магазин.</p>
+                        <span class="work-note">Описание в процессе</span>
+                    </div>
+                </div>
+
+                <div class="work-item text-animate" id="mirror-right">
+                    <div class="work-img-container">
+                        <video class="work-video" src="VIDEO/html/Mirrow_right.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="work-info">
+                        <span class="work-status done">Завершено</span>
+                        <h4 class="work-title">Зеркало правды</h4>
+                        <p class="work-desc">Это зеркало унижения(</p>
+                        <a href="mirrow right/" class="work-link">Развлекаловка</a>
+                    </div>
+                </div>
+
+                <div class="work-item text-animate" id="best-animation">
+                    <div class="work-img-container">
+                        <video class="work-video" src="VIDEO/html/best_animation.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="work-info">
+                        <span class="work-status done">Завершено</span>
+                        <h4 class="work-title">Best animation</h4>
+                        <p class="work-desc">Очень крутая анимация перехода между блоками с информацией — залипательная и проработанная до мелочей.</p>
+                        <a href="project best animation/index.html" class="work-link">Открыть проект</a>
+                    </div>
+                </div>
+
+                <div class="work-item text-animate" id="deputat">
+                    <div class="work-img-container">
+                        <video class="work-video" src="VIDEO/html/Deputat.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="work-info">
+                        <span class="work-status done">Завершено</span>
+                        <h4 class="work-title">Deputat</h4>
+                        <p class="work-desc">Лендинг по макету из Figma, одностраничный сайт.</p>
+                        <a href="project deputat/проверка знаний/index.html" class="work-link">Открыть проект</a>
+                    </div>
+                </div>
+
                 <div class="work-item text-animate" id="libra">
                     <div class="work-img-container">
-                        <img src="img/im1.png" alt="СОП Либра" class="work-img">
+                        <video class="work-video" src="VIDEO/html/Libra.mp4" autoplay muted loop playsinline preload="metadata"></video>
                     </div>
                     <div class="work-info">
-                        <h4 class="work-title">СОП "Либра"</h4>
-                        <p class="work-desc">Сайт для студенческого отряда проводников "Либра", который работал в Нижнем Новгороде и дважды в Адлере. Проект реализован с использованием HTML5, CSS3 и JavaScript.</p>
-                        <a href="Libra/Libra.html" class="work-link">Подробнее</a>
+                        <span class="work-status done">Завершено</span>
+                        <h4 class="work-title">Libra</h4>
+                        <p class="work-desc">Студенческий отряд проводников Libra: несколько страниц, ссылки и информация по работе отряда (без мобильной версии).</p>
+                        <a href="Libra/Libra.html" class="work-link">Открыть проект</a>
                     </div>
                 </div>
-                
-                <!-- Проект 2 -->
-                <div class="work-item text-animate delay-1" id="photographer">
+
+                <div class="work-item text-animate" id="cheersport">
                     <div class="work-img-container">
-                        <img src="img/im2.png" alt="Лучший фотограф Ростова" class="work-img">
+                        <video class="work-video" src="VIDEO/html/CheerSport.mp4" autoplay muted loop playsinline preload="metadata"></video>
                     </div>
                     <div class="work-info">
-                        <h4 class="work-title">Лучший фотограф Ростова</h4>
-                        <p class="work-desc">Сайт-портфолио для фотографа из Ростова-на-Дону. Адаптивный дизайн, галерея с фильтрацией работ. Проект реализован на HTML5, CSS3 и JavaScript.</p>
-                        <a href="Fotograf/Fotograf.html" class="work-link">Подробнее</a>
+                        <span class="work-status done">Завершено</span>
+                        <h4 class="work-title">Chirsport</h4>
+                        <p class="work-desc">Сайт для тренера клуба по спортивному чирлидингу: фотогалерея и информация по скроллингу.</p>
+                        <a href="Cheer/Cheer.html" class="work-link">Открыть проект</a>
                     </div>
                 </div>
-                
-                <!-- Проект 3 -->
-                <div class="work-item text-animate delay-2" id="badges">
+
+                <div class="work-item text-animate" id="photographer">
                     <div class="work-img-container">
-                        <img src="img/im3.png" alt="" class="work-img">
+                        <video class="work-video" src="VIDEO/html/Fotograph.mp4" autoplay muted loop playsinline preload="metadata"></video>
                     </div>
                     <div class="work-info">
-                        <h4 class="work-title">Клуб спортивного чирлидинга "Grand Wolf"</h4>
-                        <p class="work-desc">Чир спорт | Акробатика | Ростов на Дону | ДГТУ, сайт с индивидуальным дизайном. Полный цикл разработки. Использованы технологии HTML5, CSS3 и JavaScript.</p>
-                        <a href="Cheer/Cheer.html" class="work-link">Подробнее</a>
+                        <span class="work-status done">Завершено</span>
+                        <h4 class="work-title">Фотограф</h4>
+                        <p class="work-desc">Сайт для профессионального фотографа из Ростова, который устраивает фотосессии.</p>
+                        <a href="Fotograf/Fotograf.html" class="work-link">Открыть проект</a>
                     </div>
+                </div>
+
+                <div class="work-item text-animate" id="gendalf">
+                    <div class="work-img-container">
+                        <video class="work-video" src="VIDEO/html/Gandalf.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="work-info">
+                        <span class="work-status done">Завершено</span>
+                        <h4 class="work-title">Gendalf</h4>
+                        <p class="work-desc">Лендинг, выполненный как тестовое задание.</p>
+                        <a href="https://eskovv.github.io/Gendalf/" class="work-link" target="_blank" rel="noopener">Открыть сайт</a>
+                    </div>
+                </div>
+
+                <h4 class="projects-category text-animate" id="design-projects">Сфера дизайн</h4>
+                <div class="work-item text-animate" id="electives-design">
+                    <div class="work-img-container">
+                        <video class="work-video" src="VIDEO/html/center_electiv.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    </div>
+                    <div class="work-info">
+                        <h4 class="work-title">Сайт для элективов</h4>
+                        <p class="work-desc">Дизайн сайта для элективов в Т-университете: дополнительные предметы для саморазвития студентов.</p>
+                        <a href="https://www.figma.com/design/8YGtG74X8UGCWJcEbBzqer/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D0%B8%D0%B2%D1%8B?node-id=1-5&p=f&t=dhXnWjduLGWLufSD-0" class="work-link" target="_blank" rel="noopener">Макет в Figma</a>
+                    </div>
+                </div>
+
+                <h4 class="projects-category text-animate" id="python-projects">Python</h4>
+                <div class="work-item text-animate" id="not-mat">
+                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/NotMat.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">not mat</h4><p class="work-desc">Консольная программа для учета нецензурной лексики с системой пользователей и статистикой.</p><a href="py/notmat/" class="work-link">Папка проекта</a></div>
+                </div>
+                <div class="work-item text-animate" id="tasker">
+                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/tasker.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+                    <div class="work-info"><span class="work-status in-progress">В процессе</span><h4 class="work-title">tasker</h4><p class="work-desc">Задачник с графиками, папками, повторяющимися и одиночными задачами.</p><a href="py/tasker/" class="work-link">Папка проекта</a></div>
+                </div>
+                <div class="work-item text-animate" id="vika-project">
+                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/CSGO Round Predictor.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">vika project</h4><p class="work-desc">ML-проект, который на основе вводных данных предсказывает победу T или CT в CSGO.</p><a href="py/vika project/" class="work-link">Папка проекта</a></div>
+                </div>
+                <div class="work-item text-animate" id="startup-predictor">
+                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/StartupSucessPredictor.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">Startup Succes Predictor</h4><p class="work-desc">ML-проект для оценки успешности бизнес-идеи по набору критериев.</p><a href="py/удачность проекта/" class="work-link">Папка проекта</a></div>
+                </div>
+                <div class="work-item text-animate" id="stone-paper-scissors">
+                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/stoneScizorsPaper.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">stoneScizorsPaper</h4><p class="work-desc">Многоуровневая консольная игра «камень-ножницы-бумага» против рандомайзера.</p><a href="py/stoneScizorsPaper/" class="work-link">Папка проекта</a></div>
+                </div>
+                <div class="work-item text-animate" id="breakfast-bot">
+                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/breakFastBot.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+                    <div class="work-info"><span class="work-status abandoned">Заброшено</span><h4 class="work-title">breakfast_bot</h4><p class="work-desc">Бот для доставки завтраков в общежитии (проект остановлен на этапе оплаты).</p><a href="py/breakfast_bot/" class="work-link">Папка проекта</a></div>
+                </div>
+                <div class="work-item text-animate" id="military-distribution">
+                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/taskmilitary.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">Распределение нарядов</h4><p class="work-desc">Автоматическое распределение нарядов, дежурств и ВПИ на месяцы вперёд.</p><a href="py/Распределение нарядов на военку/" class="work-link">Папка проекта</a></div>
+                </div>
+
+                <h4 class="projects-category text-animate" id="csharp-projects">C#</h4>
+                <div class="work-item text-animate" id="rais">
+                    <div class="work-img-container"><video class="work-video" src="VIDEO/unity/rais.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">rais</h4><p class="work-desc">Гоночки под крутую музыку с меню, паузой и счетчиком рекордов.</p><a href="unity/rais/" class="work-link">Папка проекта</a></div>
                 </div>
             </div>
         </section>
     </main>
+
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-content">
+            <button class="video-modal-close" id="videoModalClose" aria-label="Закрыть">×</button>
+            <video id="videoModalPlayer" controls playsinline></video>
+        </div>
+    </div>
 
     <footer>
         <div class="container">
@@ -990,6 +1219,44 @@
         // Закрытие меню при клике на ссылку
         document.querySelectorAll('.nav-menu a').forEach(link => {
             link.addEventListener('click', closeMenu);
+        });
+
+        // Полноэкранный просмотр видео
+
+        const videoModal = document.getElementById('videoModal');
+        const videoModalPlayer = document.getElementById('videoModalPlayer');
+        const videoModalClose = document.getElementById('videoModalClose');
+
+        document.querySelectorAll('.work-video').forEach(video => {
+            video.addEventListener('click', () => {
+                video.currentTime = 0;
+                video.play();
+
+                videoModalPlayer.src = video.currentSrc || video.src;
+                videoModal.classList.add('active');
+                videoModalPlayer.currentTime = 0;
+                videoModalPlayer.play();
+            });
+        });
+
+        const closeVideoModal = () => {
+            videoModal.classList.remove('active');
+            videoModalPlayer.pause();
+            videoModalPlayer.removeAttribute('src');
+            videoModalPlayer.load();
+        };
+
+        videoModalClose.addEventListener('click', closeVideoModal);
+        videoModal.addEventListener('click', (event) => {
+            if (event.target === videoModal) {
+                closeVideoModal();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && videoModal.classList.contains('active')) {
+                closeVideoModal();
+            }
         });
 
         // Анимация текста при прокрутке
