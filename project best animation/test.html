@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивный круг</title>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'PT Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        
+        /* Основной контейнер для десктопной версии */
+        .desktop-container {
+            width: 1440px;
+            height: 1080px;
+            position: relative;
+            border: 1px solid rgba(0, 0, 139, 0.1);
+            box-sizing: border-box;
+            background-color: white;
+            overflow: hidden;
+        }
+        
+        /* Горизонтальная линия */
+        .horizontal-line {
+            position: absolute;
+            top: 480px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: rgba(0, 0, 139, 0.1);
+        }
+        
+        /* Вертикальная линия */
+        .vertical-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 1px;
+            height: 100%;
+            background-color: rgba(0, 0, 139, 0.1);
+            transform: translateX(-50%);
+        }
+        
+        .title {
+            position: absolute;
+            top: 170px;
+            left: 128px;
+            font-family: 'PT Sans', sans-serif;
+            font-size: 56px;
+            font-weight: bold;
+            color: darkblue;
+            line-height: 1.2;
+        }
+        
+        .date-line {
+            position: absolute;
+            top: 177px;
+            left: 50px;
+            width: 5px;
+            height: 120px;
+            background-image: url('img/history_date_line.svg');
+            background-repeat: no-repeat;
+        }
+        
+        .circle-wrapper {
+            position: fixed;
+            width: 530px;
+            height: 530px;
+            bottom: 215px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 200;
+        }
+        
+        .circle {
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(0, 0, 139, 0.2);
+            border-radius: 50%;
+            position: relative;
+            transition: transform 1s ease;
+            transform-origin: center center;
+        }
+        
+        .center-text-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        .center-text {
+            font-family: 'PT Sans', sans-serif;
+            font-size: 200px;
+            font-weight: bold;
+            white-space: nowrap;
+            transition: all 1s ease;
+        }
+        
+        .center-text .left {
+            color: #5D5FEF;
+        }
+        
+        .center-text .right {
+            color: #EF5DA8;
+        }
+        
+        .segment {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: rgba(0, 0, 139, 1);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .segment.active {
+            width: 56px;
+            height: 56px;
+            background-color: #F4F5F9;
+            border: 1px solid rgba(48, 62, 88, 0.5);
+            z-index: 10;
+        }
+        
+        .segment-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .segment-number {
+            position: absolute;
+            font-size: 20px;
+            color: darkblue;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            transform: rotate(0deg);
+        }
+        
+        .segment.active .segment-number {
+            opacity: 1;
+        }
+        
+        .segment-label {
+            position: absolute;
+            font-size: 20px;
+            color: darkblue;
+            font-weight: bold;
+            right: -120px;
+            top: 50%;
+            transform: translateY(-50%) rotate(0deg);
+            opacity: 0;
+            transition: opacity 1s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        
+        .segment.active .segment-label {
+            opacity: 1;
+        }
+        
+        .page {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .segment:hover {
+            width: 56px;
+            height: 56px;
+            background-color: #F4F5F9;
+            border: 1px solid rgba(48, 62, 88, 0.5);
+        }
+        
+        .segment:hover .segment-number {
+            opacity: 1;
+        }
+        
+        .controls {
+            position: absolute;
+            top: 697px;
+            left: 200px;
+            width: 120px;
+            height: 88px;
+        }
+        
+        .cards-scroll-container {
+            position: absolute;
+            top: 841px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1420px;
+        }
+        
+        .cards-container {
+            position: relative;
+            width: 1260px;
+            height: 135px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            margin: 0 80px;
+        }
+        
+        .cards-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .cards-wrapper {
+            display: flex;
+            height: 100%;
+            width: max-content;
+            padding: 0 1px;
+        }
+        
+        .card {
+            width: 320px;
+            height: 135px;
+            margin-right: 80px;
+            flex-shrink: 0;
+        }
+        
+        .card:last-child {
+            margin-right: 0;
+        }
+        
+        .scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .scroll-button.left {
+            left: 0;
+            background-image: url('img/card_wrapper_arrow.svg');
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        .scroll-button.right {
+            right: 0;
+            background-image: url('img/card_wrapper_arrow.svg');
+        }
+        
+        .card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 25px;
+            font-weight: 400;
+            color: #3877EE;
+            margin-bottom: 10px;
+        }
+        
+        .card-subtitle {
+            font-family: 'PT Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            color: darkblue;
+        }
+        
+        .page-counter {
+            font-family: 'PT Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: darkblue;
+        }
+        
+        .buttons {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .nav-button {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .prev-button {
+            background-image: url('img/arrow_active.svg');
+        }
+        
+        .next-button {
+            background-image: url('img/arrow_active.svg');
+            transform: rotate(180deg);
+            margin-left: 20px;
+        }
+        
+        .prev-button.disabled {
+            background-image: url('img/arrow_disactive.svg');
+            cursor: default;
+            pointer-events: none;
+        }
+        
+        .next-button.disabled {
+            background-image: url('img/arrow_disactive.svg');
+            transform: rotate(180deg);
+            cursor: default;
+            pointer-events: none;
+        }
+
+        /* Мобильная версия */
+        .main-mobile {
+            display: none;
+            position: relative;
+            margin-top: 59px;
+            margin-left: 20px;
+            margin-right: 20px;
+            height: 500px;
+            width: calc(100% - 40px);
+        }
+
+        .mobile-title {
+            font-family: 'PT Sans', sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            color: darkblue;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 69px;
+            left: 0;
+        }
+
+        .mobile-center-text-container {
+            position: absolute;
+            top: 163px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            text-align: center;
+        }
+
+        .mobile-center-text {
+            font-family: 'PT Sans', sans-serif;
+            font-size: 56px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .mobile-center-text .left {
+            color: #5D5FEF;
+        }
+
+        .mobile-center-text .right {
+            color: #EF5DA8;
+        }
+
+        .mobile-category {
+            position: absolute;
+            top: 250px;
+            left: 0;
+            width: 100%;
+            font-family: 'PT Sans', sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            color: darkblue;
+            transition: opacity 0.5s ease;
+        }
+
+        .mobile-divider {
+            position: absolute;
+            top: 293px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 280px;
+            height: 1px;
+            background-color: #C7CDD9;
+            transition: opacity 0.5s ease;
+        }
+
+        .mobile-card-wrapper {
+            position: absolute;
+            top: 313px;
+            left: 0;
+            width: 100%;
+            height: auto;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .mobile-card-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mobile-card {
+            display: inline-block;
+            width: 166px;
+            white-space: normal;
+            vertical-align: top;
+            margin-right: 16px;
+        }
+
+        .mobile-card:last-child {
+            margin-right: 0;
+        }
+
+        .mobile-card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: #3877EE;
+            margin-bottom: 5px;
+        }
+
+        .mobile-card-subtitle {
+            font-family: 'PT Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: darkblue;
+        }
+
+        .mobile-controls {
+            position: absolute;
+            top: 505px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-page-counter {
+            font-family: 'PT Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: darkblue;
+            margin-right: 20px;
+        }
+
+        .mobile-nav-buttons {
+            display: flex;
+            gap: 8px;
+            margin-left: 0px;
+            margin-top: 11px
+        }
+
+        .mobile-nav-button {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .mobile-prev-button {
+            background-image: url('img/arrow_active.svg');
+        }
+
+        .mobile-next-button {
+            background-image: url('img/arrow_active.svg');
+            transform: rotate(180deg);
+        }
+
+        .mobile-prev-button.disabled {
+            background-image: url('img/arrow_disactive.svg');
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .mobile-next-button.disabled {
+            background-image: url('img/arrow_disactive.svg');
+            transform: rotate(180deg);
+            cursor: default;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-container {
+                display: none;
+            }
+            
+            .main-mobile {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop-container">
+        <div class="horizontal-line"></div>
+        <div class="vertical-line"></div>
+        
+        <div class="center-text-container">
+            <div class="center-text" id="centerText">
+                <span class="left">1980</span>
+                <span>  </span>
+                <span class="right">1986</span>
+            </div>
+        </div>
+
+        <div class="title">Исторические<br>даты</div>
+        <div class="date-line"></div>
+
+        <div class="page active" id="page1">
+            <div class="controls">
+                <div class="page-counter">01/06</div>
+                <div class="buttons">
+                    <div class="nav-button prev-button disabled"></div>
+                    <div class="nav-button next-button" onclick="navigate(1)"></div>
+                </div>
+            </div>
+            <div class="cards-scroll-container">
+                <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+                <div class="cards-container" id="cardsContainer1">
+                    <div class="cards-wrapper" id="cards1">
+                        <div class="card">
+                            <div class="card-title">1980</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">1982</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">1984</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">1986</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-button right" onclick="scrollCards(1)"></div>
+            </div>
+
+            <div class="main-mobile">
+                <div class="mobile-title">Исторические<br> даты</div>
+                <div class="mobile-center-text-container">
+                    <div class="mobile-center-text">
+                        <span class="left">1980</span>
+                        <span>  </span>
+                        <span class="right">1986</span>
+                    </div>
+                </div>
+                <div class="mobile-category">Технологии</div>
+                <div class="mobile-divider"></div>
+                <div class="mobile-card-wrapper">
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1980</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1982</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1984</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1986</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+                <div class="mobile-controls">
+                    <div class="mobile-page-counter">01/06</div>
+                    <div class="mobile-nav-buttons">
+                        <div class="mobile-nav-button mobile-prev-button disabled" onclick="mobileNavigate(-1)"></div>
+                        <div class="mobile-nav-button mobile-next-button" onclick="mobileNavigate(1)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page2">
+            <div class="controls">
+                <div class="page-counter">02/06</div>
+                <div class="buttons">
+                    <div class="nav-button prev-button" onclick="navigate(-1)"></div>
+                    <div class="nav-button next-button" onclick="navigate(1)"></div>
+                </div>
+            </div>
+            <div class="cards-scroll-container">
+                <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+                <div class="cards-container" id="cardsContainer2">
+                    <div class="cards-wrapper" id="cards2">
+                        <div class="card">
+                            <div class="card-title">1987</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">1988</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">1987</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">1990</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">1991</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-button right" onclick="scrollCards(1)"></div>
+            </div>
+
+            <div class="main-mobile">
+                <div class="mobile-title">Исторические даты</div>
+                <div class="mobile-center-text-container">
+                    <div class="mobile-center-text">
+                        <span class="left">1987</span>
+                        <span>  </span>
+                        <span class="right">1991</span>
+                    </div>
+                </div>
+                <div class="mobile-category">Кино</div>
+                <div class="mobile-divider"></div>
+                <div class="mobile-card-wrapper">
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1987</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1988</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1987</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1990</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1991</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+                <div class="mobile-controls">
+                    <div class="mobile-page-counter">02/06</div>
+                    <div class="mobile-nav-buttons">
+                        <div class="mobile-nav-button mobile-prev-button" onclick="mobileNavigate(-1)"></div>
+                        <div class="mobile-nav-button mobile-next-button" onclick="mobileNavigate(1)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page3">
+            <div class="controls">
+                <div class="page-counter">03/06</div>
+                <div class="buttons">
+                    <div class="nav-button prev-button" onclick="navigate(-1)"></div>
+                    <div class="nav-button next-button" onclick="navigate(1)"></div>
+                </div>
+            </div>
+            <div class="cards-scroll-container">
+                <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+                <div class="cards-container" id="cardsContainer3">
+                    <div class="cards-wrapper" id="cards3">
+                        <div class="card">
+                            <div class="card-title">1992</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">1994</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">1995</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">1997</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-button right" onclick="scrollCards(1)"></div>
+            </div>
+
+            <div class="main-mobile">
+                <div class="mobile-title">Исторические даты</div>
+                <div class="mobile-center-text-container">
+                    <div class="mobile-center-text">
+                        <span class="left">1992</span>
+                        <span>  </span>
+                        <span class="right">1997</span>
+                    </div>
+                </div>
+                <div class="mobile-category">Литература</div>
+                <div class="mobile-divider"></div>
+                <div class="mobile-card-wrapper">
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1992</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1994</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1995</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1997</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+                <div class="mobile-controls">
+                    <div class="mobile-page-counter">03/06</div>
+                    <div class="mobile-nav-buttons">
+                        <div class="mobile-nav-button mobile-prev-button" onclick="mobileNavigate(-1)"></div>
+                        <div class="mobile-nav-button mobile-next-button" onclick="mobileNavigate(1)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page4">
+            <div class="controls">
+                <div class="page-counter">04/06</div>
+                <div class="buttons">
+                    <div class="nav-button prev-button" onclick="navigate(-1)"></div>
+                    <div class="nav-button next-button" onclick="navigate(1)"></div>
+                </div>
+            </div>
+            <div class="cards-scroll-container">
+                <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+                <div class="cards-container" id="cardsContainer4">
+                    <div class="cards-wrapper" id="cards4">
+                        <div class="card">
+                            <div class="card-title">1999</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2000</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2002</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2003</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2004</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-button right" onclick="scrollCards(1)"></div>
+            </div>
+
+            <div class="main-mobile">
+                <div class="mobile-title">Исторические даты</div>
+                <div class="mobile-center-text-container">
+                    <div class="mobile-center-text">
+                        <span class="left">1999</span>
+                        <span>  </span>
+                        <span class="right">2004</span>
+                    </div>
+                </div>
+                <div class="mobile-category">Театр</div>
+                <div class="mobile-divider"></div>
+                <div class="mobile-card-wrapper">
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">1999</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2000</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2002</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2003</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2004</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+                <div class="mobile-controls">
+                    <div class="mobile-page-counter">04/06</div>
+                    <div class="mobile-nav-buttons">
+                        <div class="mobile-nav-button mobile-prev-button" onclick="mobileNavigate(-1)"></div>
+                        <div class="mobile-nav-button mobile-next-button" onclick="mobileNavigate(1)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page5">
+            <div class="controls">
+                <div class="page-counter">05/06</div>
+                <div class="buttons">
+                    <div class="nav-button prev-button" onclick="navigate(-1)"></div>
+                    <div class="nav-button next-button" onclick="navigate(1)"></div>
+                </div>
+            </div>
+            <div class="cards-scroll-container">
+                <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+                <div class="cards-container" id="cardsContainer5">
+                    <div class="cards-wrapper" id="cards5">
+                        <div class="card">
+                            <div class="card-title">2006</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2008</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2010</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2012</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2014</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-button right" onclick="scrollCards(1)"></div>
+            </div>
+
+            <div class="main-mobile">
+                <div class="mobile-title">Исторические даты</div>
+                <div class="mobile-center-text-container">
+                    <div class="mobile-center-text">
+                        <span class="left">2006</span>
+                        <span>  </span>
+                        <span class="right">2014</span>
+                    </div>
+                </div>
+                <div class="mobile-category">Спорт</div>
+                <div class="mobile-divider"></div>
+                <div class="mobile-card-wrapper">
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2006</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2008</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2010</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2012</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2014</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+                <div class="mobile-controls">
+                    <div class="mobile-page-counter">05/06</div>
+                    <div class="mobile-nav-buttons">
+                        <div class="mobile-nav-button mobile-prev-button" onclick="mobileNavigate(-1)"></div>
+                        <div class="mobile-nav-button mobile-next-button" onclick="mobileNavigate(1)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page6">
+            <div class="controls">
+                <div class="page-counter">06/06</div>
+                <div class="buttons">
+                    <div class="nav-button prev-button" onclick="navigate(-1)"></div>
+                    <div class="nav-button next-button disabled"></div>
+                </div>
+            </div>
+            <div class="cards-scroll-container">
+                <div class="scroll-button left" onclick="scrollCards(-1)"></div>
+                <div class="cards-container" id="cardsContainer6">
+                    <div class="cards-wrapper" id="cards6">
+                        <div class="card">
+                            <div class="card-title">2015</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2016</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2017</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2018</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2019</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2020</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2021</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">2022</div>
+                            <div class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-button right" onclick="scrollCards(1)"></div>
+            </div>
+
+            <div class="main-mobile">
+                <div class="mobile-title">Исторические даты</div>
+                <div class="mobile-center-text-container">
+                    <div class="mobile-center-text">
+                        <span class="left">2015</span>
+                        <span>  </span>
+                        <span class="right">2022</span>
+                    </div>
+                </div>
+                <div class="mobile-category">Наука</div>
+                <div class="mobile-divider"></div>
+                <div class="mobile-card-wrapper">
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2015</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2016</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2017</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2018</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2019</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2020</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2021</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                    <div class="mobile-card">
+                        <div class="mobile-card-title">2022</div>
+                        <div class="mobile-card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    </div>
+                </div>
+                <div class="mobile-controls">
+                    <div class="mobile-page-counter">06/06</div>
+                    <div class="mobile-nav-buttons">
+                        <div class="mobile-nav-button mobile-prev-button" onclick="mobileNavigate(-1)"></div>
+                        <div class="mobile-nav-button mobile-next-button disabled" onclick="mobileNavigate(1)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="circle-wrapper">
+            <div class="circle" id="circle"></div>
+        </div>
+    </div>
+
+    <script>
+        const N = 6;
+        const circle = document.getElementById('circle');
+        const radius = 265;
+        const pages = document.querySelectorAll('.page');
+        const labels = ["Технологии", "Кино", "Литература", "Театр", "Спорт", "Наука"];
+        const centerText = document.getElementById('centerText');
+        
+        document.querySelectorAll('.page-counter').forEach((counter, index) => {
+            counter.textContent = `${index + 1}/${N}`;
+        });
+        
+        document.querySelectorAll('.mobile-page-counter').forEach((counter, index) => {
+            counter.textContent = `${index + 1}/${N}`;
+        });
+        
+        const cardsData = [
+            [
+                { title: "1980", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "1982", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "1984", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "1986", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
+            ],
+            [
+                { title: "1987", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "1988", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "1987", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "1990", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "1991", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
+            ],
+            [
+                { title: "1992", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "1994", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "1995", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "1997", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
+            ],
+            [
+                { title: "1999", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2000", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2002", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2003", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2004", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
+            ],
+            [
+                { title: "2006", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2008", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2010", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2012", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2014", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
+            ],
+            [
+                { title: "2015", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2016", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2017", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2018", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2019", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2020", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2021", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+                { title: "2022", subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
+            ]
+        ];
+        
+        let currentPage = 0;
+        let segments = [];
+        let currentRotation = 0;
+        
+        function initScrollButtons() {
+            document.querySelectorAll('.cards-container').forEach(container => {
+                const scrollLeftBtn = container.parentElement.querySelector('.scroll-button.left');
+                const scrollRightBtn = container.parentElement.querySelector('.scroll-button.right');
+                
+                container.addEventListener('scroll', () => {
+                    updateScrollButtonsVisibility(container, scrollLeftBtn, scrollRightBtn);
+                });
+                
+                updateScrollButtonsVisibility(container, scrollLeftBtn, scrollRightBtn);
+            });
+        }
+        
+        function updateScrollButtonsVisibility(container, leftBtn, rightBtn) {
+            const scrollLeft = container.scrollLeft;
+            const maxScroll = container.scrollWidth - container.clientWidth;
+            
+            leftBtn.style.display = scrollLeft > 0 ? 'block' : 'none';
+            rightBtn.style.display = scrollLeft < maxScroll - 1 ? 'block' : 'none';
+        }
+        
+        function scrollCards(direction) {
+            const container = document.querySelector(`#cardsContainer${currentPage + 1}`);
+            const cardWidth = 320 + 80;
+            const scrollAmount = direction * cardWidth;
+            
+            container.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+        
+        for (let i = 0; i < N; i++) {
+            const segment = document.createElement('div');
+            segment.className = 'segment' + (i === 0 ? ' active' : '');
+            segment.dataset.index = i;
+            
+            const content = document.createElement('div');
+            content.className = 'segment-content';
+            
+            const number = document.createElement('div');
+            number.className = 'segment-number';
+            number.textContent = i + 1;
+            content.appendChild(number);
+            
+            const label = document.createElement('div');
+            label.className = 'segment-label';
+            label.textContent = labels[i];
+            content.appendChild(label);
+            
+            segment.appendChild(content);
+            
+            const angle = (360 / N) * i - 90 + 30;
+            const x = radius * Math.cos(angle * Math.PI / 180);
+            const y = radius * Math.sin(angle * Math.PI / 180);
+            segment.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+            
+            segment.addEventListener('click', function() {
+                const targetIndex = parseInt(this.dataset.index);
+                if (targetIndex === currentPage) return;
+                
+                rotateCircle(targetIndex);
+                switchPage(targetIndex);
+            });
+            
+            circle.appendChild(segment);
+            segments.push(segment);
+        }
+        
+        function rotateCircle(targetIndex) {
+            const diff = targetIndex - currentPage;
+            let rotationAngle = 0;
+            
+            if (Math.abs(diff) > N / 2) {
+                rotationAngle = (N - Math.abs(diff)) * (360 / N);
+                rotationAngle *= diff > 0 ? 1 : -1;
+            } else {
+                rotationAngle = diff * (360 / N) * -1;
+            }
+            
+            currentRotation += rotationAngle;
+            circle.style.transform = `rotate(${currentRotation}deg)`;
+            
+            segments.forEach(segment => {
+                const content = segment.querySelector('.segment-content');
+                content.style.transform = `rotate(${-currentRotation}deg)`;
+            });
+        }
+        
+        async function switchPage(targetIndex) {
+            animateCenterText(currentPage, targetIndex);
+            
+            const currentMobilePage = pages[currentPage].querySelector('.main-mobile');
+            if (currentMobilePage) {
+                const elementsToHide = [
+                    currentMobilePage.querySelector('.mobile-category'),
+                    currentMobilePage.querySelector('.mobile-divider'),
+                    currentMobilePage.querySelector('.mobile-card-wrapper')
+                ];
+                
+                elementsToHide.forEach(el => el?.style.opacity = '0');
+            }
+            
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            pages[currentPage].classList.remove('active');
+            segments[currentPage].classList.remove('active');
+            
+            updateNavButtons(currentPage, false);
+            updateMobileNavButtons(currentPage, false);
+            
+            currentPage = targetIndex;
+            
+            pages[currentPage].classList.add('active');
+            segments[currentPage].classList.add('active');
+            
+            updateNavButtons(currentPage, true);
+            updateMobileNavButtons(currentPage, true);
+            updateMobileContent(targetIndex);
+            
+            const newMobilePage = pages[currentPage].querySelector('.main-mobile');
+            if (newMobilePage) {
+                const elementsToShow = [
+                    newMobilePage.querySelector('.mobile-category'),
+                    newMobilePage.querySelector('.mobile-divider'),
+                    newMobilePage.querySelector('.mobile-card-wrapper')
+                ];
+                
+                elementsToShow.forEach(el => {
+                    if (el) {
+                        el.style.opacity = '1';
+                    }
+                });
+            }
+            
+            const container = document.querySelector(`#cardsContainer${currentPage + 1}`);
+            if (container) {
+                container.scrollLeft = 0;
+                const scrollLeftBtn = container.parentElement.querySelector('.scroll-button.left');
+                const scrollRightBtn = container.parentElement.querySelector('.scroll-button.right');
+                updateScrollButtonsVisibility(container, scrollLeftBtn, scrollRightBtn);
+            }
+            
+            const mobileContainer = document.querySelector(`#page${targetIndex + 1} .mobile-card-wrapper`);
+            if (mobileContainer) {
+                mobileContainer.scrollLeft = 0;
+            }
+        }
+        
+        function animateCenterText(fromIndex, toIndex) {
+            const fromCards = cardsData[fromIndex];
+            const toCards = cardsData[toIndex];
+            
+            const fromFirst = fromCards[0].title;
+            const fromLast = fromCards[fromCards.length - 1].title;
+            const toFirst = toCards[0].title;
+            const toLast = toCards[toCards.length - 1].title;
+            
+            let leftTitles = [];
+            let rightTitles = [];
+            
+            if (fromIndex < toIndex) {
+                for (let i = fromIndex; i <= toIndex; i++) {
+                    const cards = cardsData[i];
+                    if (i === fromIndex) {
+                        const startIdx = cards.findIndex(c => c.title === fromFirst);
+                        for (let j = startIdx; j < cards.length; j++) {
+                            leftTitles.push(cards[j].title);
+                        }
+                    } else if (i === toIndex) {
+                        const endIdx = cards.findIndex(c => c.title === toFirst);
+                        for (let j = 0; j <= endIdx; j++) {
+                            leftTitles.push(cards[j].title);
+                        }
+                    } else {
+                        cards.forEach(card => {
+                            leftTitles.push(card.title);
+                        });
+                    }
+                }
+                
+                for (let i = fromIndex; i <= toIndex; i++) {
+                    const cards = cardsData[i];
+                    if (i === fromIndex) {
+                        const startIdx = cards.findIndex(c => c.title === fromLast);
+                        for (let j = startIdx; j < cards.length; j++) {
+                            rightTitles.push(cards[j].title);
+                        }
+                    } else if (i === toIndex) {
+                        const endIdx = cards.findIndex(c => c.title === toLast);
+                        for (let j = 0; j <= endIdx; j++) {
+                            rightTitles.push(cards[j].title);
+                        }
+                    } else {
+                        cards.forEach(card => {
+                            rightTitles.push(card.title);
+                        });
+                    }
+                }
+            } else if (fromIndex > toIndex) {
+                for (let i = fromIndex; i >= toIndex; i--) {
+                    const cards = cardsData[i];
+                    if (i === fromIndex) {
+                        const startIdx = cards.findIndex(c => c.title === fromFirst);
+                        for (let j = startIdx; j >= 0; j--) {
+                            leftTitles.push(cards[j].title);
+                        }
+                    } else if (i === toIndex) {
+                        const endIdx = cards.findIndex(c => c.title === toFirst);
+                        for (let j = cards.length - 1; j >= endIdx; j--) {
+                            leftTitles.push(cards[j].title);
+                        }
+                    } else {
+                        for (let j = cards.length - 1; j >= 0; j--) {
+                            leftTitles.push(cards[j].title);
+                        }
+                    }
+                }
+                
+                for (let i = fromIndex; i >= toIndex; i--) {
+                    const cards = cardsData[i];
+                    if (i === fromIndex) {
+                        const startIdx = cards.findIndex(c => c.title === fromLast);
+                        for (let j = startIdx; j >= 0; j--) {
+                            rightTitles.push(cards[j].title);
+                        }
+                    } else if (i === toIndex) {
+                        const endIdx = cards.findIndex(c => c.title === toLast);
+                        for (let j = cards.length - 1; j >= endIdx; j--) {
+                            rightTitles.push(cards[j].title);
+                        }
+                    } else {
+                        for (let j = cards.length - 1; j >= 0; j--) {
+                            rightTitles.push(cards[j].title);
+                        }
+                    }
+                }
+            }
+            
+            const duration = 1000;
+            const interval = 50;
+            const steps = duration / interval;
+            let step = 0;
+            
+            const animation = setInterval(() => {
+                step++;
+                
+                const leftProgress = Math.min(step / steps, 1);
+                const rightProgress = Math.min(step / steps, 1);
+                
+                const leftIndex = Math.floor(leftProgress * (leftTitles.length - 1));
+                const rightIndex = Math.floor(rightProgress * (rightTitles.length - 1));
+                
+                const leftSpan = centerText.querySelector('.left');
+                const rightSpan = centerText.querySelector('.right');
+                
+                leftSpan.textContent = leftTitles[leftIndex] || toFirst;
+                rightSpan.textContent = rightTitles[rightIndex] || toLast;
+                
+                const mobileLeftSpan = document.querySelector(`#page${toIndex + 1} .mobile-center-text .left`);
+                const mobileRightSpan = document.querySelector(`#page${toIndex + 1} .mobile-center-text .right`);
+                if (mobileLeftSpan && mobileRightSpan) {
+                    mobileLeftSpan.textContent = leftTitles[leftIndex] || toFirst;
+                    mobileRightSpan.textContent = rightTitles[rightIndex] || toLast;
+                }
+                
+                if (step >= steps) {
+                    clearInterval(animation);
+                    leftSpan.textContent = toFirst;
+                    rightSpan.textContent = toLast;
+                    if (mobileLeftSpan && mobileRightSpan) {
+                        mobileLeftSpan.textContent = toFirst;
+                        mobileRightSpan.textContent = toLast;
+                    }
+                }
+            }, interval);
+        }
+        
+        function navigate(direction) {
+            let targetIndex = currentPage + direction;
+            
+            if (targetIndex < 0) {
+                targetIndex = N - 1;
+            } else if (targetIndex >= N) {
+                targetIndex = 0;
+            }
+            
+            rotateCircle(targetIndex);
+            switchPage(targetIndex);
+        }
+        
+        function updateNavButtons(pageIndex, isActive) {
+            const page = pages[pageIndex];
+            if (!page) return;
+            
+            const prevButton = page.querySelector('.prev-button');
+            const nextButton = page.querySelector('.next-button');
+            
+            if (pageIndex === 0) {
+                prevButton.classList.add('disabled');
+                prevButton.removeAttribute('onclick');
+                nextButton.classList.remove('disabled');
+                nextButton.setAttribute('onclick', 'navigate(1)');
+            } else if (pageIndex === N - 1) {
+                prevButton.classList.remove('disabled');
+                prevButton.setAttribute('onclick', 'navigate(-1)');
+                nextButton.classList.add('disabled');
+                nextButton.removeAttribute('onclick');
+            } else {
+                prevButton.classList.remove('disabled');
+                prevButton.setAttribute('onclick', 'navigate(-1)');
+                nextButton.classList.remove('disabled');
+                nextButton.setAttribute('onclick', 'navigate(1)');
+            }
+        }
+        
+        function mobileNavigate(direction) {
+            let targetIndex = currentPage + direction;
+            
+            if (targetIndex < 0) {
+                targetIndex = N - 1;
+            } else if (targetIndex >= N) {
+                targetIndex = 0;
+            }
+            
+            const currentMobilePage = document.querySelector(`#page${currentPage + 1} .main-mobile`);
+            if (currentMobilePage) {
+                const elementsToHide = [
+                    currentMobilePage.querySelector('.mobile-category'),
+                    currentMobilePage.querySelector('.mobile-divider'),
+                    currentMobilePage.querySelector('.mobile-card-wrapper')
+                ];
+                
+                elementsToHide.forEach(el => el?.style.opacity = '0');
+            }
+            
+            setTimeout(() => {
+                switchPage(targetIndex);
+                
+                const newMobilePage = document.querySelector(`#page${targetIndex + 1} .main-mobile`);
+                if (newMobilePage) {
+                    const elementsToShow = [
+                        newMobilePage.querySelector('.mobile-category'),
+                        newMobilePage.querySelector('.mobile-divider'),
+                        newMobilePage.querySelector('.mobile-card-wrapper')
+                    ];
+                    
+                    elementsToShow.forEach(el => {
+                        if (el) {
+                            el.style.opacity = '1';
+                        }
+                    });
+                }
+            }, 500);
+        }
+        
+        function updateMobileNavButtons(pageIndex, isActive) {
+            const prevButtons = document.querySelectorAll('.mobile-prev-button');
+            const nextButtons = document.querySelectorAll('.mobile-next-button');
+            
+            prevButtons.forEach(button => {
+                if (pageIndex === 0) {
+                    button.classList.add('disabled');
+                } else {
+                    button.classList.remove('disabled');
+                }
+            });
+            
+            nextButtons.forEach(button => {
+                if (pageIndex === N - 1) {
+                    button.classList.add('disabled');
+                } else {
+                    button.classList.remove('disabled');
+                }
+            });
+        }
+        
+        function updateMobileContent(pageIndex) {
+            const page = pages[pageIndex];
+            if (!page) return;
+            
+            const category = page.querySelector('.mobile-category');
+            if (category) {
+                category.textContent = labels[pageIndex];
+            }
+            
+            const counter = page.querySelector('.mobile-page-counter');
+            if (counter) {
+                counter.textContent = `${pageIndex + 1}/${N}`;
+            }
+        }
+        
+        updateNavButtons(0, true);
+        updateMobileNavButtons(0, true);
+        initScrollButtons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализатор внешности</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+        }
+        #camera-container {
+            margin: 20px auto;
+            width: 640px;
+            height: 480px;
+            border: 3px solid #333;
+            position: relative;
+            background-color: #000;
+        }
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+        #result {
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            min-height: 50px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .insult {
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Анализатор внешности</h1>
+    <p>Включите камеру и нажмите "Анализировать" для оценки вашей внешности</p>
+    
+    <div id="camera-container">
+        <video id="video" autoplay></video>
+        <canvas id="canvas"></canvas>
+    </div>
+    
+    <div>
+        <button id="start-btn">Включить камеру</button>
+        <button id="analyze-btn" disabled>Анализировать</button>
+        <button id="stop-btn" disabled>Остановить</button>
+    </div>
+    
+    <div id="result">
+        <p>Нажмите "Включить камеру" для начала работы</p>
+    </div>
+
+    <script>
+        // Пустой массив для оскорблений
+        const insults = [];
+        
+        // Функция для загрузки и парсинга файла с оскорблениями
+        async function loadInsults() {
+            try {
+                const response = await fetch('main.txt');
+                if (!response.ok) {
+                    throw new Error('Не удалось загрузить файл с оскорблениями');
+                }
+                const text = await response.text();
+                
+                // Парсим текст, разделяя по запятым и удаляя лишние символы
+                const parsedInsults = text.split(/,\s*[\r\n]+/)
+                    .map(line => line.trim())
+                    .filter(line => line.length > 0)
+                    .map(line => {
+                        // Удаляем кавычки если они есть
+                        return line.replace(/^["']+|["']+$/g, '');
+                    });
+                
+                // Добавляем оскорбления в массив
+                insults.push(...parsedInsults);
+                
+                console.log('Загружено оскорблений:', insults.length);
+            } catch (error) {
+                console.error('Ошибка при загрузке оскорблений:', error);
+                // Если файл не загрузился, используем стандартные оскорбления
+                insults.push(
+                    "Ты выглядишь так, будто тебя собирали из остатков на фабрике уродов",
+                    "Твоя внешность - это преступление против эстетики",
+                    "Если бы уродство было олимпийским видом спорта, ты бы взял золото",
+                    "Ты настолько некрасив, что зеркала плачут при твоем отражении",
+                    "Твои родители, наверное, платят людям, чтобы тебя фотографировали",
+                    "Ты выглядишь так, будто тебя вырвало из чрева матери на 3 месяца раньше",
+                    "Если бы у тебя было лицо для радио, его бы все равно не взяли",
+                    "Ты настолько толстый, что когда падаешь, то с разных сторон падаешь дважды",
+                    "Твоя худоба напоминает скелет из школьного кабинета биологии",
+                    "Ты выглядишь так, будто тебя вытащили из мусорного бака после дождя"
+                );
+            }
+        }
+        
+        // Загружаем оскорбления при старте
+        loadInsults();
+
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const resultDiv = document.getElementById('result');
+        const startBtn = document.getElementById('start-btn');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        
+        let stream = null;
+        
+        // Установка размеров canvas
+        canvas.width = 640;
+        canvas.height = 480;
+        
+        // Запуск камеры
+        startBtn.addEventListener('click', async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                video.srcObject = stream;
+                startBtn.disabled = true;
+                analyzeBtn.disabled = false;
+                stopBtn.disabled = false;
+                
+                resultDiv.innerHTML = '<p>Камера включена. Нажмите "Анализировать" для оценки внешности.</p>';
+            } catch (err) {
+                console.error("Ошибка при доступе к камере:", err);
+                resultDiv.innerHTML = '<p>Не удалось получить доступ к камере. Пожалуйста, разрешите доступ.</p>';
+            }
+        });
+        
+        // Анализ внешности
+        analyzeBtn.addEventListener('click', () => {
+            if (insults.length === 0) {
+                resultDiv.innerHTML = '<p>Оскорбления еще не загружены. Попробуйте позже.</p>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<p class="loading">Анализируем вашу внешность...</p>';
+            
+            // Имитация анализа (через 1 секунду)
+            setTimeout(() => {
+                // Рисуем текущий кадр с видео на canvas
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Имитация анализа - случайные характеристики
+                const isUntidy = Math.random() > 0.7; // 30% chance
+                const isUgly = Math.random() > 0.6; // 40% chance
+                const isFat = Math.random() > 0.8; // 20% chance
+                const isThin = Math.random() > 0.8; // 20% chance
+                
+                // Выбираем случайное оскорбление
+                const randomInsult = insults[Math.floor(Math.random() * insults.length)];
+                
+                // Формируем результат
+                let resultText = '<p>';
+                
+                if (isUntidy || isUgly || isFat || isThin) {
+                    resultText += '<span class="insult">' + randomInsult + '</span><br><br>';
+                    resultText += 'Наши выводы: ';
+                    
+                    const issues = [];
+                    if (isUntidy) issues.push('неопрятный');
+                    if (isUgly) issues.push('некрасивый');
+                    if (isFat) issues.push('толстый');
+                    if (isThin) issues.push('худой');
+                    
+                    resultText += issues.join(', ');
+                } else {
+                    resultText += 'Вы выглядите приемлемо. Сегодня вам повезло.';
+                }
+                
+                resultText += '</p>';
+                resultDiv.innerHTML = resultText;
+            }, 1000);
+        });
+        
+        // Остановка камеры
+        stopBtn.addEventListener('click', () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                startBtn.disabled = false;
+                analyzeBtn.disabled = true;
+                stopBtn.disabled = true;
+                
+                resultDiv.innerHTML = '<p>Анализ остановлен. Нажмите "Включить камеру" для новой оценки.</p>';
+            }
+        });
+        
+        // Остановка камеры при закрытии страницы
+        window.addEventListener('beforeunload', () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        });
+    </script>
+</body>
+</html>

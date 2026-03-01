@@ -1,0 +1,329 @@
+body {
+    font-family: 'PT Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Основной контейнер для десктопной версии */
+.desktop-container {
+    width: 1440px;
+    height: 1080px;
+    position: relative;
+    border: 1px solid rgba(0, 0, 139, 0.1);
+    box-sizing: border-box;
+    background-color: white;
+    overflow: auto;
+    margin: auto;
+}
+
+/* Горизонтальная линия */
+.horizontal-line {
+    position: absolute;
+    top: 386px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 139, 0.1);
+}
+
+/* Вертикальная линия */
+.vertical-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+    background-color: rgba(0, 0, 139, 0.1);
+    transform: translateX(-50%);
+}
+
+.title {
+    position: relative;
+    top: 170px;
+    left: 78px;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 56px;
+    font-weight: bold;
+    color: darkblue;
+    line-height: 1.2;
+    width: 500px;
+}
+
+.date-line {
+    position: relative;
+    top: 50px;
+    left: 0px;
+    width: 5px;
+    height: 120px;
+    background-image: url('img/history_date_line.svg');
+    background-repeat: no-repeat;
+}
+
+.circle-wrapper {
+    position: absolute;
+    width: 530px;
+    height: 530px;
+    bottom: 215px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+}
+
+.circle {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(0, 0, 139, 0.2);
+    border-radius: 50%;
+    position: relative;
+    transition: transform 1s ease;
+    transform-origin: center center;
+}
+
+.center-text-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 100;
+}
+
+.center-text {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 200px;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: all 1s ease;
+
+    .left {
+        color: #5D5FEF; // iris/100
+    }
+
+    .right {
+        color: #EF5DA8; // Fuschia/100
+    }
+}
+
+.segment {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: rgba(0, 0, 139, 1);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform-origin: center center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.active {
+        width: 56px;
+        height: 56px;
+        background-color: #F4F5F9;
+        border: 1px solid rgba(48, 62, 88, 0.5);
+        z-index: 10;
+
+        .segment-number {
+            opacity: 1;
+        }
+
+        .segment-label {
+            opacity: 1;
+        }
+    }
+
+    &:hover {
+        width: 56px;
+        height: 56px;
+        background-color: #F4F5F9;
+        border: 1px solid rgba(48, 62, 88, 0.5);
+
+        .segment-number {
+            opacity: 1;
+        }
+    }
+}
+
+.segment-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.segment-number {
+    position: absolute;
+    font-size: 20px;
+    color: darkblue;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    transform: rotate(0deg);
+}
+
+.segment-label {
+    position: absolute;
+    font-size: 20px;
+    color: darkblue;
+    font-weight: bold;
+    right: -120px;
+    top: 50%;
+    transform: translateY(-50%) rotate(0deg);
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.page {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+
+    &.active {
+        display: block;
+    }
+}
+
+.controls {
+    position: absolute;
+    top: 600px;
+    left: 293px;
+    width: 120px;
+    height: 88px;
+}
+
+.cards-scroll-container {
+    position: absolute;
+    top: 741px; // 697 + 56 +88
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1420px; // 1260 + 80 + 80
+}
+
+.cards-container {
+    position: relative;
+    width: 1260px;
+    height: 135px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none; // Firefox
+    -ms-overflow-style: none; // IE and Edge
+    margin: 0 80px; // Отступы для кнопок
+
+    &::-webkit-scrollbar {
+        display: none; // Chrome, Safari, Opera
+    }
+}
+
+.cards-wrapper {
+    display: flex;
+    height: 100%;
+    width: max-content;
+    padding: 0 1px; // Фикс для полного отображения первой карточки
+}
+
+.card {
+    width: 320px;
+    height: 135px;
+    margin-right: 80px;
+    flex-shrink: 0;
+
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    z-index: 10;
+
+    &.left {
+        left: 0;
+        background-image: url('img/card_wrapper_arrow.svg');
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    &.right {
+        right: 0;
+        background-image: url('img/card_wrapper_arrow.svg');
+    }
+}
+
+.card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 25px;
+    font-weight: 400;
+    color: #3877EE;
+    margin-bottom: 10px;
+}
+
+.card-subtitle {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: darkblue;
+}
+
+.page-counter {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: darkblue;
+}
+
+.buttons {
+    display: flex;
+    margin-top: 20px;
+}
+
+.nav-button {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.prev-button {
+    background-image: url('img/arrow_active.svg');
+
+    &.disabled {
+        background-image: url('img/arrow_disactive.svg');
+        cursor: default;
+        pointer-events: none;
+    }
+}
+
+.next-button {
+    background-image: url('img/arrow_active.svg');
+    transform: rotate(180deg);
+    margin-left: 20px;
+
+    &.disabled {
+        background-image: url('img/arrow_disactive.svg');
+        transform: rotate(180deg);
+        cursor: default;
+        pointer-events: none;
+    }
+}
