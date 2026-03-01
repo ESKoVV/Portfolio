@@ -1,0 +1,4 @@
+https://github.com/ESKoVV/KazaK - ССылка на репозиторий KAzaK
+http://85.239.36.136:81/ -BIOM
+http://85.239.36.136/ - BIOM admin
+https://eskovv.github.io/Gendalf/ - Гэндальф
