@@ -456,7 +456,6 @@
             text-align: center;
             margin-top: 2.5rem;
             padding-top: 1.5rem;
-            border-top: 2px dashed rgba(108, 92, 231, 0.35);
         }
 
         .resume-link {
@@ -467,12 +466,40 @@
             padding: 0.9rem 1.8rem;
             border-radius: 999px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: box-shadow 0.3s ease;
+            transform-origin: center center;
+            z-index: 1200;
         }
 
         .resume-link:hover {
-            transform: translateY(-3px);
             box-shadow: 0 8px 18px rgba(0, 184, 148, 0.35);
+        }
+
+        .resume-link.is-floating {
+            position: fixed;
+            right: 16px;
+            bottom: 28px;
+            border-radius: 14px 14px 0 0;
+            transform: rotate(90deg);
+        }
+
+        .resume-link.is-wiggling {
+            animation: resumeWiggle 1.2s ease-in-out;
+        }
+
+        @keyframes resumeWiggle {
+            0%, 100% {
+                transform: rotate(var(--resume-rotate, 0deg));
+            }
+            25% {
+                transform: rotate(calc(var(--resume-rotate, 0deg) + 8deg));
+            }
+            50% {
+                transform: rotate(calc(var(--resume-rotate, 0deg) - 8deg));
+            }
+            75% {
+                transform: rotate(calc(var(--resume-rotate, 0deg) + 6deg));
+            }
         }
 
         .work-status {
@@ -1305,9 +1332,13 @@
         const videoModalPlayer = document.getElementById('videoModalPlayer');
         const videoModalClose = document.getElementById('videoModalClose');
         const resumeLink = document.getElementById('resumeLink');
+        const resumeBlock = document.querySelector('.resume-block');
         const resumeModal = document.getElementById('resumeModal');
         const resumeModalFrame = document.getElementById('resumeModalFrame');
         const resumeModalClose = document.getElementById('resumeModalClose');
+        let resumeIsFloating = false;
+        let resumeSeenOnce = false;
+        let resumeInViewport = false;
 
         document.querySelectorAll('.work-video').forEach(video => {
             video.addEventListener('click', () => {
@@ -1359,6 +1390,70 @@
             }
         });
 
+        const triggerResumeWiggle = () => {
+            resumeLink.classList.remove('is-wiggling');
+            void resumeLink.offsetWidth;
+            resumeLink.classList.add('is-wiggling');
+        };
+
+        resumeLink.addEventListener('animationend', () => {
+            resumeLink.classList.remove('is-wiggling');
+        });
+
+        const setFloatingState = (shouldFloat) => {
+            if (resumeIsFloating === shouldFloat) return;
+
+            const startRect = resumeLink.getBoundingClientRect();
+
+            resumeIsFloating = shouldFloat;
+            resumeLink.classList.toggle('is-floating', shouldFloat);
+            resumeLink.style.setProperty('--resume-rotate', shouldFloat ? '90deg' : '0deg');
+
+            const endRect = resumeLink.getBoundingClientRect();
+            const deltaX = startRect.left - endRect.left;
+            const deltaY = startRect.top - endRect.top;
+            const startRotation = shouldFloat ? '0deg' : '90deg';
+            const endRotation = shouldFloat ? '90deg' : '0deg';
+
+            resumeLink.animate(
+                [
+                    { transform: `translate(${deltaX}px, ${deltaY}px) rotate(${startRotation})` },
+                    { transform: `translate(0, 0) rotate(${endRotation})` }
+                ],
+                {
+                    duration: 650,
+                    easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+                }
+            );
+        };
+
+        const updateResumeFloating = () => {
+            const shouldFloat = resumeBlock.getBoundingClientRect().bottom < 0;
+            setFloatingState(shouldFloat);
+        };
+
+        const resumeObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.target !== resumeLink) return;
+
+                resumeInViewport = entry.isIntersecting;
+
+                if (entry.isIntersecting && !resumeSeenOnce) {
+                    resumeSeenOnce = true;
+                    triggerResumeWiggle();
+                }
+            });
+        }, { threshold: 0.2 });
+
+        resumeObserver.observe(resumeLink);
+
+        setInterval(() => {
+            if (!resumeSeenOnce) return;
+            if (!resumeIsFloating && !resumeInViewport) return;
+
+            triggerResumeWiggle();
+        }, 15000);
+
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && videoModal.classList.contains('active')) {
                 closeVideoModal();
@@ -1384,8 +1479,14 @@
         };
 
         // Запускаем при загрузке и при прокрутке
-        window.addEventListener('load', animateOnScroll);
-        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', () => {
+            animateOnScroll();
+            updateResumeFloating();
+        });
+        window.addEventListener('scroll', () => {
+            animateOnScroll();
+            updateResumeFloating();
+        });
     </script>
 </body>
 </html>
