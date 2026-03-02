@@ -533,6 +533,37 @@
             cursor: pointer;
         }
 
+        .resume-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2100;
+            padding: 20px;
+        }
+
+        .resume-modal.active {
+            display: flex;
+        }
+
+        .resume-modal-content {
+            position: relative;
+            width: min(1100px, 96vw);
+            height: min(92vh, 920px);
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        #resumeModalFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         .work-info {
             flex: 1;
             padding: 2.5rem;
@@ -1087,7 +1118,7 @@
                 </div>
 
                 <div class="resume-block text-animate">
-                    <a href="https://eskovv.github.io/resume/" class="resume-link" target="_blank" rel="noopener">Смотреть резюме</a>
+                    <a href="resume.html" class="resume-link" id="resumeLink">Смотреть резюме</a>
                 </div>
             </div>
         </section>
@@ -1097,6 +1128,13 @@
         <div class="video-modal-content">
             <button class="video-modal-close" id="videoModalClose" aria-label="Закрыть">×</button>
             <video id="videoModalPlayer" controls playsinline></video>
+        </div>
+    </div>
+
+    <div class="resume-modal" id="resumeModal">
+        <div class="resume-modal-content">
+            <button class="video-modal-close" id="resumeModalClose" aria-label="Закрыть">×</button>
+            <iframe id="resumeModalFrame" title="Резюме"></iframe>
         </div>
     </div>
 
@@ -1262,6 +1300,10 @@
         const videoModal = document.getElementById('videoModal');
         const videoModalPlayer = document.getElementById('videoModalPlayer');
         const videoModalClose = document.getElementById('videoModalClose');
+        const resumeLink = document.getElementById('resumeLink');
+        const resumeModal = document.getElementById('resumeModal');
+        const resumeModalFrame = document.getElementById('resumeModalFrame');
+        const resumeModalClose = document.getElementById('resumeModalClose');
 
         document.querySelectorAll('.work-video').forEach(video => {
             video.addEventListener('click', () => {
@@ -1289,9 +1331,37 @@
             }
         });
 
+        const openResumeModal = () => {
+            resumeModalFrame.src = 'resume.html';
+            resumeModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeResumeModal = () => {
+            resumeModal.classList.remove('active');
+            resumeModalFrame.removeAttribute('src');
+            document.body.style.overflow = '';
+        };
+
+        resumeLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            openResumeModal();
+        });
+
+        resumeModalClose.addEventListener('click', closeResumeModal);
+        resumeModal.addEventListener('click', (event) => {
+            if (event.target === resumeModal) {
+                closeResumeModal();
+            }
+        });
+
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && videoModal.classList.contains('active')) {
                 closeVideoModal();
+            }
+
+            if (event.key === 'Escape' && resumeModal.classList.contains('active')) {
+                closeResumeModal();
             }
         });
 
