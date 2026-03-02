@@ -438,9 +438,41 @@
 
         .projects-category {
             font-size: 1.6rem;
-            margin: 0.5rem 0 -1.5rem;
+            margin: 1rem 0 0;
             color: var(--primary-color);
             text-align: left;
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(108, 92, 231, 0.08);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 10px;
+        }
+
+        .projects-category:not(:first-of-type) {
+            margin-top: 2.5rem;
+        }
+
+        .resume-block {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed rgba(108, 92, 231, 0.35);
+        }
+
+        .resume-link {
+            display: inline-block;
+            text-decoration: none;
+            color: #fff;
+            background: var(--accent-color);
+            padding: 0.9rem 1.8rem;
+            border-radius: 999px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .resume-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0, 184, 148, 0.35);
         }
 
         .work-status {
@@ -679,7 +711,7 @@
                 font-size: 1.3rem;
             }
             
-            /* Горизонтальная прокрутка проектов */
+            /* Мобильная версия: отдельные списки работ по категориям */
             .works .container {
                 padding: 0;
                 max-width: 100%;
@@ -687,12 +719,12 @@
             
             .works-list {
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 flex-wrap: nowrap;
-                overflow-x: auto;
+                overflow-x: visible;
                 gap: 20px;
                 padding: 0 20px 20px;
-                scroll-snap-type: x mandatory;
+                scroll-snap-type: none;
                 -webkit-overflow-scrolling: touch;
             }
             
@@ -711,10 +743,10 @@
             }
             
             .work-item {
-                flex: 0 0 85%;
-                min-width: 85%;
-                min-height: 450px;
-                scroll-snap-align: start;
+                flex: 1 1 auto;
+                min-width: 100%;
+                min-height: 420px;
+                scroll-snap-align: none;
                 margin-bottom: 0;
             }
             
@@ -740,12 +772,16 @@
             .works h3 {
                 padding: 0 20px;
             }
+
+            .projects-category {
+                margin-top: 1rem;
+            }
         }
         
         /* Стили для очень узких экранов */
         @media (max-width: 480px) {
             .work-item {
-                min-width: 92%;
+                min-width: 100%;
             }
             
             .work-img-container {
@@ -852,8 +888,8 @@
     <main class="container">
         <section class="about" id="about">
             <h3 class="text-animate">Обо мне</h3>
-            <p class="text-animate delay-1">Привет! Я Владимир, начинающий программист, перешедший на третий курс Донского государственного технического университета. Увлекаюсь full-stack разработкой, создаю современные веб-приложения и изучаю новые технологии.</p>
-            <p class="text-animate delay-2">В моем портфолио представлены проекты, которые я разработал самостоятельно от идеи до реализации. Каждый проект - это шаг в моем профессиональном развитии и возможность применить полученные знания на практике.</p>
+            <p class="text-animate delay-1">Володя меня зовут, работаю в сфере web разработки, используя vue.js. Также балуюсь проектиками на питончике, сюда выложил некоторые свои работы.</p>
+            <p class="text-animate delay-2">Вопросы в телеграм, он где-то здесь будет указан иконкой).</p>
         </section>
 
         <section class="education" id="education">
@@ -861,9 +897,7 @@
             <div class="education-content">
                 <h3 class="text-animate">Образование</h3>
                 <p class="text-animate delay-1"><strong>Донской государственный технический университет (ДГТУ)</strong></p>
-                <p class="text-animate delay-2">Направление: Программная инженерия / Информатика и вычислительная техника</p>
-                <p class="text-animate delay-3">Год обучения: 3 курс</p>
-                <p class="text-animate delay-4">Ожидаемый год выпуска: 2025</p>
+                <p class="text-animate delay-2">Машинное обучение и ИИ, 3 курс, год окончания 2027</p>
             </div>
         </section>
 
@@ -910,7 +944,7 @@
 
                 <div class="work-item text-animate" id="author-ru">
                     <div class="work-img-container">
-                        <img src="img/im1.png" alt="author.ru" class="work-img">
+                        <img src="img/author.ru" alt="author.ru" class="work-img">
                     </div>
                     <div class="work-info">
                         <span class="work-status in-progress">Проект в процессе</span>
@@ -1051,6 +1085,10 @@
                     <div class="work-img-container"><video class="work-video" src="VIDEO/unity/rais.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
                     <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">rais</h4><p class="work-desc">Гоночки под крутую музыку с меню, паузой и счетчиком рекордов.</p><a href="unity/rais/" class="work-link">Папка проекта</a></div>
                 </div>
+
+                <div class="resume-block text-animate">
+                    <a href="https://eskovv.github.io/resume/" class="resume-link" target="_blank" rel="noopener">Смотреть резюме</a>
+                </div>
             </div>
         </section>
     </main>
@@ -1065,9 +1103,7 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <h3 class="contact-heading text-animate">Свяжитесь со мной</h3>
-                <p class="footer-text text-animate delay-1">Если вы заинтересованы в сотрудничестве или хотите обсудить возможные проекты, пишите, жду!</p>
-                
+                <h3 class="contact-heading text-animate">Пишите, обсудим нужные проекты)</h3>
                 <ul class="contact-list">
                     <li class="text-animate delay-2">
                         <a href="https://vk.com/enzoskedragon.vovka" target="_blank" class="vk">
