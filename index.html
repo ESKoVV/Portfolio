@@ -391,6 +391,18 @@
             padding: 0 10px;
         }
 
+        .projects-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .projects-row {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
         .work-item {
             display: flex;
             background: var(--card-bg);
@@ -469,6 +481,7 @@
             transition: box-shadow 0.3s ease;
             transform-origin: center center;
             z-index: 1200;
+            --resume-translate-y: 0;
         }
 
         .resume-link:hover {
@@ -477,10 +490,10 @@
 
         .resume-link.is-floating {
             position: fixed;
-            right: 16px;
-            bottom: 28px;
+            right: var(--resume-floating-right, 16px);
+            top: 50%;
             border-radius: 14px 14px 0 0;
-            transform: rotate(90deg);
+            transform: translateY(-50%) rotate(90deg);
         }
 
         .resume-link.is-wiggling {
@@ -489,16 +502,16 @@
 
         @keyframes resumeWiggle {
             0%, 100% {
-                transform: rotate(var(--resume-rotate, 0deg));
+                transform: translateY(var(--resume-translate-y, 0)) rotate(var(--resume-rotate, 0deg));
             }
             25% {
-                transform: rotate(calc(var(--resume-rotate, 0deg) + 8deg));
+                transform: translateY(var(--resume-translate-y, 0)) rotate(calc(var(--resume-rotate, 0deg) + 8deg));
             }
             50% {
-                transform: rotate(calc(var(--resume-rotate, 0deg) - 8deg));
+                transform: translateY(var(--resume-translate-y, 0)) rotate(calc(var(--resume-rotate, 0deg) - 8deg));
             }
             75% {
-                transform: rotate(calc(var(--resume-rotate, 0deg) + 6deg));
+                transform: translateY(var(--resume-translate-y, 0)) rotate(calc(var(--resume-rotate, 0deg) + 6deg));
             }
         }
 
@@ -776,35 +789,40 @@
             }
             
             .works-list {
-                display: flex;
-                flex-direction: column;
-                flex-wrap: nowrap;
-                overflow-x: visible;
-                gap: 20px;
+                gap: 28px;
                 padding: 0 20px 20px;
-                scroll-snap-type: none;
+            }
+
+            .projects-row {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                gap: 16px;
+                padding-bottom: 10px;
+                scroll-snap-type: x proximity;
                 -webkit-overflow-scrolling: touch;
             }
             
             /* Стили для скроллбара */
-            .works-list::-webkit-scrollbar {
+            .projects-row::-webkit-scrollbar {
                 height: 6px;
             }
             
-            .works-list::-webkit-scrollbar-track {
+            .projects-row::-webkit-scrollbar-track {
                 background: rgba(0,0,0,0.05);
             }
             
-            .works-list::-webkit-scrollbar-thumb {
+            .projects-row::-webkit-scrollbar-thumb {
                 background-color: var(--accent-color);
                 border-radius: 3px;
             }
             
             .work-item {
-                flex: 1 1 auto;
-                min-width: 100%;
+                flex: 0 0 min(85vw, 380px);
+                min-width: min(85vw, 380px);
                 min-height: 420px;
-                scroll-snap-align: none;
+                scroll-snap-align: start;
                 margin-bottom: 0;
             }
             
@@ -833,6 +851,10 @@
 
             .projects-category {
                 margin-top: 1rem;
+            }
+
+            .resume-link.is-floating {
+                --resume-floating-right: 3px;
             }
         }
         
@@ -969,7 +991,10 @@
         <section class="works" id="works">
             <h3 class="text-animate">Мои проекты</h3>
             <div class="works-list">
+                <div class="projects-group">
+
                 <h4 class="projects-category text-animate" id="web-projects">Сайты</h4>
+                    <div class="projects-row">
 
                 <div class="work-item text-animate" id="biom">
                     <div class="work-img-container">
@@ -1102,8 +1127,14 @@
                         <a href="https://eskovv.github.io/Gendalf/" class="work-link" target="_blank" rel="noopener">Открыть сайт</a>
                     </div>
                 </div>
+                    </div>
+                </div>
+
+                <div class="projects-group">
+
 
                 <h4 class="projects-category text-animate" id="design-projects">Сфера дизайн</h4>
+                    <div class="projects-row">
                 <div class="work-item text-animate" id="electives-design">
                     <div class="work-img-container">
                         <video class="work-video" src="VIDEO/html/center_electiv.mp4" autoplay muted loop playsinline preload="metadata"></video>
@@ -1114,8 +1145,14 @@
                         <a href="https://www.figma.com/design/8YGtG74X8UGCWJcEbBzqer/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D0%B8%D0%B2%D1%8B?node-id=1-5&p=f&t=dhXnWjduLGWLufSD-0" class="work-link" target="_blank" rel="noopener">Макет в Figma</a>
                     </div>
                 </div>
+                    </div>
+                </div>
+
+                <div class="projects-group">
+
 
                 <h4 class="projects-category text-animate" id="python-projects">Python</h4>
+                    <div class="projects-row">
                 <div class="work-item text-animate" id="not-mat">
                     <div class="work-img-container"><video class="work-video" src="VIDEO/py/NotMat.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
                     <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">not mat</h4><p class="work-desc">Консольная программа для учета нецензурной лексики с системой пользователей и статистикой.</p><a href="py/notmat/" class="work-link">Папка проекта</a></div>
@@ -1144,12 +1181,21 @@
                     <div class="work-img-container"><video class="work-video" src="VIDEO/py/taskmilitary.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
                     <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">Распределение нарядов</h4><p class="work-desc">Автоматическое распределение нарядов, дежурств и ВПИ на месяцы вперёд.</p><a href="py/Распределение нарядов на военку/" class="work-link">Папка проекта</a></div>
                 </div>
+                    </div>
+                </div>
+
+                <div class="projects-group">
+
 
                 <h4 class="projects-category text-animate" id="csharp-projects">C#</h4>
+                    <div class="projects-row">
                 <div class="work-item text-animate" id="rais">
                     <div class="work-img-container"><video class="work-video" src="VIDEO/unity/rais.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
                     <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">rais</h4><p class="work-desc">Гоночки под крутую музыку с меню, паузой и счетчиком рекордов.</p><a href="unity/rais/" class="work-link">Папка проекта</a></div>
                 </div>
+                    </div>
+                </div>
+
 
             </div>
         </section>
@@ -1408,6 +1454,7 @@
             resumeIsFloating = shouldFloat;
             resumeLink.classList.toggle('is-floating', shouldFloat);
             resumeLink.style.setProperty('--resume-rotate', shouldFloat ? '90deg' : '0deg');
+            resumeLink.style.setProperty('--resume-translate-y', shouldFloat ? '-50%' : '0');
 
             const endRect = resumeLink.getBoundingClientRect();
             const deltaX = startRect.left - endRect.left;
@@ -1428,6 +1475,14 @@
         };
 
         const updateResumeFloating = () => {
+            if (window.innerWidth <= 768) {
+                resumeLink.style.setProperty('--resume-floating-right', '3px');
+            } else {
+                const worksRect = document.getElementById('works').getBoundingClientRect();
+                const rightGap = Math.max(window.innerWidth - worksRect.right + 50, 16);
+                resumeLink.style.setProperty('--resume-floating-right', `${rightGap}px`);
+            }
+
             const shouldFloat = resumeBlock.getBoundingClientRect().bottom < 0;
             setFloatingState(shouldFloat);
         };
