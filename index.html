@@ -448,6 +448,44 @@
             border-radius: 0 !important;
         }
 
+        .work-img-container.video-loading .work-video {
+            opacity: 0;
+        }
+
+        .video-loading-overlay {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            background: rgba(20, 20, 20, 0.65);
+            color: #fff;
+            z-index: 2;
+            pointer-events: none;
+            font-weight: 600;
+        }
+
+        .work-img-container.video-loading .video-loading-overlay {
+            display: flex;
+        }
+
+        .video-loading-spinner {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.35);
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         .projects-category {
             font-size: 1.6rem;
             margin: 1rem 0 0;
@@ -1395,6 +1433,27 @@
         let resumeInViewport = false;
 
         document.querySelectorAll('.work-video').forEach(video => {
+            const container = video.closest('.work-img-container');
+
+            if (container) {
+                const loadingOverlay = document.createElement('div');
+                loadingOverlay.className = 'video-loading-overlay';
+                loadingOverlay.innerHTML = '<div class="video-loading-spinner"></div><span>Загрузка видео</span>';
+                container.appendChild(loadingOverlay);
+                container.classList.add('video-loading');
+
+                const hideLoader = () => {
+                    container.classList.remove('video-loading');
+                };
+
+                if (video.readyState >= 2) {
+                    hideLoader();
+                } else {
+                    video.addEventListener('loadeddata', hideLoader, { once: true });
+                    video.addEventListener('error', hideLoader, { once: true });
+                }
+            }
+
             video.addEventListener('click', () => {
                 video.currentTime = 0;
                 video.play();
