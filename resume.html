@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Резюме — Еськов Владимир Сергеевич</title>
+  <link rel="icon" href="resume_ico.jpg" type="image/jpeg">
+
+  <style>
+    :root{
+      --bg:#0e0f12;
+      --card:#13151a;
+      --card2:#171a20;
+      --text:#e9edf2;
+      --muted:#a9b1bd;
+      --line:#232733;
+      --accent:#58d68d;
+      --accent2:#6aa7ff;
+      --chip:#1b1f28;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Segoe UI Emoji";}
+    body{background:radial-gradient(1200px 600px at 20% -10%, rgba(106,167,255,.10), transparent 60%),
+         radial-gradient(900px 500px at 90% 10%, rgba(88,214,141,.12), transparent 55%),
+         var(--bg);
+         color:var(--text);
+         line-height:1.55;
+         font-size:15px;
+    }
+
+    a{color:inherit}
+    .container{max-width:1120px;margin:0 auto;padding:22px}
+
+    /* Top */
+    header{
+      margin-top:18px;
+      background:linear-gradient(180deg, rgba(19,21,26,.92), rgba(19,21,26,.78));
+      border:1px solid rgba(35,39,51,.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    header:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:linear-gradient(90deg, rgba(88,214,141,.22), rgba(106,167,255,.18), rgba(88,214,141,.10));
+      filter: blur(18px);
+      opacity:.55;
+      pointer-events:none;
+    }
+
+    .top{
+      position:relative;
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap:18px;
+      padding:22px;
+      align-items:center;
+    }
+
+    .photo{
+      width:120px;height:120px;border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(88,214,141,.45);
+      background: #0c0d10;
+      box-shadow: 0 0 0 6px rgba(88,214,141,.06);
+    }
+    .photo img{width:100%;height:100%;object-fit:cover}
+
+    .name{display:flex;flex-direction:column;gap:8px}
+    .name h1{font-size:28px;letter-spacing:.2px;line-height:1.15}
+    .subtitle{
+      display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .subtitle b{color:var(--text);font-weight:600}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 10px;border-radius:999px;
+      background: rgba(88,214,141,.10);
+      border:1px solid rgba(88,214,141,.22);
+      color:#c7f7db;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(88,214,141,.12)}
+
+    .contacts{
+      margin-top:10px;
+      display:flex;flex-wrap:wrap;gap:10px;
+    }
+    .contact{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 10px;border-radius:10px;
+      background: rgba(27,31,40,.75);
+      border:1px solid rgba(35,39,51,.95);
+      color:var(--muted);
+      text-decoration:none;
+      transition:.2s;
+      font-size:13px;
+    }
+    .contact:hover{transform:translateY(-1px);border-color: rgba(106,167,255,.35); color:var(--text)}
+    .contact strong{color:var(--text);font-weight:600}
+
+    /* Layout */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    section{
+      background:linear-gradient(180deg, rgba(19,21,26,.92), rgba(19,21,26,.72));
+      border:1px solid rgba(35,39,51,.92);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+    }
+
+    .section-title{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .section-title h2{
+      font-size:16px;
+      letter-spacing:.4px;
+      text-transform:uppercase;
+      color:#dfe7f2;
+    }
+    .section-title .hint{color:var(--muted);font-size:12px}
+
+    /* Chips */
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .chip{
+      padding:7px 10px;
+      border-radius:999px;
+      background: rgba(27,31,40,.75);
+      border:1px solid rgba(35,39,51,.95);
+      color:#d0d7e2;
+      font-size:12px;
+    }
+    .chip.accent{border-color: rgba(88,214,141,.35); background: rgba(88,214,141,.08); color:#c7f7db}
+    .chip.blue{border-color: rgba(106,167,255,.38); background: rgba(106,167,255,.10); color:#d6e6ff}
+
+    /* Project cards */
+    .project{
+      padding:14px;
+      border-radius:14px;
+      background: linear-gradient(180deg, rgba(23,26,32,.95), rgba(23,26,32,.72));
+      border:1px solid rgba(35,39,51,.92);
+      margin-top:12px;
+    }
+    .project:first-of-type{margin-top:0}
+    .project-head{
+      display:flex;flex-wrap:wrap;gap:10px;
+      align-items:baseline;justify-content:space-between;
+    }
+    .project h3{
+      font-size:15px;
+      color:var(--text);
+      font-weight:700;
+    }
+    .project .meta{color:var(--muted);font-size:12px}
+    .project ul{margin-top:10px;padding-left:18px;color:#cfd6e2}
+    .project li{margin:6px 0}
+
+    /* Timeline items */
+    .item{
+      padding:12px 0;
+      border-top:1px solid rgba(35,39,51,.75);
+    }
+    .item:first-of-type{border-top:none;padding-top:0}
+    .item-head{
+      display:flex;flex-wrap:wrap;gap:8px;
+      align-items:baseline;justify-content:space-between;
+    }
+    .item-title{font-weight:700;color:var(--text)}
+    .item-date{color:var(--muted);font-size:12px}
+    .item p{margin-top:8px;color:#cfd6e2}
+    .item ul{margin-top:8px;padding-left:18px;color:#cfd6e2}
+    .item li{margin:6px 0}
+
+    /* Side blocks */
+    .block{margin-top:14px}
+    .block:first-child{margin-top:0}
+    .kv{display:flex;flex-direction:column;gap:10px}
+    .kv-row{
+      display:flex;justify-content:space-between;gap:12px;
+      border:1px solid rgba(35,39,51,.92);
+      background: rgba(27,31,40,.45);
+      padding:10px 12px;border-radius:12px;
+      color:#cfd6e2;
+      font-size:13px;
+    }
+    .kv-row span{color:var(--muted)}
+
+    .mini-list{margin-top:10px;color:#cfd6e2}
+    .mini-list ul{padding-left:18px}
+    .mini-list li{margin:6px 0}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr; }
+      .top{grid-template-columns: 120px 1fr}
+    }
+    @media (max-width: 520px){
+      .top{grid-template-columns: 1fr}
+      .photo{width:110px;height:110px;border-radius:18px}
+      .name h1{font-size:22px}
+      .container{padding:14px}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <header>
+      <div class="top">
+        <div class="photo">
+          <img src="img/resume_photo.jpg" alt="Фото Владимира Еськова">
+        </div>
+
+        <div class="name">
+          <h1>Еськов Владимир Сергеевич</h1>
+
+          <div class="subtitle">
+            <span><b>Ростов-на-Дону</b></span>
+            <span>•</span>
+            <span>Frontend / Fullstack (Vue)</span>
+            <span class="badge"><span class="dot"></span>Открыт к полной занятости</span>
+          </div>
+
+          <div class="contacts">
+            <p class="contact"><strong>Тел:</strong> 89019976386</p>
+            <a class="contact" href="mailto:koksiccot@mail.ru"><strong>Email:</strong> koksiccot@mail.ru</a>
+            <a class="contact" href="https://t.me/koksaralya" target="_blank" rel="noopener"><strong>Telegram:</strong> @koksaralya</a>
+            <a class="contact" href="https://github.com/ESKoVV" target="_blank"><strong>GitHub:</strong> ESKoVV</a>
+          </div>
+
+          <div class="chips">
+            <span class="chip accent">Vue</span>
+            <span class="chip accent">TypeScript</span>
+            <span class="chip accent">Node.js</span>
+            <span class="chip blue">SQL (продвинутый)</span>
+            <span class="chip">Python (Pandas/NumPy — основы)</span>
+            <span class="chip">Интеграция API</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+
+      <!-- LEFT -->
+      <div>
+
+        <section>
+          <div class="section-title">
+            <h2>Проекты</h2>
+            <div class="hint">Фокус на продукте, команде и функционале</div>
+          </div>
+
+          <div class="project">
+            <div class="project-head">
+              <h3>BIOM — социальная сеть мероприятий по городу</h3>
+              <div class="meta">12.2025 — настоящее время</div>
+            </div>
+            <div class="chips" style="margin-top:8px">
+              <span class="chip accent">Vue</span>
+              <span class="chip">Фильтры / лента</span>
+              <span class="chip">Профили</span>
+              <span class="chip">Друзья</span>
+              <span class="chip">Чат</span>
+              <span class="chip blue">Рекомендации (в разработке)</span>
+            </div>
+            <ul>
+              <li>Веду проект: постановка задач, декомпозиция и реализация ключевых модулей.</li>
+              <li>Уже работает: регистрация, профили, друзья, публикация/редактирование мероприятий (по доступу), сообщения, просмотр профилей, настройки.</li>
+              <li>Сильная часть продукта — система фильтров и подготовка персонализированных рекомендаций на базе ML/нейросети.</li>
+              <li>План: выпуск полноценного мобильного приложения в ближайшие ~2 месяца (актуально на начало марта).</li>
+            </ul>
+          </div>
+
+          <div class="project">
+            <div class="project-head">
+              <h3>Виджеты для AmoCRM</h3>
+              <div class="meta">07.2025 — 10.2025</div>
+            </div>
+            <div class="chips" style="margin-top:8px">
+              <span class="chip accent">Vue</span>
+              <span class="chip accent">Командная разработка</span>
+              <span class="chip">CRM</span>
+              <span class="chip">Микрозадачи</span>
+            </div>
+            <ul>
+              <li>Разработка на Vue в большой команде.</li>
+              <li>Выполнял микрозадачи в рамках крупного CRM-проекта: аккуратная интеграция в существующую архитектуру.</li>
+            </ul>
+          </div>
+
+          <div class="project">
+            <div class="project-head">
+              <h3>Книжный онлайн-магазин</h3>
+              <div class="meta">02.2026 — настоящее время</div>
+            </div>
+            <ul>
+              <li>Первый этап: проектирование UX/UI, функционала, бизнес-модели и стратегии захвата аудитории.</li>
+            </ul>
+          </div>
+
+          <div class="project">
+            <div class="project-head">
+              <h3>Приложение для аренды мощностей (хостинг / хранилища)</h3>
+              <div class="meta">02.2026 — настоящее время</div>
+            </div>
+            <ul>
+              <li>Построение продукта под аренду ресурсов: хостинг, хранилища и др.</li>
+              <li>Текущий статус: подготовка инфраструктуры, ожидание серверного оборудования из Китая.</li>
+            </ul>
+          </div>
+
+        </section>
+
+        <section style="margin-top:18px">
+          <div class="section-title">
+            <h2>Опыт</h2>
+            <div class="hint">Лидерство + работа в регламенте</div>
+          </div>
+
+          <div class="item">
+            <div class="item-head">
+              <div class="item-title">Разработчик Vue.js | Фриланс</div>
+              <div class="item-date">2024 — настоящее время</div>
+            </div>
+            <ul>
+              <li>Разработка интерфейсов и компонентов на Vue.js.</li>
+              <li>Компоненты визуализации данных и “аналитические” экраны.</li>
+              <li>Интеграция с внешними API и базами данных.</li>
+            </ul>
+          </div>
+
+          <div class="item">
+            <div class="item-head">
+              <div class="item-title">Руководитель пресс-центра | Общежитие №7 ДГТУ</div>
+              <div class="item-date">09.2023 — 12.2024</div>
+            </div>
+            <p>Организация работы команды фотографов / SMM / художников.</p>
+          </div>
+
+          <div class="item">
+            <div class="item-head">
+              <div class="item-title">КВ | Военная кафедра ДГТУ</div>
+              <div class="item-date">01.2025 — настоящее время</div>
+            </div>
+            <ul>
+              <li>Координация и организация 20 человек.</li>
+              <li>Отчетность, дисциплина, работа в стрессовых ситуациях.</li>
+              <li>Развитие управленческих навыков и ответственности.</li>
+            </ul>
+          </div>
+
+          <div class="item">
+            <div class="item-head">
+              <div class="item-title">Проводник | РЖД</div>
+              <div class="item-date">05.2024 — 07.2025</div>
+            </div>
+            <ul>
+              <li>Работа в строго регламентированной среде и высокой нагрузке.</li>
+              <li>Документация, отчетность, взаимодействие с клиентами.</li>
+              <li>Оперативное решение задач, внимательность к деталям.</li>
+            </ul>
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div>
+
+        <section class="block">
+          <div class="section-title">
+            <h2>Стек</h2>
+            <div class="hint">акцент на web</div>
+          </div>
+
+          <div class="kv">
+            <div class="kv-row"><b>Frontend</b><span>Vue • JS/TS • HTML • CSS</span></div>
+            <div class="kv-row"><b>Backend</b><span>Node.js (база)</span></div>
+            <div class="kv-row"><b>Data</b><span>SQL (продвинутый) • Python (основы)</span></div>
+          </div>
+
+          <div class="mini-list">
+            <ul>
+              <li>Интеграция данных и API, работа с БД.</li>
+              <li>Аккуратная работа с существующей архитектурой в команде.</li>
+            </ul>
+          </div>
+
+          <div class="chips">
+            <span class="chip accent">Vue</span>
+            <span class="chip accent">TypeScript</span>
+            <span class="chip">JavaScript</span>
+            <span class="chip">HTML</span>
+            <span class="chip">CSS</span>
+            <span class="chip accent">Node.js</span>
+            <span class="chip blue">SQL</span>
+            <span class="chip">Python</span>
+          </div>
+        </section>
+
+        <section class="block">
+          <div class="section-title">
+            <h2>Образование</h2>
+          </div>
+
+          <div class="item" style="padding-top:0">
+            <div class="item-head">
+              <div class="item-title">ДГТУ</div>
+              <div class="item-date">2023 — 2027</div>
+            </div>
+            <p style="color:var(--muted);margin-top:6px">
+              Направление: Машинное обучение и искусственный интеллект
+            </p>
+            <div class="mini-list">
+              <ul>
+                <li>Курсы: Python, веб-разработка, матстатистика.</li>
+                <li>Военная кафедра: управление и организация (лейтенант запаса по окончании).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="item-head">
+              <div class="item-title">МБОУ Школа №3</div>
+              <div class="item-date">2011 — 2021</div>
+            </div>
+            <p style="color:var(--muted);margin-top:6px">г. Ясиноватая, ДНР</p>
+          </div>
+        </section>
+
+        <section class="block">
+          <div class="section-title">
+            <h2>Дополнительно</h2>
+          </div>
+
+          <div class="kv">
+            <div class="kv-row"><b>Языки</b><span>Русский • Английский (базовый)</span></div>
+            <div class="kv-row"><b>Формат</b><span>Полная занятость</span></div>
+          </div>
+
+          <div class="mini-list">
+            <div style="margin-top:10px;color:var(--muted);font-size:12px">Интересы</div>
+            <ul>
+              <li>Спорт: паркур, воркаут, борьба</li>
+              <li>Шахматы: Lichess блиц ~1542</li>
+              <li>Музыка: фортепиано и вокал</li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
