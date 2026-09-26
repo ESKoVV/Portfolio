@@ -1,1614 +1,1187 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Еськов Владимир - Портфолио программиста</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #6C5CE7;
-            --secondary-color: #2D3436;
-            --accent-color: #00B894;
-            --background-color: #f8f9fa;
-            --text-color: #2D3436;
-            --light-text: #f8f9fa;
-            --card-bg: #FFFFFF;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --header-footer-color: #424242;
-            --contact-color: #00B894;
-            --menu-hover-color: #7f8c8d;
-            --vk-color: #4C75A3;
-            --tg-color: #0088CC;
-            --contact-heading-color: #BDBDBD;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.15;
-        }
-
-        .text-animate {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .text-animate.animate {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.2s; }
-        .delay-3 { transition-delay: 0.3s; }
-        .delay-4 { transition-delay: 0.4s; }
-        .delay-5 { transition-delay: 0.5s; }
-
-        .menu-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-            width: 60px;
-            height: 60px;
-            border: 2px solid rgba(255,255,255,0.3);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .menu-btn.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .menu-btn:hover {
-            background: var(--menu-hover-color);
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .nav-menu {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 300px;
-            height: 100%;
-            background: var(--header-footer-color);
-            z-index: 1000;
-            transition: all 0.3s ease;
-            padding: 80px 20px 20px;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .nav-menu.active {
-            right: 0;
-        }
-
-        .menu-close-area {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: 999;
-            display: none;
-        }
-
-        .nav-menu.active + .menu-close-area {
-            display: block;
-        }
-
-        .nav-menu ul {
-            list-style: none;
-        }
-
-        .nav-menu li {
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        .nav-menu li:hover {
-            transform: translateX(5px);
-        }
-
-        .nav-menu a {
-            color: var(--light-text);
-            text-decoration: none;
-            font-size: 1.1rem;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-menu a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--accent-color);
-            padding-left: 15px;
-        }
-
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            left: 10px;
-            bottom: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-color);
-            transition: width 0.3s ease;
-        }
-
-        .nav-menu a:hover::after {
-            width: calc(100% - 20px);
-        }
-
-        .submenu {
-            padding-left: 20px;
-            margin-top: 5px;
-            border-left: 2px solid var(--accent-color);
-        }
-
-        .submenu a {
-            font-size: 0.95rem;
-            padding: 8px 10px;
-            position: relative;
-        }
-
-        .submenu a::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 8px;
-            height: 8px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .submenu a:hover::before {
-            opacity: 1;
-        }
-
-        .social-menu {
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .social-menu-list {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            align-items: center;
-        }
-
-        .social-menu-list a {
-            color: var(--light-text);
-            font-size: 3rem;
-            transition: all 0.3s ease;
-            padding: 10px;
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255,255,255,0.1);
-        }
-
-        .social-menu-list a:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .social-menu-list .vk:hover {
-            color: var(--vk-color);
-            background: rgba(255,255,255,0.2);
-        }
-
-        .social-menu-list .tg:hover {
-            color: var(--tg-color);
-            background: rgba(255,255,255,0.2);
-        }
-
-        header {
-            background: 
-                linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 1)),
-                url('img/fonheader.png') no-repeat center center;
-            background-size: cover;
-            color: var(--light-text);
-            padding: 4rem 0;
-            text-align: center;
-            position: relative;
-            margin-bottom: 3rem;
-            overflow: hidden;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .profile {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 2rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .profile-img {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 8px solid rgba(255, 255, 255, 0.2);
-            box-shadow: var(--shadow);
-            margin-bottom: 2rem;
-            transition: all 0.5s ease;
-        }
-
-        .profile-img:hover {
-            transform: scale(1.05);
-            border-color: var(--accent-color);
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            color: var(--accent-color);
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        h3 {
-            font-size: 2rem;
-            margin: 2rem 0 2.5rem;
-            color: var(--secondary-color);
-            position: relative;
-            font-weight: 600;
-            text-align: center;
-            width: 100%;
-        }
-
-        h3::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background: var(--accent-color);
-            border-radius: 2px;
-        }
-
-        .about, .education, .works {
-            padding: 4rem 0;
-            position: relative;
-        }
-
-        .education {
-            position: relative;
-            background: url('img/dstu.png') no-repeat center center;
-            background-size: cover;
-        }
-
-        .education::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            z-index: 0;
-        }
-
-        .education-content {
-            position: relative;
-            z-index: 1;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .education-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-            z-index: -1;
-        }
-
-        .works {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            margin: 3rem 0;
-        }
-
-        .works-list {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-            padding: 0 10px;
-        }
-
-        .projects-group {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
-        .projects-row {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .work-item {
-            display: flex;
-            background: var(--card-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
-            position: relative;
-            min-height: 300px;
-        }
-
-        .work-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .work-img-container {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            padding: 0 5px;
-        }
-
-        .work-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s ease;
-            border-radius: 0 !important;
-        }
-
-        .work-item:hover .work-img,
-        .work-item:hover .work-video {
-            transform: scale(1.05);
-        }
-
-        .work-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            cursor: pointer;
-            transition: transform 0.8s ease;
-            border-radius: 0 !important;
-        }
-
-        .work-img-container.video-loading .work-video {
-            opacity: 0;
-        }
-
-        .video-loading-overlay {
-            position: absolute;
-            inset: 0;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-            background: rgba(20, 20, 20, 0.65);
-            color: #fff;
-            z-index: 2;
-            pointer-events: none;
-            font-weight: 600;
-        }
-
-        .work-img-container.video-loading .video-loading-overlay {
-            display: flex;
-        }
-
-        .video-loading-spinner {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.35);
-            border-top-color: #fff;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .projects-category {
-            font-size: 1.6rem;
-            margin: 1rem 0 0;
-            color: var(--primary-color);
-            text-align: left;
-            width: 100%;
-            padding: 1rem 1.2rem;
-            background: rgba(108, 92, 231, 0.08);
-            border-left: 4px solid var(--primary-color);
-            border-radius: 10px;
-        }
-
-        .projects-category:not(:first-of-type) {
-            margin-top: 2.5rem;
-        }
-
-        .resume-block {
-            text-align: center;
-            margin-top: 2.5rem;
-            padding-top: 1.5rem;
-        }
-
-        .resume-link {
-            display: inline-block;
-            text-decoration: none;
-            color: #fff;
-            background: var(--accent-color);
-            padding: 0.9rem 1.8rem;
-            border-radius: 999px;
-            font-weight: 600;
-            transition: box-shadow 0.3s ease;
-            transform-origin: center center;
-            z-index: 1200;
-            --resume-translate-y: 0;
-        }
-
-        .resume-link:hover {
-            box-shadow: 0 8px 18px rgba(0, 184, 148, 0.35);
-        }
-
-        .resume-link.is-floating {
-            position: fixed;
-            right: var(--resume-floating-right, 16px);
-            top: 50%;
-            border-radius: 14px 14px 0 0;
-            transform: translateY(-50%) rotate(90deg);
-        }
-
-        .resume-link.is-wiggling {
-            animation: resumeWiggle 1.2s ease-in-out;
-        }
-
-        @keyframes resumeWiggle {
-            0%, 100% {
-                transform: translateY(var(--resume-translate-y, 0)) rotate(var(--resume-rotate, 0deg));
-            }
-            25% {
-                transform: translateY(var(--resume-translate-y, 0)) rotate(calc(var(--resume-rotate, 0deg) + 8deg));
-            }
-            50% {
-                transform: translateY(var(--resume-translate-y, 0)) rotate(calc(var(--resume-rotate, 0deg) - 8deg));
-            }
-            75% {
-                transform: translateY(var(--resume-translate-y, 0)) rotate(calc(var(--resume-rotate, 0deg) + 6deg));
-            }
-        }
-
-        .work-status {
-            display: inline-block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            padding: 0.25rem 0.7rem;
-            border-radius: 999px;
-            color: #fff;
-        }
-
-        .work-status.done { background: #00b894; }
-        .work-status.in-progress { background: #fdcb6e; color: #2d3436; }
-        .work-status.abandoned { background: #d63031; }
-
-        .work-note {
-            font-size: 0.95rem;
-            color: #666;
-            font-style: italic;
-        }
-
-        .video-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 20px;
-        }
-
-        .video-modal.active {
-            display: flex;
-        }
-
-        .video-modal-content {
-            width: min(1000px, 95vw);
-            position: relative;
-        }
-
-        #videoModalPlayer {
-            width: 100%;
-            max-height: 90vh;
-            background: #000;
-            border-radius: 10px;
-        }
-
-        .video-modal-close {
-            position: absolute;
-            top: -44px;
-            right: 0;
-            border: none;
-            background: transparent;
-            color: #fff;
-            font-size: 2rem;
-            cursor: pointer;
-        }
-
-        .resume-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2100;
-            padding: 20px;
-        }
-
-        .resume-modal.active {
-            display: flex;
-        }
-
-        .resume-modal-content {
-            position: relative;
-            width: min(1100px, 96vw);
-            height: min(92vh, 920px);
-            background: #fff;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-        }
-
-        #resumeModalFrame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .work-info {
-            flex: 1;
-            padding: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .work-title {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--secondary-color);
-            font-weight: 600;
-        }
-
-        .work-desc {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 1.5rem;
-        }
-
-        .work-link {
-            display: inline-block;
-            padding: 0.8rem 1.8rem;
-            background: var(--primary-color);
-            color: white;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            align-self: flex-start;
-        }
-
-        .work-link:hover {
-            background: var(--accent-color);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        footer {
-            background: var(--header-footer-color);
-            color: var(--light-text);
-            text-align: center;
-            padding: 3rem 0 1rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .contact-list {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .contact-list a {
-            color: var(--light-text);
-            text-decoration: none;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 25px;
-            border-radius: 50px;
-        }
-
-        .contact-list a:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .contact-list .vk {
-            background-color: var(--vk-color);
-        }
-
-        .contact-list .tg {
-            background-color: var(--tg-color);
-        }
-
-        .contact-list i {
-            font-size: 1.5rem;
-        }
-
-        .footer-text {
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            opacity: 0.9;
-        }
-
-        .contact-heading {
-            color: var(--contact-heading-color) !important;
-            margin-bottom: 1.5rem !important;
-        }
-
-        .copyright {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            width: 100%;
-        }
-
-        /* Адаптация для мобильных устройств */
-        @media (max-width: 992px) {
-            .work-item {
-                flex-direction: column;
-            }
-            
-            .work-img-container {
-                height: 250px;
-            }
-            
-            .education-content {
-                padding: 1.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            h2 {
-                font-size: 1.4rem;
-            }
-            
-            h3 {
-                font-size: 1.6rem;
-            }
-            
-            .profile-img {
-                width: 180px;
-                height: 180px;
-            }
-            
-            .works {
-                padding: 2rem 0;
-            }
-            
-            .work-info {
-                padding: 1.5rem;
-            }
-            
-            .work-title {
-                font-size: 1.5rem;
-            }
-            
-            .nav-menu {
-                width: 250px;
-                right: -250px;
-            }
-            
-            .education-content {
-                padding: 1rem;
-            }
-            
-            .menu-btn {
-                font-size: 1.5rem;
-                width: 50px;
-                height: 50px;
-            }
-            
-            .contact-list a {
-                padding: 10px 20px;
-                font-size: 1.1rem;
-            }
-            
-            .contact-list i {
-                font-size: 1.3rem;
-            }
-            
-            /* Мобильная версия: отдельные списки работ по категориям */
-            .works .container {
-                padding: 0;
-                max-width: 100%;
-            }
-            
-            .works-list {
-                gap: 28px;
-                padding: 0 20px 20px;
-            }
-
-            .projects-row {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                gap: 16px;
-                padding-bottom: 10px;
-                scroll-snap-type: x proximity;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            /* Стили для скроллбара */
-            .projects-row::-webkit-scrollbar {
-                height: 6px;
-            }
-            
-            .projects-row::-webkit-scrollbar-track {
-                background: rgba(0,0,0,0.05);
-            }
-            
-            .projects-row::-webkit-scrollbar-thumb {
-                background-color: var(--accent-color);
-                border-radius: 3px;
-            }
-            
-            .work-item {
-                flex: 0 0 min(85vw, 380px);
-                min-width: min(85vw, 380px);
-                min-height: 420px;
-                scroll-snap-align: start;
-                margin-bottom: 0;
-            }
-            
-            .work-img-container {
-                height: 200px;
-            }
-            
-            .work-info {
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-            }
-            
-            .work-desc {
-                flex-grow: 1;
-                overflow: hidden;
-            }
-            
-            .work-link {
-                margin-top: auto;
-            }
-            
-            .works h3 {
-                padding: 0 20px;
-            }
-
-            .projects-category {
-                margin-top: 1rem;
-            }
-
-            .resume-link.is-floating {
-                --resume-floating-right: 3px;
-            }
-        }
-        
-        /* Стили для очень узких экранов */
-        @media (max-width: 480px) {
-            .work-item {
-                min-width: 100%;
-            }
-            
-            .work-img-container {
-                height: 180px;
-            }
-            
-            .work-title {
-                font-size: 1.4rem;
-                text-align: center;
-            }
-            
-            .work-link {
-                width: 100%;
-                text-align: center;
-                align-self: center;
-            }
-        }
-        
-        /* Скрываем описание на экранах уже 395px */
-        @media (max-width: 395px) {
-            .work-desc {
-                display: none !important;
-            }
-            
-            .work-item {
-                min-height: 350px;
-            }
-            
-            .work-info {
-                padding: 1rem;
-            }
-            
-            .work-title {
-                font-size: 1.5rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .work-link {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
-            }
-            
-            .work-img-container {
-                height: 220px !important;
-            }
-            
-            .work-info {
-                align-items: center;
-                text-align: center;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Портфолио Владимира Еськова — frontend, full-stack и ML-разработка: Vue, React, Node.js, FastAPI и PostgreSQL.">
+  <meta name="theme-color" content="#0b0c10">
+  <title>Еськов Владимир — разработчик цифровых продуктов</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2218%22 fill=%22%23c7ff56%22/><text x=%2232%22 y=%2240%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2224%22 font-weight=%22700%22 fill=%22%230b0c10%22>VE</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --bg-soft: #11131a;
+      --surface: #151820;
+      --surface-light: #1c2029;
+      --text: #f4f3ee;
+      --muted: #a7acb8;
+      --line: rgba(255, 255, 255, 0.12);
+      --lime: #c7ff56;
+      --violet: #aa8cff;
+      --orange: #ff9f62;
+      --container: 1180px;
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 96px;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      overflow-x: clip;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 4%, rgba(170, 140, 255, 0.14), transparent 25rem),
+        radial-gradient(circle at 88% 22%, rgba(199, 255, 86, 0.09), transparent 26rem),
+        var(--bg);
+      font-family: "Manrope", sans-serif;
+      line-height: 1.6;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    ::selection {
+      color: #0b0c10;
+      background: var(--lime);
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: fixed;
+      z-index: 100;
+      top: 0;
+      right: 0;
+      left: 0;
+      border-bottom: 1px solid transparent;
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+
+    .site-header.scrolled {
+      border-color: var(--line);
+      background: rgba(11, 12, 16, 0.82);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      color: #0b0c10;
+      background: var(--lime);
+      border-radius: 12px;
+      font-family: "Unbounded", sans-serif;
+      font-size: 0.82rem;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 700;
+      transition: color 0.2s ease;
+    }
+
+    .nav a:hover,
+    .nav a:focus-visible {
+      color: var(--lime);
+    }
+
+    .nav .nav-cta {
+      padding: 10px 17px;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+    }
+
+    .menu-toggle {
+      width: 44px;
+      height: 44px;
+      display: none;
+      place-items: center;
+      padding: 0;
+      color: var(--text);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
+    .menu-toggle span,
+    .menu-toggle::before,
+    .menu-toggle::after {
+      width: 18px;
+      height: 2px;
+      display: block;
+      content: "";
+      background: currentColor;
+      border-radius: 2px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .menu-toggle span {
+      margin: 4px 0;
+    }
+
+    .menu-open .menu-toggle span {
+      opacity: 0;
+    }
+
+    .menu-open .menu-toggle::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .menu-open .menu-toggle::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      padding: 136px 0 78px;
+    }
+
+    .hero::after {
+      position: absolute;
+      right: -8vw;
+      bottom: 8vh;
+      width: min(42vw, 620px);
+      aspect-ratio: 1;
+      content: "";
+      border: 1px solid rgba(199, 255, 86, 0.15);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 70px rgba(199, 255, 86, 0.025),
+        0 0 0 140px rgba(170, 140, 255, 0.025);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      align-items: end;
+      gap: 64px;
+    }
+
+    .eyebrow {
+      margin: 0 0 22px;
+      color: var(--lime);
+      font-size: 0.77rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Unbounded", sans-serif;
+      line-height: 1.08;
+      letter-spacing: -0.045em;
+    }
+
+    h1 {
+      max-width: 900px;
+      margin-bottom: 30px;
+      font-size: clamp(3rem, 7.1vw, 7.2rem);
+      font-weight: 600;
+    }
+
+    .accent-word {
+      color: var(--lime);
+    }
+
+    .hero-lead {
+      max-width: 710px;
+      margin-bottom: 34px;
+      color: var(--muted);
+      font-size: clamp(1.03rem, 1.8vw, 1.25rem);
+    }
+
+    .hero-actions,
+    .project-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 50px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 22px;
+      color: #0b0c10;
+      border: 1px solid var(--lime);
+      background: var(--lime);
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 800;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      background: #ddff99;
+    }
+
+    .button.secondary {
+      color: var(--text);
+      border-color: var(--line);
+      background: transparent;
+    }
+
+    .button.secondary:hover,
+    .button.secondary:focus-visible {
+      color: var(--lime);
+      border-color: rgba(199, 255, 86, 0.6);
+      background: rgba(199, 255, 86, 0.06);
+    }
+
+    .button.disabled {
+      color: var(--muted);
+      border-color: var(--line);
+      background: transparent;
+      cursor: default;
+    }
+
+    .button.disabled:hover {
+      color: var(--muted);
+      border-color: var(--line);
+      background: transparent;
+      transform: none;
+    }
+
+    .hero-card {
+      position: relative;
+      padding: 24px;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(28, 32, 41, 0.92), rgba(17, 19, 26, 0.84));
+      border-radius: var(--radius);
+      transform: rotate(2deg);
+      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.38);
+    }
+
+    .hero-photo {
+      width: 98px;
+      height: 98px;
+      margin-bottom: 28px;
+      object-fit: cover;
+      object-position: center top;
+      border: 4px solid var(--lime);
+      border-radius: 24px;
+      filter: saturate(0.85);
+    }
+
+    .availability {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .availability::before {
+      width: 9px;
+      height: 9px;
+      content: "";
+      background: var(--lime);
+      border-radius: 50%;
+      box-shadow: 0 0 18px var(--lime);
+    }
+
+    .hero-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: "Unbounded", sans-serif;
+      font-size: 1.25rem;
+    }
+
+    .hero-card p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .ticker {
+      width: 100%;
+      max-width: 100vw;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      contain: paint;
+      overflow: hidden;
+    }
+
+    .ticker-track {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 44px;
+      padding: 18px 0;
+    }
+
+    .ticker span {
+      color: var(--muted);
+      font-family: "Unbounded", sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .ticker span::after {
+      margin-left: 22px;
+      color: var(--lime);
+      content: "✦";
+    }
+
+    .ticker span:nth-child(n + 7) {
+      display: none;
+    }
+
+    section {
+      position: relative;
+      padding: 118px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
+      align-items: end;
+      gap: 40px;
+      margin-bottom: 52px;
+    }
+
+    .hero-grid > *,
+    .section-head > *,
+    .about-grid > * {
+      min-width: 0;
+    }
+
+    .section-head h2 {
+      max-width: 720px;
+      margin-bottom: 0;
+      font-size: clamp(2.2rem, 5vw, 4.8rem);
+      font-weight: 600;
+    }
+
+    .section-head p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .project-list {
+      display: grid;
+      gap: 26px;
+    }
+
+    .project-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+      min-height: 500px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: var(--radius);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .project-card:hover {
+      border-color: rgba(199, 255, 86, 0.4);
+      transform: translateY(-4px);
+    }
+
+    .project-card:nth-child(even) {
+      grid-template-columns: minmax(340px, 0.85fr) minmax(0, 1.15fr);
+    }
+
+    .project-card:nth-child(even) .project-media {
+      order: 2;
+    }
+
+    .project-media {
+      position: relative;
+      min-height: 420px;
+      overflow: hidden;
+      background: var(--surface-light);
+    }
+
+    .project-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .project-card:hover .project-media img {
+      transform: scale(1.025);
+    }
+
+    .project-number {
+      position: absolute;
+      z-index: 2;
+      top: 18px;
+      left: 18px;
+      display: inline-flex;
+      padding: 8px 12px;
+      color: #0b0c10;
+      background: var(--lime);
+      border-radius: 999px;
+      font-family: "Unbounded", sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .project-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(30px, 5vw, 62px);
+    }
+
+    .project-type {
+      margin-bottom: 16px;
+      color: var(--violet);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .project-copy h3 {
+      margin-bottom: 18px;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 600;
+    }
+
+    .project-copy > p {
+      margin-bottom: 24px;
+      color: var(--muted);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+
+    .tag {
+      padding: 7px 11px;
+      color: #cfd3dc;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .project-actions .button {
+      min-height: 44px;
+      padding: 0 17px;
+      font-size: 0.88rem;
+    }
+
+    .archive {
+      background: #f0efe7;
+      color: #15161a;
+    }
+
+    .archive .eyebrow {
+      color: #6652b8;
+    }
+
+    .archive .section-head p {
+      color: #60646d;
+    }
+
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-top: 1px solid rgba(21, 22, 26, 0.2);
+    }
+
+    .archive-card {
+      position: relative;
+      min-height: 250px;
+      padding: 34px;
+      color: inherit;
+      border-right: 1px solid rgba(21, 22, 26, 0.2);
+      border-bottom: 1px solid rgba(21, 22, 26, 0.2);
+      text-decoration: none;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    .archive-card:nth-child(even) {
+      border-right: 0;
+    }
+
+    .archive-card:hover,
+    .archive-card:focus-visible {
+      color: #f4f3ee;
+      background: #17191f;
+    }
+
+    .archive-index {
+      display: block;
+      margin-bottom: 54px;
+      color: #7b7f88;
+      font-family: "Unbounded", sans-serif;
+      font-size: 0.72rem;
+    }
+
+    .archive-card h3 {
+      margin-bottom: 12px;
+      font-size: clamp(1.35rem, 2.5vw, 2rem);
+    }
+
+    .archive-card p {
+      max-width: 540px;
+      margin-bottom: 0;
+      color: #6a6e76;
+    }
+
+    .archive-card:hover p,
+    .archive-card:focus-visible p {
+      color: #b7bbc4;
+    }
+
+    .archive-card.is-static:hover {
+      color: inherit;
+      background: transparent;
+    }
+
+    .archive-card.is-static:hover p {
+      color: #6a6e76;
+    }
+
+    .archive-arrow {
+      position: absolute;
+      top: 30px;
+      right: 32px;
+      font-size: 1.4rem;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 90px;
+      align-items: start;
+    }
+
+    .about h2 {
+      margin-bottom: 28px;
+      font-size: clamp(2.2rem, 4.7vw, 4.4rem);
+    }
+
+    .about-lead {
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .capabilities {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .capability {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 18px;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .capability-index {
+      color: var(--lime);
+      font-family: "Unbounded", sans-serif;
+      font-size: 0.75rem;
+    }
+
+    .capability h3 {
+      margin-bottom: 8px;
+      font-family: "Manrope", sans-serif;
+      font-size: 1.14rem;
+      letter-spacing: 0;
+    }
+
+    .capability p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .resume-panel {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 40px;
+      padding: clamp(34px, 6vw, 72px);
+      border: 1px solid rgba(199, 255, 86, 0.25);
+      background:
+        radial-gradient(circle at 85% 20%, rgba(199, 255, 86, 0.16), transparent 17rem),
+        linear-gradient(135deg, #171a22, #11131a);
+      border-radius: var(--radius);
+    }
+
+    .resume-panel h2 {
+      max-width: 820px;
+      margin-bottom: 16px;
+      font-size: clamp(2rem, 4vw, 4rem);
+    }
+
+    .resume-panel p {
+      max-width: 700px;
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .resume-panel .button {
+      white-space: nowrap;
+    }
+
+    .site-footer {
+      padding: 80px 0 34px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 40px;
+      align-items: end;
+    }
+
+    .site-footer h2 {
+      max-width: 760px;
+      margin-bottom: 24px;
+      font-size: clamp(2.1rem, 5vw, 5rem);
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 24px;
+    }
+
+    .contact-links a {
+      color: var(--lime);
+      text-underline-offset: 5px;
+      font-weight: 800;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 0.86rem;
+      text-align: right;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 900px) {
+      .menu-toggle {
+        display: grid;
+      }
+
+      .nav {
+        position: fixed;
+        top: 70px;
+        right: 20px;
+        left: 20px;
+        display: grid;
+        gap: 4px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        background: rgba(17, 19, 26, 0.98);
+        border-radius: 20px;
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-12px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      .menu-open .nav {
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+      }
+
+      .nav a,
+      .nav .nav-cta {
+        padding: 13px 14px;
+        border: 0;
+      }
+
+      .hero-grid,
+      .section-head,
+      .about-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-grid {
+        align-items: start;
+      }
+
+      .hero-card {
+        max-width: 440px;
+        transform: none;
+      }
+
+      .section-head {
+        gap: 22px;
+      }
+
+      .project-card,
+      .project-card:nth-child(even) {
+        grid-template-columns: 1fr;
+      }
+
+      .project-card:nth-child(even) .project-media {
+        order: 0;
+      }
+
+      .project-media {
+        min-height: 360px;
+      }
+
+      .about-grid {
+        gap: 45px;
+      }
+
+      .resume-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(var(--container), calc(100% - 28px));
+      }
+
+      .header-inner {
+        min-height: 68px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 116px 0 72px;
+      }
+
+      .hero::after {
+        display: none;
+      }
+
+      .hero-grid {
+        gap: 46px;
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 11vw, 4.2rem);
+      }
+
+      .ticker-track {
+        gap: 12px 24px;
+      }
+
+      section {
+        padding: 82px 0;
+      }
+
+      .project-card {
+        min-height: 0;
+        border-radius: 20px;
+      }
+
+      .project-media {
+        min-height: 250px;
+        aspect-ratio: 4 / 3;
+      }
+
+      .project-copy {
+        padding: 27px;
+      }
+
+      .project-actions .button {
+        width: 100%;
+      }
+
+      .archive-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .archive-card,
+      .archive-card:nth-child(even) {
+        min-height: 230px;
+        border-right: 0;
+      }
+
+      .resume-panel {
+        padding: 30px 24px;
+        border-radius: 20px;
+      }
+
+      .resume-panel .button {
+        width: 100%;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-note {
+        text-align: left;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
 </head>
 <body>
-    <canvas id="bgCanvas"></canvas>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a class="logo" href="#top" aria-label="В начало страницы">
+        <span class="logo-mark">VE</span>
+        <span>Владимир Еськов</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span></button>
+      <nav class="nav" id="siteNav" aria-label="Основная навигация">
+        <a href="#projects">Проекты</a>
+        <a href="#about">Обо мне</a>
+        <a href="#resume">Резюме</a>
+        <a class="nav-cta" href="#contacts">Связаться</a>
+      </nav>
+    </div>
+  </header>
 
-    <button class="menu-btn" id="menuBtn">
-        <span>☰</span>
-    </button>
-
-    <nav class="nav-menu" id="navMenu">
-        <ul>
-            <li><a href="#about">Обо мне</a></li>
-            <li><a href="#education">Образование</a></li>
-            <li><a href="#resume">Резюме</a></li>
-            <li>
-                <a href="#works">Мои проекты</a>
-                <ul class="submenu">
-                    <li><a href="#web-projects">Сайты</a></li>
-                    <li><a href="#design-projects">Сфера дизайн</a></li>
-                    <li><a href="#python-projects">Python</a></li>
-                    <li><a href="#csharp-projects">C#</a></li>
-                </ul>
-            </li>
-        </ul>
-        
-        <div class="social-menu">
-            <ul class="social-menu-list">
-                <li>
-                    <a href="https://vk.com/enzoskedragon.vovka" target="_blank" class="vk" title="ВКонтакте">
-                        <i class="fab fa-vk"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://t.me/koksaralya" target="_blank" class="tg" title="Telegram">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                </li>
-            </ul>
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow reveal">Frontend · Full-stack · ML</p>
+          <h1 class="reveal">Превращаю идеи в <span class="accent-word">работающие</span> продукты.</h1>
+          <p class="hero-lead reveal">Проектирую интерфейсы, связываю их с API и довожу до цельного продукта. Работаю с Vue, React, Node.js, FastAPI и базами данных.</p>
+          <div class="hero-actions reveal">
+            <a class="button" href="#projects">Смотреть проекты <span aria-hidden="true">↓</span></a>
+            <a class="button secondary" href="https://github.com/ESKoVV" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
-    </nav>
+        <aside class="hero-card reveal" aria-label="Кратко об авторе">
+          <img class="hero-photo" src="img/foto_1.png" alt="Владимир Еськов" width="98" height="98">
+          <div class="availability">Открыт к интересным проектам</div>
+          <strong>Владимир Еськов</strong>
+          <p>Разработчик из Ростова-на-Дону. Люблю выразительный интерфейс, понятную архитектуру и проекты, которыми действительно пользуются.</p>
+        </aside>
+      </div>
+    </section>
 
-    <div class="menu-close-area" id="menuCloseArea"></div>
-
-    <header>
-        <div class="container">
-            <div class="profile">
-                <img src="img/foto_1.png" alt="Еськов Владимир" class="profile-img text-animate">
-                <h1 class="text-animate">Еськов Владимир</h1>
-                <h2 class="text-animate delay-1">Frontend програмист</h2>
-            </div>
-        </div>
-    </header>
-
-    <main class="container">
-        <section class="about" id="about">
-            <h3 class="text-animate">Обо мне</h3>
-            <p class="text-animate delay-1">Володя меня зовут, работаю в сфере web разработки, используя vue.js. Также балуюсь проектиками на питончике, сюда выложил некоторые свои работы.</p>
-            <p class="text-animate delay-2">Вопросы в телеграм, он где-то здесь будет указан иконкой).</p>
-        </section>
-
-        <section class="education" id="education">
-            <img src="img/dstu.png" alt="ДГТУ" class="education-img">
-            <div class="education-content">
-                <h3 class="text-animate">Образование</h3>
-                <p class="text-animate delay-1"><strong>Донской государственный технический университет (ДГТУ)</strong></p>
-                <p class="text-animate delay-2">Машинное обучение и ИИ, 3 курс, год окончания 2027</p>
-            </div>
-        </section>
-
-        <section class="resume" id="resume">
-            <div class="resume-block text-animate">
-                <a href="resume.html" class="resume-link" id="resumeLink">Смотреть резюме</a>
-            </div>
-        </section>
-
-        <section class="works" id="works">
-            <h3 class="text-animate">Мои проекты</h3>
-            <div class="works-list">
-                <div class="projects-group">
-
-                <h4 class="projects-category text-animate" id="web-projects">Сайты</h4>
-                    <div class="projects-row">
-
-                <div class="work-item text-animate" id="biom">
-                    <div class="work-img-container">
-                        <video class="work-video" src="VIDEO/html/BIOM.mp4" autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <div class="work-info">
-                        <span class="work-status in-progress">Проект в процессе</span>
-                        <h4 class="work-title">BIOM</h4>
-                        <p class="work-desc">Хочешь сходить на какое-нибудь крутецкое мероприятие, но не знаешь что есть в твоём городе? Заходи в BIOM, указывай интересы и вперёд! Листай ленту предложений, общайся с друзьями, записывайся на мероприятие с друзьями и кайфуй.</p>
-                        <a href="http://85.239.36.136:81" class="work-link" target="_blank" rel="noopener">Мессенджер</a>
-                    </div>
-                </div>
-
-                <div class="work-item text-animate delay-1" id="biom-admin">
-                    <div class="work-img-container">
-                        <video class="work-video" src="VIDEO/html/BIOM_admin.mp4" autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <div class="work-info">
-                        <span class="work-status done">Проект завершён</span>
-                        <h4 class="work-title">BIOM admin</h4>
-                        <p class="work-desc">Админка для BIOM. У админов есть права на редактирование и удаление всех постов, а также одобрение постов. Кроссбраузерный и адаптивный интерфейс.</p>
-                        <span class="work-note">Админка</span>
-                    </div>
-                </div>
-
-                <div class="work-item text-animate delay-2" id="kazak">
-                    <div class="work-img-container">
-                        <video class="work-video" src="VIDEO/html/Kazak.mp4" autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <div class="work-info">
-                        <span class="work-status in-progress">Проект в процессе</span>
-                        <h4 class="work-title">KAZAK</h4>
-                        <p class="work-desc">Многопользовательская игра-бродилка на начальной стадии разработки: 16-й век, времена правления Ивана Грозного. Стань удачливым казаком, атаманом и исследуй бескрайние степи Ногаев или тренируйся в лесу.</p>
-                        <a href="https://github.com/ESKoVV/KazaK" class="work-link" target="_blank" rel="noopener">Отдельный репозиторий</a>
-                    </div>
-                </div>
-
-                <div class="work-item text-animate" id="author-ru">
-                    <div class="work-img-container">
-                        <img src="img/author.ru.png" alt="author.ru" class="work-img">
-                    </div>
-                    <div class="work-info">
-                        <span class="work-status in-progress">Проект в процессе</span>
-                        <h4 class="work-title">author.ru</h4>
-                        <p class="work-desc">Книжный магазин.</p>
-                        <span class="work-note">Описание в процессе</span>
-                    </div>
-                </div>
-
-                <div class="work-item text-animate" id="mirror-right">
-                    <div class="work-img-container">
-                        <video class="work-video" src="VIDEO/html/Mirrow_right.mp4" autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <div class="work-info">
-                        <span class="work-status done">Завершено</span>
-                        <h4 class="work-title">Зеркало правды</h4>
-                        <p class="work-desc">Это зеркало унижения(</p>
-                        <a href="mirrow right/" class="work-link">Развлекаловка</a>
-                    </div>
-                </div>
-
-                <div class="work-item text-animate" id="best-animation">
-                    <div class="work-img-container">
-                        <video class="work-video" src="VIDEO/html/best_animation.mp4" autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <div class="work-info">
-                        <span class="work-status done">Завершено</span>
-                        <h4 class="work-title">Best animation</h4>
-                        <p class="work-desc">Очень крутая анимация перехода между блоками с информацией — залипательная и проработанная до мелочей.</p>
-                        <a href="project best animation/index.html" class="work-link">Открыть проект</a>
-                    </div>
-                </div>
-
-                <div class="work-item text-animate" id="deputat">
-                    <div class="work-img-container">
-                        <video class="work-video" src="VIDEO/html/Deputat.mp4" autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <div class="work-info">
-                        <span class="work-status done">Завершено</span>
-                        <h4 class="work-title">Deputat</h4>
-                        <p class="work-desc">Лендинг по макету из Figma, одностраничный сайт.</p>
-                        <a href="project deputat/проверка знаний/index.html" class="work-link">Открыть проект</a>
-                    </div>
-                </div>
-
-                <div class="work-item text-animate" id="libra">
-                    <div class="work-img-container">
-                        <video class="work-video" src="VIDEO/html/Libra.mp4" autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <div class="work-info">
-                        <span class="work-status done">Завершено</span>
-                        <h4 class="work-title">Libra</h4>
-                        <p class="work-desc">Студенческий отряд проводников Libra: несколько страниц, ссылки и информация по работе отряда (без мобильной версии).</p>
-                        <a href="Libra/Libra.html" class="work-link">Открыть проект</a>
-                    </div>
-                </div>
-
-                <div class="work-item text-animate" id="cheersport">
-                    <div class="work-img-container">
-                        <video class="work-video" src="VIDEO/html/CheerSport.mp4" autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <div class="work-info">
-                        <span class="work-status done">Завершено</span>
-                        <h4 class="work-title">Chirsport</h4>
-                        <p class="work-desc">Сайт для тренера клуба по спортивному чирлидингу: фотогалерея и информация по скроллингу.</p>
-                        <a href="Cheer/Cheer.html" class="work-link">Открыть проект</a>
-                    </div>
-                </div>
-
-                <div class="work-item text-animate" id="photographer">
-                    <div class="work-img-container">
-                        <video class="work-video" src="VIDEO/html/Fotograph.mp4" autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <div class="work-info">
-                        <span class="work-status done">Завершено</span>
-                        <h4 class="work-title">Фотограф</h4>
-                        <p class="work-desc">Сайт для профессионального фотографа из Ростова, который устраивает фотосессии.</p>
-                        <a href="Fotograf/Fotograf.html" class="work-link">Открыть проект</a>
-                    </div>
-                </div>
-
-                <div class="work-item text-animate" id="gendalf">
-                    <div class="work-img-container">
-                        <video class="work-video" src="VIDEO/html/Gandalf.mp4" autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <div class="work-info">
-                        <span class="work-status done">Завершено</span>
-                        <h4 class="work-title">Gendalf</h4>
-                        <p class="work-desc">Лендинг, выполненный как тестовое задание.</p>
-                        <a href="https://eskovv.github.io/Gendalf/" class="work-link" target="_blank" rel="noopener">Открыть сайт</a>
-                    </div>
-                </div>
-                    </div>
-                </div>
-
-                <div class="projects-group">
-
-
-                <h4 class="projects-category text-animate" id="design-projects">Сфера дизайн</h4>
-                    <div class="projects-row">
-                <div class="work-item text-animate" id="electives-design">
-                    <div class="work-img-container">
-                        <video class="work-video" src="VIDEO/html/center_electiv.mp4" autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <div class="work-info">
-                        <h4 class="work-title">Сайт для элективов</h4>
-                        <p class="work-desc">Дизайн сайта для элективов в Т-университете: дополнительные предметы для саморазвития студентов.</p>
-                        <a href="https://www.figma.com/design/8YGtG74X8UGCWJcEbBzqer/%D0%AD%D0%BB%D0%B5%D0%BA%D1%82%D0%B8%D0%B2%D1%8B?node-id=1-5&p=f&t=dhXnWjduLGWLufSD-0" class="work-link" target="_blank" rel="noopener">Макет в Figma</a>
-                    </div>
-                </div>
-                    </div>
-                </div>
-
-                <div class="projects-group">
-
-
-                <h4 class="projects-category text-animate" id="python-projects">Python</h4>
-                    <div class="projects-row">
-                <div class="work-item text-animate" id="not-mat">
-                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/NotMat.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">not mat</h4><p class="work-desc">Консольная программа для учета нецензурной лексики с системой пользователей и статистикой.</p><a href="py/notmat/" class="work-link">Папка проекта</a></div>
-                </div>
-                <div class="work-item text-animate" id="object-tracking-video">
-                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/spickreaking.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">Отслеживание объекта по видео</h4><p class="work-desc">Отслеживание выбранного объекта по загруженному видео.</p><a href="py/идентификация объекта из видел/" class="work-link">Папка проекта</a></div>
-                </div>
-                <div class="work-item text-animate" id="face-mask-tracking">
-                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/filter_forest_animals.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">Маска по клику на лицо</h4><p class="work-desc">Отслеживание лиц, наложение маски выбранному лицу по клику.</p><a href="py/идентификация меня/" class="work-link">Папка проекта</a></div>
-                </div>
-                <div class="work-item text-animate" id="tasker">
-                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/tasker.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-                    <div class="work-info"><span class="work-status in-progress">В процессе</span><h4 class="work-title">tasker</h4><p class="work-desc">Задачник с графиками, папками, повторяющимися и одиночными задачами.</p><a href="py/tasker/" class="work-link">Папка проекта</a></div>
-                </div>
-                <div class="work-item text-animate" id="vika-project">
-                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/CSGO Round Predictor.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">vika project</h4><p class="work-desc">ML-проект, который на основе вводных данных предсказывает победу T или CT в CSGO.</p><a href="py/vika project/" class="work-link">Папка проекта</a></div>
-                </div>
-                <div class="work-item text-animate" id="startup-predictor">
-                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/StartupSucessPredictor.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">Startup Succes Predictor</h4><p class="work-desc">ML-проект для оценки успешности бизнес-идеи по набору критериев.</p><a href="py/удачность проекта/" class="work-link">Папка проекта</a></div>
-                </div>
-                <div class="work-item text-animate" id="stone-paper-scissors">
-                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/stoneScizorsPaper.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">stoneScizorsPaper</h4><p class="work-desc">Многоуровневая консольная игра «камень-ножницы-бумага» против рандомайзера.</p><a href="py/stoneScizorsPaper/" class="work-link">Папка проекта</a></div>
-                </div>
-                <div class="work-item text-animate" id="breakfast-bot">
-                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/breakFastBot.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-                    <div class="work-info"><span class="work-status abandoned">Заброшено</span><h4 class="work-title">breakfast_bot</h4><p class="work-desc">Бот для доставки завтраков в общежитии (проект остановлен на этапе оплаты).</p><a href="py/breakfast_bot/" class="work-link">Папка проекта</a></div>
-                </div>
-                <div class="work-item text-animate" id="military-distribution">
-                    <div class="work-img-container"><video class="work-video" src="VIDEO/py/taskmilitary.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">Распределение нарядов</h4><p class="work-desc">Автоматическое распределение нарядов, дежурств и ВПИ на месяцы вперёд.</p><a href="py/Распределение нарядов на военку/" class="work-link">Папка проекта</a></div>
-                </div>
-                    </div>
-                </div>
-
-                <div class="projects-group">
-
-
-                <h4 class="projects-category text-animate" id="csharp-projects">C#</h4>
-                    <div class="projects-row">
-                <div class="work-item text-animate" id="rais">
-                    <div class="work-img-container"><video class="work-video" src="VIDEO/unity/rais.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-                    <div class="work-info"><span class="work-status done">Завершено</span><h4 class="work-title">rais</h4><p class="work-desc">Гоночки под крутую музыку с меню, паузой и счетчиком рекордов.</p><a href="unity/rais/" class="work-link">Папка проекта</a></div>
-                </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </section>
-    </main>
-
-    <div class="video-modal" id="videoModal">
-        <div class="video-modal-content">
-            <button class="video-modal-close" id="videoModalClose" aria-label="Закрыть">×</button>
-            <video id="videoModalPlayer" controls playsinline></video>
-        </div>
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Vue.js</span><span>React</span><span>Node.js</span><span>FastAPI</span><span>PostgreSQL</span><span>UI/UX</span><span>Vue.js</span><span>React</span><span>Node.js</span><span>FastAPI</span><span>PostgreSQL</span><span>UI/UX</span>
+      </div>
     </div>
 
-    <div class="resume-modal" id="resumeModal">
-        <div class="resume-modal-content">
-            <button class="video-modal-close" id="resumeModalClose" aria-label="Закрыть">×</button>
-            <iframe id="resumeModalFrame" title="Резюме"></iframe>
+    <section id="projects">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow">Избранные работы</p>
+            <h2>Актуальные продуктовые проекты</h2>
+          </div>
+          <p>В приоритете — не учебные экраны, а полноценные решения: публичная часть, админка, API, данные и сценарии реальных пользователей.</p>
         </div>
-    </div>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <h3 class="contact-heading text-animate">Пишите, обсудим нужные проекты)</h3>
-                <ul class="contact-list">
-                    <li class="text-animate delay-2">
-                        <a href="https://vk.com/enzoskedragon.vovka" target="_blank" class="vk">
-                            <i class="fab fa-vk"></i> ВКонтакте
-                        </a>
-                    </li>
-                    <li class="text-animate delay-3">
-                        <a href="https://t.me/koksaralya" target="_blank" class="tg">
-                            <i class="fab fa-telegram"></i> Telegram
-                        </a>
-                    </li>
-                </ul>
-                
-                <p class="copyright text-animate delay-5">© 2023 Еськов Владимир. Все права защищены.</p>
+        <div class="project-list">
+          <article class="project-card reveal">
+            <div class="project-media">
+              <span class="project-number">01 / 03</span>
+              <img src="img/projects/kagrisol.webp" alt="Главная страница сайта Kagrisol" width="1440" height="960" loading="lazy">
             </div>
+            <div class="project-copy">
+              <p class="project-type">Корпоративный сайт · AgriTech</p>
+              <h3>Kagrisol</h3>
+              <p>Современный сайт агротехнологической компании: услуги, галерея, форма заявки и серверная админка для управления контентом. Интерфейс адаптирован под мобильные устройства.</p>
+              <div class="tags">
+                <span class="tag">Vue 3</span><span class="tag">Vite</span><span class="tag">Node.js</span><span class="tag">SQLite</span>
+              </div>
+              <div class="project-actions">
+                <span class="button disabled">Исходники закрыты <span aria-hidden="true">·</span></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-media">
+              <span class="project-number">02 / 03</span>
+              <img src="img/projects/bads-store.webp" alt="Каталог интернет-магазина спортивного питания и БАДов" width="1440" height="960" loading="lazy">
+            </div>
+            <div class="project-copy">
+              <p class="project-type">E-commerce · Full-stack</p>
+              <h3>BAD Store</h3>
+              <p>Интернет-магазин спортивного питания и БАДов с каталогом, фильтрами, корзиной и оформлением заказа. В админке можно управлять товарами, категориями и статусами заказов.</p>
+              <div class="tags">
+                <span class="tag">Vue 3</span><span class="tag">Pinia</span><span class="tag">Express</span><span class="tag">PostgreSQL</span><span class="tag">Prisma</span>
+              </div>
+              <div class="project-actions">
+                <span class="button disabled">Исходники закрыты <span aria-hidden="true">·</span></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-media">
+              <span class="project-number">03 / 03</span>
+              <img src="img/projects/image-to-3d.webp" alt="Интерфейс сервиса Image to 3D" width="1440" height="960" loading="lazy">
+            </div>
+            <div class="project-copy">
+              <p class="project-type">AI-инструмент · 3D</p>
+              <h3>Image to 3D</h3>
+              <p>Сервис преобразования изображения в GLB-модель: загрузка файла, выбор режима генерации, отображение прогресса и интерактивный просмотр результата прямо в браузере.</p>
+              <div class="tags">
+                <span class="tag">React</span><span class="tag">FastAPI</span><span class="tag">Python</span><span class="tag">Model Viewer</span><span class="tag">AI / 3D</span>
+              </div>
+              <div class="project-actions">
+                <span class="button disabled">Исходники закрыты <span aria-hidden="true">·</span></span>
+              </div>
+            </div>
+          </article>
         </div>
-    </footer>
+      </div>
+    </section>
 
-    <script>
-        // Canvas background animation
-        const canvas = document.getElementById('bgCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const particles = [];
-        const particleCount = Math.floor(window.innerWidth / 10);
-        
-        // Particle constructor
-        function Particle() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 3 + 1;
-            this.speedX = Math.random() * 1 - 0.5;
-            this.speedY = Math.random() * 1 - 0.5;
-            this.color = `hsl(${Math.random() * 60 + 200}, 70%, 60%)`;
-            
-            this.update = function() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                
-                if (this.x > canvas.width || this.x < 0) {
-                    this.speedX = -this.speedX;
-                }
-                
-                if (this.y > canvas.height || this.y < 0) {
-                    this.speedY = -this.speedY;
-                }
-            };
-            
-            this.draw = function() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            };
+    <section class="archive" aria-labelledby="archive-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow">Ещё проекты</p>
+            <h2 id="archive-title">Разные задачи, один подход</h2>
+          </div>
+          <p>Продуктовые MVP, контентные платформы, игровые прототипы и интерфейсы для внутренних процессов.</p>
+        </div>
+        <div class="archive-grid">
+          <div class="archive-card is-static reveal">
+            <span class="archive-index">01 · React / Node.js</span>
+            <span class="archive-arrow" aria-hidden="true">●</span>
+            <h3>ESK Books</h3>
+            <p>Платформа для авторов и читателей: каталог, публикация книг и глав, библиотека, читалка, отзывы и комментарии.</p>
+          </div>
+          <div class="archive-card is-static reveal">
+            <span class="archive-index">02 · Web application</span>
+            <span class="archive-arrow" aria-hidden="true">●</span>
+            <h3>BIOM</h3>
+            <p>Платформа мероприятий с персональной лентой, социальными сценариями и отдельным интерфейсом администрирования.</p>
+          </div>
+          <a class="archive-card reveal" href="https://github.com/ESKoVV/KazaK" target="_blank" rel="noopener noreferrer">
+            <span class="archive-index">03 · Multiplayer prototype</span>
+            <span class="archive-arrow" aria-hidden="true">↗</span>
+            <h3>KAZAK</h3>
+            <p>Прототип многопользовательской игры в историческом сеттинге с исследованием мира и развитием персонажа.</p>
+          </a>
+          <a class="archive-card reveal" href="https://eskovv.github.io/Gendalf/" target="_blank" rel="noopener noreferrer">
+            <span class="archive-index">04 · Landing page</span>
+            <span class="archive-arrow" aria-hidden="true">↗</span>
+            <h3>Gendalf</h3>
+            <p>Адаптивная промостраница с акцентом на аккуратную верстку, типографику и визуальную иерархию.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="container about-grid">
+        <div class="reveal">
+          <p class="eyebrow">Обо мне</p>
+          <h2>Смотрю на проект шире одного экрана</h2>
+          <p class="about-lead">Мне важно, чтобы интерфейс был не только эффектным, но и связанным с данными, бизнес-логикой и понятным пользовательским сценарием.</p>
+          <p class="about-lead">Учусь в ДГТУ по направлению машинного обучения и искусственного интеллекта. Планируемый год выпуска — 2027.</p>
+        </div>
+        <div class="capabilities reveal">
+          <div class="capability">
+            <span class="capability-index">01</span>
+            <div><h3>Frontend и интерфейсы</h3><p>Vue, React, адаптивная верстка, компоненты, состояния, формы и клиентская логика.</p></div>
+          </div>
+          <div class="capability">
+            <span class="capability-index">02</span>
+            <div><h3>Backend и данные</h3><p>Node.js, Express, FastAPI, REST API, PostgreSQL, Prisma, SQLite и авторизация.</p></div>
+          </div>
+          <div class="capability">
+            <span class="capability-index">03</span>
+            <div><h3>AI и прототипирование</h3><p>Python, ML-прототипы, computer vision и интеграция моделей в пользовательские приложения.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resume">
+      <div class="container">
+        <div class="resume-panel reveal">
+          <div>
+            <p class="eyebrow">Опыт и образование</p>
+            <h2>Нужна версия покороче?</h2>
+            <p>В резюме собраны ключевые навыки, образование и контакты без длинного обзора проектов.</p>
+          </div>
+          <a class="button" href="resume.html">Открыть резюме <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contacts">
+    <div class="container footer-grid">
+      <div>
+        <p class="eyebrow">Есть задача?</p>
+        <h2>Давайте обсудим проект.</h2>
+        <div class="contact-links">
+          <a href="https://t.me/koksaralya" target="_blank" rel="noopener noreferrer">Telegram ↗</a>
+          <a href="https://vk.com/enzoskedragon.vovka" target="_blank" rel="noopener noreferrer">ВКонтакте ↗</a>
+          <a href="https://github.com/ESKoVV" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        </div>
+      </div>
+      <p class="footer-note">© <span id="year"></span> Владимир Еськов<br>Сделано с вниманием к деталям.</p>
+    </div>
+  </footer>
+
+  <script>
+    const body = document.body;
+    const header = document.getElementById('siteHeader');
+    const menuToggle = document.getElementById('menuToggle');
+    const siteNav = document.getElementById('siteNav');
+
+    const closeMenu = () => {
+      body.classList.remove('menu-open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Открыть меню');
+    };
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = body.classList.toggle('menu-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+    });
+
+    siteNav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 16);
+    }, { passive: true });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
-        
-        // Create particles
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-        
-        // Animation loop
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-                
-                for (let j = i; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 100) {
-                        ctx.strokeStyle = `rgba(108, 92, 231, ${1 - distance / 100})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-            
-            requestAnimationFrame(animate);
-        }
-        
-        animate();
-        
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-        
-        // Управление меню
-        const menuBtn = document.getElementById('menuBtn');
-        const navMenu = document.getElementById('navMenu');
-        const menuCloseArea = document.getElementById('menuCloseArea');
-        let menuTimeout;
+      });
+    }, { threshold: 0.12 });
 
-        // Открытие/закрытие меню
-        menuBtn.addEventListener('click', function() {
-            navMenu.classList.add('active');
-            menuBtn.classList.add('hidden');
-            menuCloseArea.style.display = 'block';
-        });
+    document.querySelectorAll('.reveal').forEach((element, index) => {
+      element.style.transitionDelay = `${Math.min(index % 3, 2) * 70}ms`;
+      observer.observe(element);
+    });
 
-        // Закрытие меню при клике на область закрытия
-        menuCloseArea.addEventListener('click', closeMenu);
-
-        // Закрытие меню при выходе за его пределы
-        navMenu.addEventListener('mouseleave', function() {
-            menuTimeout = setTimeout(closeMenu, 300);
-        });
-
-        // Отмена закрытия если вернулись в меню
-        navMenu.addEventListener('mouseenter', function() {
-            clearTimeout(menuTimeout);
-        });
-
-        // Показ кнопки меню при выходе за пределы меню
-        document.addEventListener('mousemove', function(e) {
-            if (!navMenu.classList.contains('active')) return;
-            
-            const menuRect = navMenu.getBoundingClientRect();
-            const btnRect = menuBtn.getBoundingClientRect();
-            
-            // Если курсор вне меню и кнопки
-            if ((e.clientX < menuRect.left || e.clientX > menuRect.right || 
-                 e.clientY < menuRect.top || e.clientY > menuRect.bottom) &&
-                (e.clientX < btnRect.left || e.clientX > btnRect.right || 
-                 e.clientY < btnRect.top || e.clientY > btnRect.bottom)) {
-                menuBtn.classList.remove('hidden');
-            }
-        });
-
-        function closeMenu() {
-            navMenu.classList.remove('active');
-            menuCloseArea.style.display = 'none';
-            menuBtn.classList.remove('hidden');
-            clearTimeout(menuTimeout);
-        }
-
-        // Закрытие меню при клике на ссылку
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', closeMenu);
-        });
-
-        // Полноэкранный просмотр видео
-
-        const videoModal = document.getElementById('videoModal');
-        const videoModalPlayer = document.getElementById('videoModalPlayer');
-        const videoModalClose = document.getElementById('videoModalClose');
-        const resumeLink = document.getElementById('resumeLink');
-        const resumeBlock = document.querySelector('.resume-block');
-        const resumeModal = document.getElementById('resumeModal');
-        const resumeModalFrame = document.getElementById('resumeModalFrame');
-        const resumeModalClose = document.getElementById('resumeModalClose');
-        let resumeIsFloating = false;
-        let resumeSeenOnce = false;
-        let resumeInViewport = false;
-
-        document.querySelectorAll('.work-video').forEach(video => {
-            const container = video.closest('.work-img-container');
-
-            if (container) {
-                const loadingOverlay = document.createElement('div');
-                loadingOverlay.className = 'video-loading-overlay';
-                loadingOverlay.innerHTML = '<div class="video-loading-spinner"></div><span>Загрузка видео</span>';
-                container.appendChild(loadingOverlay);
-                container.classList.add('video-loading');
-
-                const hideLoader = () => {
-                    container.classList.remove('video-loading');
-                };
-
-                if (video.readyState >= 2) {
-                    hideLoader();
-                } else {
-                    video.addEventListener('loadeddata', hideLoader, { once: true });
-                    video.addEventListener('error', hideLoader, { once: true });
-                }
-            }
-
-            video.addEventListener('click', () => {
-                video.currentTime = 0;
-                video.play();
-
-                videoModalPlayer.src = video.currentSrc || video.src;
-                videoModal.classList.add('active');
-                videoModalPlayer.currentTime = 0;
-                videoModalPlayer.play();
-            });
-        });
-
-        const closeVideoModal = () => {
-            videoModal.classList.remove('active');
-            videoModalPlayer.pause();
-            videoModalPlayer.removeAttribute('src');
-            videoModalPlayer.load();
-        };
-
-        videoModalClose.addEventListener('click', closeVideoModal);
-        videoModal.addEventListener('click', (event) => {
-            if (event.target === videoModal) {
-                closeVideoModal();
-            }
-        });
-
-        const openResumeModal = () => {
-            resumeModalFrame.src = 'resume.html';
-            resumeModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        };
-
-        const closeResumeModal = () => {
-            resumeModal.classList.remove('active');
-            resumeModalFrame.removeAttribute('src');
-            document.body.style.overflow = '';
-        };
-
-        resumeLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            openResumeModal();
-        });
-
-        resumeModalClose.addEventListener('click', closeResumeModal);
-        resumeModal.addEventListener('click', (event) => {
-            if (event.target === resumeModal) {
-                closeResumeModal();
-            }
-        });
-
-        const triggerResumeWiggle = () => {
-            resumeLink.classList.remove('is-wiggling');
-            void resumeLink.offsetWidth;
-            resumeLink.classList.add('is-wiggling');
-        };
-
-        resumeLink.addEventListener('animationend', () => {
-            resumeLink.classList.remove('is-wiggling');
-        });
-
-        const setFloatingState = (shouldFloat) => {
-            if (resumeIsFloating === shouldFloat) return;
-
-            const startRect = resumeLink.getBoundingClientRect();
-
-            resumeIsFloating = shouldFloat;
-            resumeLink.classList.toggle('is-floating', shouldFloat);
-            resumeLink.style.setProperty('--resume-rotate', shouldFloat ? '90deg' : '0deg');
-            resumeLink.style.setProperty('--resume-translate-y', shouldFloat ? '-50%' : '0');
-
-            const endRect = resumeLink.getBoundingClientRect();
-            const deltaX = startRect.left - endRect.left;
-            const deltaY = startRect.top - endRect.top;
-            const startRotation = shouldFloat ? '0deg' : '90deg';
-            const endRotation = shouldFloat ? '90deg' : '0deg';
-
-            resumeLink.animate(
-                [
-                    { transform: `translate(${deltaX}px, ${deltaY}px) rotate(${startRotation})` },
-                    { transform: `translate(0, 0) rotate(${endRotation})` }
-                ],
-                {
-                    duration: 650,
-                    easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
-                }
-            );
-        };
-
-        const updateResumeFloating = () => {
-            if (window.innerWidth <= 768) {
-                resumeLink.style.setProperty('--resume-floating-right', '3px');
-            } else {
-                const worksRect = document.getElementById('works').getBoundingClientRect();
-                const rightGap = Math.max(window.innerWidth - worksRect.right + 50, 16);
-                resumeLink.style.setProperty('--resume-floating-right', `${rightGap}px`);
-            }
-
-            const shouldFloat = resumeBlock.getBoundingClientRect().bottom < 0;
-            setFloatingState(shouldFloat);
-        };
-
-        const resumeObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.target !== resumeLink) return;
-
-                resumeInViewport = entry.isIntersecting;
-
-                if (entry.isIntersecting && !resumeSeenOnce) {
-                    resumeSeenOnce = true;
-                    triggerResumeWiggle();
-                }
-            });
-        }, { threshold: 0.2 });
-
-        resumeObserver.observe(resumeLink);
-
-        setInterval(() => {
-            if (!resumeSeenOnce) return;
-            if (!resumeIsFloating && !resumeInViewport) return;
-
-            triggerResumeWiggle();
-        }, 15000);
-
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && videoModal.classList.contains('active')) {
-                closeVideoModal();
-            }
-
-            if (event.key === 'Escape' && resumeModal.classList.contains('active')) {
-                closeResumeModal();
-            }
-        });
-
-        // Анимация текста при прокрутке
-        const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.text-animate');
-            
-            elements.forEach(element => {
-                const elementPosition = element.getBoundingClientRect().top;
-                const screenPosition = window.innerHeight / 1.2;
-                
-                if (elementPosition < screenPosition) {
-                    element.classList.add('animate');
-                }
-            });
-        };
-
-        // Запускаем при загрузке и при прокрутке
-        window.addEventListener('load', () => {
-            animateOnScroll();
-            updateResumeFloating();
-        });
-        window.addEventListener('scroll', () => {
-            animateOnScroll();
-            updateResumeFloating();
-        });
-    </script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
