@@ -2,7 +2,7 @@
 
 Публичная страница: [eskovv.github.io/Portfolio](https://eskovv.github.io/Portfolio/).
 
-Статическое портфолио frontend/full-stack/ML-разработчика. На главной собраны актуальные продуктовые кейсы: Kagrisol, BAD Store, Image to 3D, ESK Books, BIOM, KAZAK и Gendalf.
+Статическое портфолио frontend/full-stack/ML-разработчика. На главной собраны актуальные и архивные проекты по web-разработке, дизайну, Python и C#.
 
 ## Локальный просмотр
 
